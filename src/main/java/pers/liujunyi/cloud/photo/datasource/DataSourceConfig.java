@@ -1,12 +1,6 @@
 package pers.liujunyi.cloud.photo.datasource;
 
-import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import javax.sql.DataSource;
 
 /***
  * 文件名称: DataSourceConfig.java
@@ -27,12 +21,12 @@ public class DataSourceConfig {
      *
      * @return
      */
-    @Bean(name = "dataSource")
+   /* @Bean(name = "dataSource")
     @Qualifier(value = "dataSource")
     @ConfigurationProperties(prefix = "spring.datasource.druid")
-    public DataSource masterDataSource() {
+    public DataSource dataSource() {
         return DruidDataSourceBuilder.create().build();
-    }
+    }*/
 
 
 }

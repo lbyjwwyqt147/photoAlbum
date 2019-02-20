@@ -1,6 +1,8 @@
 package pers.liujunyi.cloud.photo;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.FilterType;
@@ -8,13 +10,14 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import pers.liujunyi.common.configuration.MySQLUpperCaseStrategy;
 
 /***
- *
+ * exclude = DataSourceAutoConfiguration.class 解决 ：Consider defining a bean of type 'javax.sql.DataSource' in your configuration.
  * 开启增强代理 @EnableAspectJAutoProxy
  * @author
  */
 @EnableJpaAuditing
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @ComponentScan(basePackages = {"pers.liujunyi.common", "pers.liujunyi.cloud.photo"}, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {MySQLUpperCaseStrategy.class}))
+@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
 public class PhotoApplication {
 
     public static void main(String[] args) {

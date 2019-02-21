@@ -22,12 +22,20 @@ public class IdParamDto implements Serializable {
     @ApiModelProperty(value = "id")
     private Long id;
 
+    @ApiModelProperty(value = "otherId")
+    private Long otherId;
+
     @ApiModelProperty(value = "ids")
     private String ids;
+
+    @ApiModelProperty(value = "otherId")
+    private String otherIds;
 
     @ApiModelProperty(value = "idList")
     private List<Long> idList;
 
+    @ApiModelProperty(value = "otherIdList")
+    private List<Long> otherIdList;
 
     @ApiModelProperty(value = "code")
     private String codes;
@@ -53,4 +61,10 @@ public class IdParamDto implements Serializable {
         this.codes = codes;
     }
 
+    public void setOtherIds(String otherIds) {
+        if (StringUtils.isNotBlank(otherIds)) {
+            this.setOtherIdList(JSONArray.parseArray(otherIds, Long.class));
+        }
+        this.otherIds = otherIds;
+    }
 }

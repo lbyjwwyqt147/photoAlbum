@@ -76,5 +76,6 @@ public class AlbumDto extends BaseDto {
     private Byte albumPriority;
 
     @ApiModelProperty(value = "图片")
+    @NotBlank(message = "缺少上传图片")
     private String pictures;
 }

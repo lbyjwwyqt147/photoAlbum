@@ -8,7 +8,6 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
-import org.springframework.data.elasticsearch.annotations.Parent;
 import pers.liujunyi.common.entity.BaseEntity;
 
 import javax.persistence.Entity;
@@ -37,8 +36,8 @@ public class AlbumPicture extends BaseEntity {
     private static final long serialVersionUID = 6528758581332889489L;
 
     /** 相册ID */
-    @Parent(type = "album")
     private Long albumId;
+
 
     /** 照片ID */
     private Long pictureId;

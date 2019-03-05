@@ -26,6 +26,12 @@ import javax.validation.constraints.Min;
 @EqualsAndHashCode(callSuper = true)
 public class AlbumQueryDto extends BaseEsQuery {
 
+
+    /** 相册分类 例如：人像、文艺、性感、古风、清纯、等 */
+    @ApiModelProperty(value = "相册分类")
+    @Length(min = 0, max = 10, message = "分类 最多可以输入10个字符")
+    private String albumClassify;
+
     /** 相册风格 例如：小清新、日系、森系、复古、婚纱 等 */
     @ApiModelProperty(value = "相册风格")
     @Length(min = 0, max = 10, message = "风格 最多可以输入10个字符")

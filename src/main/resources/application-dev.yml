@@ -1,12 +1,23 @@
 server:
   port: 18081
+  tomcat:
+      uri-encoding: utf-8
 # 系统参数 信息
 data:
   # 域名设置 跨域
   allowedOrigin: '*'
   # 直接访问 http://localhost:18081 时 返回信息设置
   indexView: '请访问：http://localhost:18081/swagger-ui.html  查看API文档'
+  # 数据字典地址
   dictUrl: http://localhost:18080/api/v1/dict/dictName
+  # 授权访问核心系统的 code
+  coreSystemCode: 1001
+  # 授权访问核心系统的 appId
+  coreAppId: 1550817774159
+  # 授权访问核心系统的 appKey
+  coreAppKey: 0020a9ebfc7b4667b0617488d96c788b
+  # 授权访问核心系统的 credential
+  coreCredential: 42e853886ec8d3cbdaa062a732551b10
 
 spring:
   datasource:

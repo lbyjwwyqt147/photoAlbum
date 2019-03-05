@@ -1,7 +1,10 @@
 package pers.liujunyi.cloud.photo.repository.elasticsearch.album;
 
+import org.springframework.data.domain.Pageable;
 import pers.liujunyi.cloud.photo.entity.AlbumPicture;
 import pers.liujunyi.common.repository.elasticsearch.BaseElasticsearchRepository;
+
+import java.util.List;
 
 /***
  * 文件名称: AlbumPictureElasticsearchRepository.java
@@ -15,4 +18,21 @@ import pers.liujunyi.common.repository.elasticsearch.BaseElasticsearchRepository
  * @author ljy
  */
 public interface AlbumPictureElasticsearchRepository extends BaseElasticsearchRepository<AlbumPicture, Long> {
+
+    /**
+     * 根据相册ID 获取相册图片信息
+     * @param albumId
+     * @param pageable
+     * @return
+     */
+    List<AlbumPicture> findByAlbumId(Long albumId,  Pageable pageable);
+
+    /**
+     * 根据相册ID 获取相册图片信息
+     * @param albumIds
+     * @param pageable
+     * @return
+     */
+    List<AlbumPicture> findByAlbumIdIn(List<Long> albumIds, Pageable pageable);
+
 }

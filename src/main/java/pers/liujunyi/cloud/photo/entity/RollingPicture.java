@@ -26,7 +26,7 @@ import javax.persistence.Entity;
 @NoArgsConstructor
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-@Document(indexName = "photo_manage", type = "rollingPicture", shards = 1, replicas = 0)
+@Document(indexName = "photo_manage_rolling_picture", type = "rollingPicture", shards = 1, replicas = 0)
 @DynamicInsert
 @DynamicUpdate
 public class RollingPicture extends BaseEntity {

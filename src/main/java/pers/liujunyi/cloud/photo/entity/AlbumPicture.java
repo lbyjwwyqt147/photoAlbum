@@ -28,7 +28,7 @@ import javax.persistence.Entity;
 @NoArgsConstructor
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-@Document(indexName = "photo_manage", type = "albumPicture", shards = 1, replicas = 0)
+@Document(indexName = "photo_manage_album_picture", type = "albumPicture", shards = 1, replicas = 0)
 @DynamicInsert
 @DynamicUpdate
 public class AlbumPicture extends BaseEntity {
@@ -37,7 +37,6 @@ public class AlbumPicture extends BaseEntity {
 
     /** 相册ID */
     private Long albumId;
-
 
     /** 照片ID */
     private Long pictureId;

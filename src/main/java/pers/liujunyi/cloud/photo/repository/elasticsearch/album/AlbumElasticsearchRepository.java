@@ -1,7 +1,11 @@
 package pers.liujunyi.cloud.photo.repository.elasticsearch.album;
 
+import org.springframework.data.elasticsearch.annotations.Query;
+import org.springframework.data.jpa.repository.Modifying;
 import pers.liujunyi.cloud.photo.entity.Album;
 import pers.liujunyi.common.repository.elasticsearch.BaseElasticsearchRepository;
+
+import java.util.List;
 
 /***
  * 文件名称: AlbumElasticsearchRepository.java
@@ -21,9 +25,9 @@ public interface AlbumElasticsearchRepository extends BaseElasticsearchRepositor
      * @param ids
      * @return
      */
-   /* @Modifying(clearAutomatically = true)
+    @Modifying(clearAutomatically = true)
     @Query("update Album u set u.albumStatus = ?1 where u.id in (?2)")
     int setStatusByIds(Byte albumStatus, List<Long> ids);
-*/
+
 
 }

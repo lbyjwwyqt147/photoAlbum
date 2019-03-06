@@ -66,7 +66,7 @@ public class AlbumElasticsearchServiceImpl extends BaseElasticsearchServiceImpl<
             albumVo.setAlbumStyle(this.dictUtil.getDictName(DictConstant.IMAGE_STYLE, item.getAlbumStyle()));
             albumVo.setDescription(item.getAlbumDescription());
             albumVo.setStatus(item.getAlbumStatus());
-            albumVo.setClassify(this.dictUtil.getDictName(DictConstant.IMAGE_STYLE, item.getAlbumClassify()));
+            albumVo.setClassify(this.dictUtil.getDictName(DictConstant.ALBUM_CLASSIFY, item.getAlbumClassify()));
             albumVo.setMusicAddress(item.getAlbumMusicAddress());
             albumVo.setTitle(item.getAlbumTitle());
             albumVo.setId(item.getId());

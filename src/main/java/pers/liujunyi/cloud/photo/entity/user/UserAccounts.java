@@ -7,6 +7,7 @@ import lombok.ToString;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -43,6 +44,8 @@ public class UserAccounts implements Serializable {
 
     /** 用户帐号 */
     private String userAccounts;
+    /** 用户编号  */
+    private String userNumber;
 
     /** 用户密码 */
     private String userPassword;
@@ -57,8 +60,10 @@ public class UserAccounts implements Serializable {
     private Byte userCategory;
 
     /** 最后修改密码时间 */
+    @Field(index = false)
     private Date changePasswordTime;
 
     /** 修改时间  */
+    @Field(index = false)
     private Date updateTime;
 }

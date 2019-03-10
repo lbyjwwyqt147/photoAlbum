@@ -7,6 +7,7 @@ import lombok.ToString;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
 import pers.liujunyi.common.entity.BaseEntity;
 
 import javax.persistence.Entity;
@@ -67,9 +68,11 @@ public class StaffDetailsInfo extends BaseEntity {
     private Integer district;
 
     /** 所在行政区街道 */
+    @Field(index = false)
     private String street;
 
     /** 员工联系电话 */
+    @Field(index = false)
     private String staffPhone;
 
     /** 电子邮箱 */
@@ -79,29 +82,36 @@ public class StaffDetailsInfo extends BaseEntity {
     private String staffQq;
 
     /** 联系微信号 */
+    @Field(index = false)
     private String staffWechat;
 
     /** 生日 */
     private Date birthday;
 
     /** 年龄 */
+    @Field(index = false)
     private Byte staffAge;
 
     /** 器材装备 */
+    @Field(index = false)
     private String staffEquipment;
 
     /** 描述说明 */
+    @Field(index = false)
     private String description;
 
     /** 个人介绍 */
+    @Field(index = false)
     private String staffIntro;
 
     /** 状态：0：正常  1：冻结  2：离职 */
     private Byte staffStatus;
 
     /** 头像 */
+    @Field(index = false)
     private String staffPortrait;
 
     /** 头像id  */
+    @Field(index = false)
     private Long staffPortraitId;
 }

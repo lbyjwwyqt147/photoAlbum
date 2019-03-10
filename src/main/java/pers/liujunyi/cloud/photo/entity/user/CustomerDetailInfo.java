@@ -92,4 +92,10 @@ public class CustomerDetailInfo extends BaseEntity {
 
     /** 状态：0：正常  1：禁用   */
     private Byte customerStatus;
+
+    /** 头像 */
+    private String customerPortrait;
+
+    /** 头像id  */
+    private Long customerPortraitId;
 }

@@ -98,4 +98,10 @@ public class StaffDetailsInfo extends BaseEntity {
 
     /** 状态：0：正常  1：冻结  2：离职 */
     private Byte staffStatus;
+
+    /** 头像 */
+    private String staffPortrait;
+
+    /** 头像id  */
+    private Long staffPortraitId;
 }

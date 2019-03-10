@@ -1,6 +1,6 @@
 package pers.liujunyi.cloud.photo.repository.elasticsearch.album;
 
-import pers.liujunyi.cloud.photo.entity.RollingPicture;
+import pers.liujunyi.cloud.photo.entity.album.RollingPicture;
 import pers.liujunyi.common.repository.elasticsearch.BaseElasticsearchRepository;
 
 /***

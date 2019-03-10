@@ -9,7 +9,9 @@ data:
   # 直接访问 http://localhost:18081 时 返回信息设置
   indexView: '请访问：http://localhost:18081/swagger-ui.html  查看API文档'
   # 数据字典地址
-  dictUrl: http://localhost:18080/api/v1/dict/dictName
+  dictUrl: http://101.132.136.225:18080/api/v1/dict/dictName
+  # cloud_core 地址
+  cloudUrl: http://101.132.136.225:18080/api/v1
   # 授权访问核心系统的 code
   coreSystemCode: 1001
   # 授权访问核心系统的 appId
@@ -102,7 +104,7 @@ spring:
     host: 101.132.136.225
     port: 6379
     password:
-    database: 1
+    database: 10
     jedis:
       pool:
         #最大连接数

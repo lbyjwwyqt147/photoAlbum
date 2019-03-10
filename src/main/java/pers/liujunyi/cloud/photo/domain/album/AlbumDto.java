@@ -33,10 +33,17 @@ public class AlbumDto extends BaseDto {
 
     /** 相册风格 例如：小清新、日系、森系、复古、婚纱 等 */
     @ApiModelProperty(value = "相册风格")
+    @NotBlank(message = "风格必须填写")
     @Length(min = 0, max = 10, message = "风格 最多可以输入10个字符")
     private String albumStyle;
 
-    /** 相册分类 例如：文艺、性感、古风、清纯、等 */
+    /** 相册归类 例如：样片、客片 等 */
+    @ApiModelProperty(value = "相册分类")
+    @NotBlank(message = "归类必须填写")
+    @Length(min = 0, max = 10, message = "归类 最多可以输入10个字符")
+    private String albumClassification;
+
+    /** 相册分类 例如：写真、婚纱、旅拍 等 */
     @ApiModelProperty(value = "相册分类")
     @NotBlank(message = "分类必须填写")
     @Length(min = 0, max = 10, message = "分类 最多可以输入10个字符")
@@ -72,7 +79,35 @@ public class AlbumDto extends BaseDto {
     @Length(min = 0, max = 10, message = "版权设置 最多可以输入10个字符")
     private String albumCopyright;
 
+    /** 作者(摄影师)  */
+    @ApiModelProperty(value = "作者(摄影师)")
+    @Length(min = 0, max = 32, message = "作者(摄影师) 最多可以输入32个字符")
+    private String albumPhotographyAuthor;
+
+    /** 后期（数码师） */
+    @ApiModelProperty(value = "后期（数码师）")
+    @Length(min = 0, max = 32, message = "后期（数码师） 最多可以输入32个字符")
+    private String albumAnaphasisAuthor;
+
+    /** 化妆师 */
+    @ApiModelProperty(value = "化妆师")
+    @Length(min = 0, max = 32, message = "化妆师 最多可以输入32个字符")
+    private String albumDresser;
+
+    /** 模特 */
+    @ApiModelProperty(value = "模特")
+    @Length(min = 0, max = 32, message = "模特 最多可以输入32个字符")
+    private String albumMannequin;
+
+
+    /** 拍摄地点 */
+    @ApiModelProperty(value = "拍摄地点")
+    @Length(min = 0, max = 10, message = "拍摄地点 最多可以输入10个字符")
+    private String spotForPhotography;
+
     /** 优先级 数字从小到大排列 */
+    @ApiModelProperty(value = "序号")
+    @Min(value = 0, message = "序号 必须是数字类型")
     private Byte albumPriority;
 
     @ApiModelProperty(value = "图片")

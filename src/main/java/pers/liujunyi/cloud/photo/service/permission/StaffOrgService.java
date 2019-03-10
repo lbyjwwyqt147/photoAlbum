@@ -1,24 +1,24 @@
-package pers.liujunyi.cloud.photo.service.album;
+package pers.liujunyi.cloud.photo.service.permission;
 
 import pers.liujunyi.cloud.photo.domain.album.AlbumDto;
-import pers.liujunyi.cloud.photo.entity.album.Album;
+import pers.liujunyi.cloud.photo.entity.permission.StaffOrg;
 import pers.liujunyi.common.restful.ResultInfo;
 import pers.liujunyi.common.service.BaseService;
 
 import java.util.List;
 
 /***
- * 文件名称: AlbumService.java
- * 文件描述:  相册 Service
+ * 文件名称: StaffOrgService.java
+ * 文件描述:  职工关联组织机构 Service
  * 公 司:
  * 内容摘要:
  * 其他说明:
- * 完成日期:2019年02月27日
+ * 完成日期:2019年03月10日
  * 修改记录:
  * @version 1.0
  * @author ljy
  */
-public interface AlbumService extends BaseService<Album, Long> {
+public interface StaffOrgService extends BaseService<StaffOrg, Long> {
 
     /**
      * 保存数据

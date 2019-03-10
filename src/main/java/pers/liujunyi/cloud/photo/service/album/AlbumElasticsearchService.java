@@ -1,7 +1,7 @@
 package pers.liujunyi.cloud.photo.service.album;
 
 import pers.liujunyi.cloud.photo.domain.album.AlbumQueryDto;
-import pers.liujunyi.cloud.photo.entity.Album;
+import pers.liujunyi.cloud.photo.entity.album.Album;
 import pers.liujunyi.common.restful.ResultInfo;
 import pers.liujunyi.common.service.BaseElasticsearchService;
 

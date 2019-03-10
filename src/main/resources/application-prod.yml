@@ -7,11 +7,11 @@ data:
   # 域名设置 跨域
   allowedOrigin: '*'
   # 直接访问 http://localhost:18081 时 返回信息设置
-  indexView: '请访问：http://localhost:18081/swagger-ui.html  查看API文档'
+  indexView: '请访问：http://101.132.136.225:18081/swagger-ui.html  查看API文档'
   # 数据字典地址
-  dictUrl: http://101.132.136.225:18080/api/v1/dict/dictName
+  dictUrl: http://127.0.0.1:18080/api/v1/dict/dictName
   # cloud_core 地址
-  cloudUrl: http://101.132.136.225:18080/api/v1
+  cloudUrl: http://127.0.0.1:18080/api/v1
   # 授权访问核心系统的 code
   coreSystemCode: 1001
   # 授权访问核心系统的 appId
@@ -26,7 +26,7 @@ spring:
     # 使用阿里的Druid连接池
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://101.132.136.225:3306/photo_manage?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=CTT&rewriteBatchedStatements=true&autoReconnect=true
+    url: jdbc:mysql://127.0.0.1:3306/photo_manage?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=CTT&rewriteBatchedStatements=true&autoReconnect=true
     username: root
     password: root@123
     druid:
@@ -88,7 +88,7 @@ spring:
   data:
     elasticsearch:
       #节点的地址 注意api模式下端口号是9300，千万不要写成9200
-      cluster-nodes: 101.132.136.225:9300
+      cluster-nodes: 127.0.0.1:9300
       # elasticsearch集群名称，默认的是elasticsearch
       cluster-name: docker-cluster
       properties:
@@ -101,10 +101,10 @@ spring:
 
   # redis 配置
   redis:
-    host: 101.132.136.225
+    host: 127.0.0.1
     port: 6379
     password:
-    database: 10
+    database: 2
     jedis:
       pool:
         #最大连接数

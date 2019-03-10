@@ -2,7 +2,7 @@ package pers.liujunyi.cloud.photo.domain.album;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import pers.liujunyi.cloud.photo.entity.AlbumPicture;
+import pers.liujunyi.cloud.photo.entity.album.AlbumPicture;
 import pers.liujunyi.common.vo.BaseVo;
 
 import java.util.List;
@@ -21,14 +21,26 @@ public class AlbumVo extends BaseVo {
     private Byte status;
     /** 相册风格 例如：小清新、日系、森系、复古、婚纱 等 */
     private String albumStyle;
-    /** 相册分类 例如：文艺、性感、古风、清纯、等 */
+    /** 相册分类 例如：写真、婚纱、旅拍 等 */
     private String classify;
+    /** 相册归类 例如：样片、客片 等 */
+    private String classification;
     /** 相册描述 */
     private String description;
     /** 标签 */
     private String albumLabel;
     /** 背景音乐地址 */
     private String musicAddress;
+    /** 作者(摄影师)  */
+    private String albumPhotographyAuthor;
+    /** 后期（数码师） */
+    private String albumAnaphasisAuthor;
+    /** 化妆师 */
+    private String albumDresser;
+    /** 拍摄地点 */
+    private String spotForPhotography;
+    /** 模特 */
+    private String albumMannequin;
     /** 封面 */
     private String cover;
     /** 相册照片数量 */

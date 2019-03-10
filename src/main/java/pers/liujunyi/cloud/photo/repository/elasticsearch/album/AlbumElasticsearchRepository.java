@@ -2,9 +2,10 @@ package pers.liujunyi.cloud.photo.repository.elasticsearch.album;
 
 import org.springframework.data.elasticsearch.annotations.Query;
 import org.springframework.data.jpa.repository.Modifying;
-import pers.liujunyi.cloud.photo.entity.Album;
+import pers.liujunyi.cloud.photo.entity.album.Album;
 import pers.liujunyi.common.repository.elasticsearch.BaseElasticsearchRepository;
 
+import java.util.Date;
 import java.util.List;
 
 /***
@@ -26,8 +27,8 @@ public interface AlbumElasticsearchRepository extends BaseElasticsearchRepositor
      * @return
      */
     @Modifying(clearAutomatically = true)
-    @Query("update Album u set u.albumStatus = ?1 where u.id in (?2)")
-    int setStatusByIds(Byte albumStatus, List<Long> ids);
+    @Query("update Album u set u.albumStatus = ?1, u.updateTime = ?2 where u.id in (?3)")
+    int setAlbumStatusByIds(Byte albumStatus, Date updateTime, List<Long> ids);
 
 
 }

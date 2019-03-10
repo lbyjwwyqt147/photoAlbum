@@ -3,7 +3,7 @@ package pers.liujunyi.cloud.photo.repository.jpa.album;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
-import pers.liujunyi.cloud.photo.entity.RollingPicture;
+import pers.liujunyi.cloud.photo.entity.album.RollingPicture;
 import pers.liujunyi.common.repository.jpa.BaseRepository;
 
 import java.util.List;

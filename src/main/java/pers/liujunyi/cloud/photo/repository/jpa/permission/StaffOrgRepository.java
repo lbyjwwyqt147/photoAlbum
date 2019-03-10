@@ -1,34 +1,37 @@
-package pers.liujunyi.cloud.photo.repository.jpa.album;
+package pers.liujunyi.cloud.photo.repository.jpa.permission;
 
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
-import pers.liujunyi.cloud.photo.entity.album.Album;
+import pers.liujunyi.cloud.photo.entity.permission.StaffOrg;
 import pers.liujunyi.common.repository.jpa.BaseRepository;
 
+import java.util.Date;
 import java.util.List;
 
 /***
- * 文件名称: AlbumRepository.java
- * 文件描述: 相册管理 Repository
+ * 文件名称: StaffOrgRepository.java
+ * 文件描述: 职工组织机构 Repository
  * 公 司:
  * 内容摘要:
  * 其他说明:
- * 完成日期:2019年02月21日
+ * 完成日期:2019年03月10日
  * 修改记录:
  * @version 1.0
  * @author ljy
  */
-public interface AlbumRepository extends BaseRepository<Album, Long> {
+public interface StaffOrgRepository extends BaseRepository<StaffOrg, Long> {
 
     /**
      * 修改状态
-     * @param albumStatus  0：已发布（可见）  1：不可见  2：草稿
+     * @param status  0：正常  1：禁用
      * @param ids
      * @return
      */
     @Transactional(rollbackFor = {RuntimeException.class, Exception.class})
     @Modifying(clearAutomatically = true)
-    @Query("update Album u set u.albumStatus = ?1 where u.id in (?2)")
-    int setStatusByIds(Byte albumStatus, List<Long> ids);
+    @Query("update StaffOrg u set u.status = ?1, u.updateTime = ?2 where u.id in (?3)")
+    int setStatusByIds(Byte status, Date updateTime, List<Long> ids);
+
+
 }

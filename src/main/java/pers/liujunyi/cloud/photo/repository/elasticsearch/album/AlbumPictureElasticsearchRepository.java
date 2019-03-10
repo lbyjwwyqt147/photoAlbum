@@ -1,7 +1,7 @@
 package pers.liujunyi.cloud.photo.repository.elasticsearch.album;
 
 import org.springframework.data.domain.Pageable;
-import pers.liujunyi.cloud.photo.entity.AlbumPicture;
+import pers.liujunyi.cloud.photo.entity.album.AlbumPicture;
 import pers.liujunyi.common.repository.elasticsearch.BaseElasticsearchRepository;
 
 import java.util.List;

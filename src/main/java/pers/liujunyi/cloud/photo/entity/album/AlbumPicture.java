@@ -61,4 +61,7 @@ public class AlbumPicture extends BaseEntity {
 
     /** 状态 0：展示 1：不展示 */
     private Byte status;
+
+    /** 文件分类 0：图片 1：文档  2：视频  5：其他 */
+    private Byte pictureCategory;
 }

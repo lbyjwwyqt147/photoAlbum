@@ -40,8 +40,7 @@ public class Organizations extends BaseEntity {
     private String orgName;
 
     /** 机构级别 */
-    @Field(index = false)
-    private String orgLevel;
+    private Byte orgLevel;
 
     /** 父级主键id */
     private Long parentId;

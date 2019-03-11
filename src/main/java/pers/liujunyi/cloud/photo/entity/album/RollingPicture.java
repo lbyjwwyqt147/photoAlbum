@@ -54,4 +54,7 @@ public class RollingPicture extends BaseEntity {
     /** 照片说明 */
     @Field(index = false)
     private String description;
+
+    /** 文件分类 0：图片 1：文档  2：视频  5：其他 */
+    private Byte pictureCategory;
 }

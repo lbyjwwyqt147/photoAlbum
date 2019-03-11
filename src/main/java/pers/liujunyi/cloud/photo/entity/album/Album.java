@@ -99,4 +99,7 @@ public class Album extends BaseEntity {
     /** 备注 */
     @Field(index = false)
     private String remarks;
+
+    /** 拍摄时间 */
+    private Data shootingsDate;
 }

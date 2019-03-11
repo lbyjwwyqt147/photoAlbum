@@ -43,6 +43,8 @@ public class AlbumVo extends BaseVo {
     private String albumMannequin;
     /** 封面 */
     private String cover;
+    /** 拍摄时间 */
+    private Data shootingsDate;
     /** 相册照片数量 */
     private Integer total;
     /** 相册图片 */

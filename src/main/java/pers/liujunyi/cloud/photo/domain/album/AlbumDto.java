@@ -11,7 +11,15 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-/**
+/***
+ * 文件名称: AlbumDto.java
+ * 文件描述: 相册
+ * 公 司:
+ * 内容摘要:
+ *
+ * 完成日期:2019年03月11日
+ * 修改记录:
+ * @version 1.0
  * @author ljy
  */
 @ApiModel
@@ -113,4 +121,8 @@ public class AlbumDto extends BaseDto {
     @ApiModelProperty(value = "图片")
     @NotBlank(message = "缺少上传图片")
     private String pictures;
+
+    /** 拍摄时间 */
+    @ApiModelProperty(value = "拍摄时间")
+    private Data shootingsDate;
 }

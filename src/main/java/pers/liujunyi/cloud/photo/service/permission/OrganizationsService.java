@@ -1,6 +1,6 @@
 package pers.liujunyi.cloud.photo.service.permission;
 
-import pers.liujunyi.cloud.photo.domain.album.AlbumDto;
+import pers.liujunyi.cloud.photo.domain.permission.OrganizationsDto;
 import pers.liujunyi.cloud.photo.entity.permission.Organizations;
 import pers.liujunyi.common.restful.ResultInfo;
 import pers.liujunyi.common.service.BaseService;
@@ -25,11 +25,11 @@ public interface OrganizationsService extends BaseService<Organizations, Long> {
      * @param record
      * @return
      */
-    ResultInfo saveRecord(AlbumDto record);
+    ResultInfo saveRecord(OrganizationsDto record);
 
     /**
      * 修改状态
-     * @param status   0：已发布（可见）  1：不可见  2：草稿
+     * @param status   0：正常  1：禁用
      * @param ids
      * @return
      */

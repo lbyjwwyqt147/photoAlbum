@@ -1,5 +1,6 @@
 package pers.liujunyi.cloud.photo.repository.elasticsearch.permission;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.annotations.Query;
 import org.springframework.data.jpa.repository.Modifying;
 import pers.liujunyi.cloud.photo.entity.permission.Organizations;
@@ -35,5 +36,13 @@ public interface OrganizationsElasticsearchRepository extends BaseElasticsearchR
      * @param orgNumber
      * @return
      */
-    List<Organizations> findFirstByOrgNumber(String orgNumber);
+    Organizations findFirstByOrgNumber(String orgNumber);
+
+    /**
+     * 根据pid 获取数据
+     * @param pid
+     * @param orgStatus  0：正常  1：禁用
+     * @return
+     */
+    List<Organizations> findByParentIdAndOrgStatusOrderBySeqAsc(Long pid, Byte orgStatus, Pageable page);
 }

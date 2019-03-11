@@ -1,7 +1,13 @@
 package pers.liujunyi.cloud.photo.service.permission;
 
+import pers.liujunyi.cloud.photo.domain.permission.OrganizationsQueryDto;
 import pers.liujunyi.cloud.photo.entity.permission.Organizations;
+import pers.liujunyi.common.restful.ResultInfo;
 import pers.liujunyi.common.service.BaseElasticsearchService;
+import pers.liujunyi.common.vo.tree.ZTreeNode;
+
+import java.util.List;
+import java.util.Map;
 
 /***
  * 文件名称: OrganizationsElasticsearchService.java
@@ -16,6 +22,38 @@ import pers.liujunyi.common.service.BaseElasticsearchService;
  */
 public interface OrganizationsElasticsearchService extends BaseElasticsearchService<Organizations, Long> {
 
+    /**
+     * 符合 ztree 结构的数据
+     * @param pid
+     * @return
+     */
+    List<ZTreeNode> orgTree(Long pid);
 
+    /**
+     * 分页列表
+     * @param query
+     * @return
+     */
+    ResultInfo findPageGird(OrganizationsQueryDto query);
 
+    /**
+     * 根据ID获取机构全名称
+     * @param id
+     * @return
+     */
+    String getOrgFullName(Long id);
+
+    /**
+     * 根据ID 获取机构名称
+     * @param id
+     * @return
+     */
+    String getOrgName(Long id);
+
+    /**
+     * 根据一组id 获取数据
+     * @param ids
+     * @return key = id  value = name
+     */
+    Map<Long, String> findKeyIdValueNameByIdIn(List<Long> ids);
 }

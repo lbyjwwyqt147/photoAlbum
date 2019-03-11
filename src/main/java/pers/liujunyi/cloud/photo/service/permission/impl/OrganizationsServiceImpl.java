@@ -47,6 +47,9 @@ public class OrganizationsServiceImpl extends BaseServiceImpl<Organizations, Lon
 
     @Override
     public ResultInfo saveRecord(OrganizationsDto record) {
+        if (this.checkOrgNumberRepetition(record.getOrgNumber())) {
+            return ResultUtil.params("机构代码重复,请重新输入！");
+        }
         Organizations organizations = DozerBeanMapperUtil.copyProperties(record, Organizations.class);
         if (record.getSeq() == null) {
             organizations.setSeq(10);
@@ -66,7 +69,7 @@ public class OrganizationsServiceImpl extends BaseServiceImpl<Organizations, Lon
             return ResultUtil.fail();
         }
         this.organizationsElasticsearchRepository.save(saveObject);
-        return ResultUtil.success();
+        return ResultUtil.success(saveObject.getId());
     }
 
     @Override
@@ -131,5 +134,18 @@ public class OrganizationsServiceImpl extends BaseServiceImpl<Organizations, Lon
             return organizations.get();
         }
         return null;
+    }
+
+    /**
+     * 检测机构代码是否重复
+     * @param orgNumber
+     * @return 重复返回 true   不重复返回  false
+     */
+    private Boolean checkOrgNumberRepetition(String orgNumber) {
+        Organizations organizations = this.organizationsElasticsearchRepository.findFirstByOrgNumber(orgNumber);
+        if (organizations != null) {
+            return true;
+        }
+        return false;
     }
 }

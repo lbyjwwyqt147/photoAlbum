@@ -10,6 +10,7 @@ import pers.liujunyi.common.dto.BaseDto;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 /***
  * 文件名称: AlbumDto.java
@@ -124,5 +125,5 @@ public class AlbumDto extends BaseDto {
 
     /** 拍摄时间 */
     @ApiModelProperty(value = "拍摄时间")
-    private Data shootingsDate;
+    private Date shootingsDate;
 }

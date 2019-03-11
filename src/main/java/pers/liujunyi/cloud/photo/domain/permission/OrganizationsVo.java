@@ -4,15 +4,10 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.hibernate.validator.constraints.Length;
-import pers.liujunyi.common.dto.BaseDto;
-
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import pers.liujunyi.common.vo.BaseVo;
 
 /***
- * 文件名称: OrganizationsDto.java
+ * 文件名称: OrganizationsVo.java
  * 文件描述: 组织机构
  * 公 司:
  * 内容摘要:
@@ -25,18 +20,13 @@ import javax.validation.constraints.NotNull;
 @ApiModel
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class OrganizationsDto extends BaseDto {
-    private static final long serialVersionUID = -2904937024962048531L;
+public class OrganizationsVo extends BaseVo {
     /** 机构编号 */
     @ApiModelProperty(value = "机构编号")
-    @NotBlank(message = "机构编号必须填写")
-    @Length(min = 0, max = 15, message = "机构编号 最多可以输入15个字符")
     private String orgNumber;
 
     /** 机构名称 */
     @ApiModelProperty(value = "机构名称")
-    @NotBlank(message = "机构名称必须填写")
-    @Length(min = 0, max = 32, message = "机构名称 最多可以输入32个字符")
     private String orgName;
 
     /** 机构级别 */
@@ -45,7 +35,6 @@ public class OrganizationsDto extends BaseDto {
 
     /** 父级主键id */
     @ApiModelProperty(value = "上级机构ID")
-    @NotNull(message = "上级机构必须填写")
     private Long parentId;
 
     /** 排序号 */
@@ -54,16 +43,16 @@ public class OrganizationsDto extends BaseDto {
 
     /** 完整的机构名称 */
     @ApiModelProperty(value = "完整的机构名称")
-    @Length(min = 0, max = 180, message = "机构名称 最多可以输入180个字符")
     private String fullName;
 
     /** 描述说明 */
     @ApiModelProperty(value = "描述说明")
-    @Length(min = 0, max = 200, message = "机构名称 最多可以输入200个字符")
     private String description;
 
     /** 状态：0：正常  1：禁用 */
     @ApiModelProperty(value = "状态")
-    @Min(value = 0, message = "状态 必须是数字类型")
     private Byte orgStatus;
+
+    /** 上级机构名称 */
+    private String organizationParentName;
 }

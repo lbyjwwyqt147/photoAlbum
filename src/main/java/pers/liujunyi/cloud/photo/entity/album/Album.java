@@ -11,6 +11,7 @@ import org.springframework.data.elasticsearch.annotations.Field;
 import pers.liujunyi.common.entity.BaseEntity;
 
 import javax.persistence.Entity;
+import java.util.Date;
 
 /***
  * 文件名称: Album.java
@@ -101,5 +102,5 @@ public class Album extends BaseEntity {
     private String remarks;
 
     /** 拍摄时间 */
-    private Data shootingsDate;
+    private Date shootingsDate;
 }

@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import pers.liujunyi.cloud.photo.entity.album.AlbumPicture;
 import pers.liujunyi.common.vo.BaseVo;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -44,7 +45,7 @@ public class AlbumVo extends BaseVo {
     /** 封面 */
     private String cover;
     /** 拍摄时间 */
-    private Data shootingsDate;
+    private Date shootingsDate;
     /** 相册照片数量 */
     private Integer total;
     /** 相册图片 */

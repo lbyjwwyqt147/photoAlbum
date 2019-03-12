@@ -27,8 +27,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static java.util.stream.Collectors.toList;
-
 /***
  * 文件名称: OrganizationsElasticsearchServiceImpl.java
  * 文件描述: 组织机构 Elasticsearch Service impl
@@ -73,21 +71,8 @@ public class OrganizationsElasticsearchServiceImpl extends BaseElasticsearchServ
         // 查询数据
         SearchQuery searchQuery = query.toSpecPageable(pageable);
         Page<Organizations> searchPageResults = this.organizationsElasticsearchRepository.search(searchQuery);
-        List<Organizations>  searchList = searchPageResults.getContent();
-        List<OrganizationsVo> resultDatas = new LinkedList<>();
-        if (!CollectionUtils.isEmpty(searchList)) {
-            List<Long> pids = searchList.stream().map(Organizations::getParentId).collect(toList());
-            Map<Long, String> parentName = this.findKeyIdValueNameByIdIn(pids);
-            searchList.stream().forEach(item -> {
-                OrganizationsVo organizationsVo = DozerBeanMapperUtil.copyProperties(item, OrganizationsVo.class);
-                if (parentName != null) {
-                    organizationsVo.setOrganizationParentName(parentName.get(item.getParentId()));
-                }
-                resultDatas.add(organizationsVo);
-            });
-        }
         Long totalElements =  searchPageResults.getTotalElements();
-        ResultInfo result = ResultUtil.success(resultDatas);
+        ResultInfo result = ResultUtil.success(searchPageResults.getContent());
         result.setTotal(totalElements);
         return  result;
     }
@@ -117,6 +102,20 @@ public class OrganizationsElasticsearchServiceImpl extends BaseElasticsearchServ
             return  list.stream().collect(Collectors.toMap(Organizations::getId, Organizations::getOrgName));
         }
         return null;
+    }
+
+    @Override
+    public ResultInfo selectById(Long id) {
+        Organizations  search =  this.getOrganizations(id);
+        if (search != null) {
+            OrganizationsVo organizationsVo = DozerBeanMapperUtil.copyProperties(search, OrganizationsVo.class);
+            Organizations parent = this.getOrganizations(organizationsVo.getParentId());
+            if (parent != null) {
+                organizationsVo.setOrganizationParentName(parent.getOrgName());
+            }
+            return ResultUtil.success(organizationsVo);
+        }
+        return ResultUtil.fail();
     }
 
     /**

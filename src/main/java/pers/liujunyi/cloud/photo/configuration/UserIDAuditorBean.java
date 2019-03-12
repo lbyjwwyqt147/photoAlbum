@@ -1,7 +1,9 @@
 package pers.liujunyi.cloud.photo.configuration;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
+import pers.liujunyi.common.util.UserUtils;
 
 import java.util.Optional;
 
@@ -11,9 +13,12 @@ import java.util.Optional;
 @Configuration
 public class UserIDAuditorBean implements AuditorAware<Long> {
 
+    @Autowired
+    private UserUtils userUtils;
+
     @Override
     public Optional<Long> getCurrentAuditor() {
-        Long currentUserId = 1L;
+        Long currentUserId = this.userUtils.getPresentLoginUserId();
         return Optional.ofNullable(currentUserId);
     }
 }

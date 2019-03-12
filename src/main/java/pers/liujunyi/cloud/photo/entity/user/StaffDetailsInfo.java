@@ -44,7 +44,7 @@ public class StaffDetailsInfo extends BaseEntity {
     private String staffName;
 
     /** 员工昵称 */
-    private String staffNickname;
+    private String staffNickName;
 
     /** 性别 0:男  1:女 */
     private Byte staffSex;

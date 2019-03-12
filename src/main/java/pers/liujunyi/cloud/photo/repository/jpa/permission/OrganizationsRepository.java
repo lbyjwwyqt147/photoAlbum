@@ -24,6 +24,7 @@ public interface OrganizationsRepository extends BaseRepository<Organizations, L
     /**
      * 修改状态
      * @param orgStatus  0：正常  1：禁用
+     * @param updateTime
      * @param ids
      * @return
      */
@@ -31,4 +32,16 @@ public interface OrganizationsRepository extends BaseRepository<Organizations, L
     @Modifying(clearAutomatically = true)
     @Query("update Organizations u set u.orgStatus = ?1, u.updateTime = ?2 where u.id in (?3)")
     int setOrgStatusByIds(Byte orgStatus, Date updateTime, List<Long> ids);
+
+    /**
+     * 更新机构全名称
+     * @param fullName
+     * @param updateTime
+     * @param id
+     * @return
+     */
+    @Transactional(rollbackFor = {RuntimeException.class, Exception.class})
+    @Modifying(clearAutomatically = true)
+    @Query("update Organizations u set u.fullName = ?1,  u.updateTime = ?2 where u.id = ?3")
+    int updateFullNameById(String fullName, Date updateTime, Long id);
 }

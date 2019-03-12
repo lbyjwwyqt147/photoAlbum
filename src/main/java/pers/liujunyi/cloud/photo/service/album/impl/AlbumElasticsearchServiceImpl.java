@@ -71,7 +71,7 @@ public class AlbumElasticsearchServiceImpl extends BaseElasticsearchServiceImpl<
             albumVo.setTitle(item.getAlbumTitle());
             albumVo.setId(item.getId());
             //获取相册图片信息
-            List<AlbumPicture> albumPictures = this.albumPictureElasticsearchRepository.findByAlbumId(item.getId(), this.page);
+            List<AlbumPicture> albumPictures = this.albumPictureElasticsearchRepository.findByAlbumId(item.getId(), this.allPageable);
             albumVo.setTotal(albumPictures.size());
             albumVo.setAlbumPictureDatas(albumPictures);
             List<AlbumPicture> filterList = albumPictures.stream().filter(u -> u.getCover().byteValue() == 0).limit(1).collect(Collectors.toList());

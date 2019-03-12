@@ -53,6 +53,10 @@ public class AlbumPicture extends BaseEntity {
     @Field(index = false)
     private String description;
 
+    /** 备注 */
+    @Field(index = false)
+    private String remarks;
+
     /** 是否是封面 0：是封面  1：不是 */
     private Byte cover;
 

@@ -59,7 +59,7 @@ public class OrganizationsDto extends BaseDto {
 
     /** 描述说明 */
     @ApiModelProperty(value = "描述说明")
-    @Length(min = 0, max = 200, message = "机构名称 最多可以输入200个字符")
+    @Length(min = 0, max = 100, message = "机构名称 最多可以输入100个字符")
     private String description;
 
     /** 状态：0：正常  1：禁用 */

@@ -56,4 +56,11 @@ public interface OrganizationsElasticsearchService extends BaseElasticsearchServ
      * @return key = id  value = name
      */
     Map<Long, String> findKeyIdValueNameByIdIn(List<Long> ids);
+
+    /**
+     * 根据ID获取详细信息
+     * @param id
+     * @return
+     */
+    ResultInfo selectById(Long id);
 }

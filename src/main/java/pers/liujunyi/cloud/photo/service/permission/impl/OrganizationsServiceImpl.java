@@ -1,7 +1,10 @@
 package pers.liujunyi.cloud.photo.service.permission.impl;
 
+import org.elasticsearch.action.update.UpdateRequestBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import pers.liujunyi.cloud.photo.domain.permission.OrganizationsDto;
@@ -14,11 +17,10 @@ import pers.liujunyi.common.restful.ResultInfo;
 import pers.liujunyi.common.restful.ResultUtil;
 import pers.liujunyi.common.service.impl.BaseServiceImpl;
 import pers.liujunyi.common.util.DozerBeanMapperUtil;
+import pers.liujunyi.common.util.UserUtils;
 
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
+import javax.annotation.Resource;
+import java.util.*;
 
 /***
  * 文件名称: OrganizationsServiceImpl.java
@@ -38,6 +40,10 @@ public class OrganizationsServiceImpl extends BaseServiceImpl<Organizations, Lon
     private OrganizationsRepository organizationsRepository;
     @Autowired
     private OrganizationsElasticsearchRepository organizationsElasticsearchRepository;
+    @Resource
+    private ElasticsearchTemplate elasticsearchTemplate;
+    @Autowired
+    private UserUtils userUtils;
 
 
     public OrganizationsServiceImpl(BaseRepository<Organizations, Long> baseRepository) {
@@ -47,14 +53,18 @@ public class OrganizationsServiceImpl extends BaseServiceImpl<Organizations, Lon
 
     @Override
     public ResultInfo saveRecord(OrganizationsDto record) {
-        if (this.checkOrgNumberRepetition(record.getOrgNumber())) {
+        if (this.checkOrgNumberRepetition(record.getOrgNumber(), record.getId())) {
             return ResultUtil.params("机构代码重复,请重新输入！");
         }
         Organizations organizations = DozerBeanMapperUtil.copyProperties(record, Organizations.class);
         if (record.getSeq() == null) {
             organizations.setSeq(10);
         }
-        Organizations queryOrg = getOrganizations(record.getParentId());
+        if (record.getId() != null) {
+            organizations.setUpdateTime(new Date());
+            organizations.setUpdateUserId(this.userUtils.getPresentLoginUserId());
+        }
+        Organizations queryOrg = this.getOrganizations(record.getParentId());
         if (queryOrg != null) {
             StringBuffer fullName = new StringBuffer();
             fullName.append(queryOrg.getOrgName());
@@ -76,7 +86,17 @@ public class OrganizationsServiceImpl extends BaseServiceImpl<Organizations, Lon
     public ResultInfo updateStatus(Byte status, List<Long> ids) {
         int count = this.organizationsRepository.setOrgStatusByIds(status, new Date(), ids);
         if (count > 0) {
-            this.organizationsElasticsearchRepository.setOrgStatusByIds(status, new Date(), ids);
+            HashMap<String, Object> data=new HashMap<>();
+            data.put("orgStatus", status);
+            data.put("updateTime", new Date());
+            //通过反射获取到类，填入类名
+            Class cl1 = Organizations.class;
+            //获取RequestMapping注解
+            Document anno = (Document) cl1.getAnnotation(Document.class);
+            UpdateRequestBuilder urb = elasticsearchTemplate.getClient().prepareUpdate(anno.indexName(), "id", "5");
+            urb.setDoc(data);
+            urb.execute().actionGet();
+            //this.organizationsElasticsearchRepository.setOrgStatusByIds(status, new Date(), ids);
             return ResultUtil.success();
         }
         return ResultUtil.fail();
@@ -141,11 +161,29 @@ public class OrganizationsServiceImpl extends BaseServiceImpl<Organizations, Lon
      * @param orgNumber
      * @return 重复返回 true   不重复返回  false
      */
-    private Boolean checkOrgNumberRepetition(String orgNumber) {
+    private Boolean checkOrgNumberRepetition(String orgNumber, Long id) {
+        if (id == null){
+            return this.checkOrgNumberData(orgNumber);
+        } else {
+            Organizations organizations = this.getOrganizations(id);
+            if (organizations != null && !organizations.getOrgNumber().equals(orgNumber)) {
+                return this.checkOrgNumberData(orgNumber);
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 检查中是否存在dictCode 数据
+     * @param orgNumber
+     * @return
+     */
+    private Boolean checkOrgNumberData (String orgNumber) {
         Organizations organizations = this.organizationsElasticsearchRepository.findFirstByOrgNumber(orgNumber);
         if (organizations != null) {
             return true;
         }
         return false;
     }
+
 }

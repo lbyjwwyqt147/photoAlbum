@@ -44,7 +44,7 @@ public class CustomerDetailInfo extends BaseEntity {
     private String customerName;
 
     /** 顾客昵称 */
-    private String customerNickname;
+    private String customerNickName;
 
     /** 性别 0:男  1:女 */
     private Byte customerSex;

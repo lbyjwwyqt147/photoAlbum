@@ -18,6 +18,7 @@ import pers.liujunyi.common.restful.ResultUtil;
 import pers.liujunyi.common.vo.tree.ZTreeNode;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /***
@@ -59,17 +60,19 @@ public class OrganizationsController extends BaseController {
     /**
      * 单条删除数据
      *
-     * @param param
+     * @param id
      * @return
      */
     @ApiOperation(value = "单条删除数据", notes = "适用于单条删除数据 请求示例：127.0.0.1:18080/api/v1/organization/delete")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1")
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "id", value = "id",  required = true, dataType = "Long")
     })
     @DeleteMapping(value = "organization/delete")
     @ApiVersion(1)
-    public ResultInfo singleDelete(@Valid IdParamDto param) {
-        this.organizationsService.deleteById(param.getId());
+    public ResultInfo singleDelete(@Valid @NotNull(message = "id 必须填写")
+                                       @RequestParam(name = "id", required = true) Long id) {
+        this.organizationsService.deleteById(id);
         return ResultUtil.success();
     }
 
@@ -81,7 +84,8 @@ public class OrganizationsController extends BaseController {
      */
     @ApiOperation(value = "删除多条数据", notes = "适用于批量删除数据 请求示例：127.0.0.1:18080/api/v1/organization/batchDelete")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1")
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "ids", value = "ids",  required = true, dataType = "String")
     })
     @DeleteMapping(value = "organization/batchDelete")
     @ApiVersion(1)
@@ -109,7 +113,7 @@ public class OrganizationsController extends BaseController {
     /**
      * 字典tree 结构数据
      *
-     * @param param
+     * @param pid
      * @return
      */
     @ApiOperation(value = "字典tree 结构数据", notes = "适用于tree 显示数据 请求示例：127.0.0.1:18080/api/v1/organization/tree")
@@ -119,8 +123,9 @@ public class OrganizationsController extends BaseController {
     })
     @PostMapping(value = "organization/ztree")
     @ApiVersion(1)
-        public List<ZTreeNode> orgZTree(@Valid IdParamDto param ) {
-        return this.organizationsElasticsearchService.orgTree(param.getId());
+        public List<ZTreeNode> orgZTree(@Valid @NotNull(message = "pid 必须填写")
+                                            @RequestParam(name = "pid", required = true) Long pid) {
+        return this.organizationsElasticsearchService.orgTree(pid);
     }
 
 
@@ -132,7 +137,9 @@ public class OrganizationsController extends BaseController {
      */
     @ApiOperation(value = "修改数据状态", notes = "适用于修改数据状态 请求示例：127.0.0.1:18080/api/v1/organization/status")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1")
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "ids", value = "ids",  required = true, dataType = "String"),
+            @ApiImplicitParam(name = "status", value = "status",  required = true, dataType = "integer")
     })
     @PutMapping(value = "organization/status")
     @ApiVersion(1)
@@ -141,7 +148,21 @@ public class OrganizationsController extends BaseController {
     }
 
 
-
+    /**
+     * 根据id 获取详细信息
+     * @param id
+     * @return
+     */
+    @ApiOperation(value = "根据id 获取详细信息", notes = "适用于根据id 获取详细信息 请求示例：127.0.0.1:18080/api/v1/organization/details/{id}")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "id", value = "id", paramType = "path",   required = true, dataType = "Long")
+    })
+    @GetMapping(value = "organization/details/{id}")
+    @ApiVersion(1)
+    public ResultInfo findById(@PathVariable(name = "id") Long id) {
+        return this.organizationsElasticsearchService.selectById(id);
+    }
 
     /**
      *  同步数据到es中

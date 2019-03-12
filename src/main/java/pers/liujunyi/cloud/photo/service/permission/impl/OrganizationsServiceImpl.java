@@ -1,9 +1,7 @@
 package pers.liujunyi.cloud.photo.service.permission.impl;
 
-import org.elasticsearch.action.update.UpdateRequestBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -21,6 +19,7 @@ import pers.liujunyi.common.util.UserUtils;
 
 import javax.annotation.Resource;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /***
  * 文件名称: OrganizationsServiceImpl.java
@@ -86,16 +85,25 @@ public class OrganizationsServiceImpl extends BaseServiceImpl<Organizations, Lon
     public ResultInfo updateStatus(Byte status, List<Long> ids) {
         int count = this.organizationsRepository.setOrgStatusByIds(status, new Date(), ids);
         if (count > 0) {
-            HashMap<String, Object> data=new HashMap<>();
-            data.put("orgStatus", status);
-            data.put("updateTime", new Date());
+            Map<String, Map<String, Object>> sourceMap = new ConcurrentHashMap<>();
+            Map<String, Object> docDataMap = new HashMap<>();
+            docDataMap.put("orgStatus", status);
+            docDataMap.put("updateTime", System.currentTimeMillis());
+
+         //   super.singleUpdateElasticsearchData(ids.get(0).toString(), docDataMap);
+
+            ids.stream().forEach(item -> {
+                sourceMap.put(String.valueOf(item), docDataMap);
+            });
+
             //通过反射获取到类，填入类名
             Class cl1 = Organizations.class;
             //获取RequestMapping注解
-            Document anno = (Document) cl1.getAnnotation(Document.class);
-            UpdateRequestBuilder urb = elasticsearchTemplate.getClient().prepareUpdate(anno.indexName(), "id", "5");
-            urb.setDoc(data);
-            urb.execute().actionGet();
+           // Document anno = (Document) cl1.getAnnotation(Document.class);
+          //  UpdateRequestBuilder urb = elasticsearchTemplate.getClient().prepareUpdate(anno.indexName(), anno.type(), "5");
+           // urb.setDoc(data);
+           // urb.execute().actionGet();
+            super.batchUpdateElasticsearchData(sourceMap);
             //this.organizationsElasticsearchRepository.setOrgStatusByIds(status, new Date(), ids);
             return ResultUtil.success();
         }

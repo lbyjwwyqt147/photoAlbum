@@ -22,7 +22,8 @@ import java.util.Date;
  *     document  ==》文档 ==》一个文档相当于Mysql一行的数据
  *  　indexName ==》索引 一个文档一个索引  不能 一个索引指定多个type
  *   field ==》列 ==》相当于mysql中的列，也就是一个属性
- * 其他说明: @Document(indexName = "photo_manage_album", type = "album", shards = 1, replicas = 0) 默认情况下添加@Document注解会对实体中的所有属性建立索引  indexName elasticsearch 的索引名称 可以理解为数据库名 必须为小写 不然会报org.elasticsearch.indices.InvalidIndexNameException异常
+ * 其他说明: elasticsearch6.0.0移除了一个索引允许映射多个类型，虽然还支持同索引多类型查询，但是Elasticsearch 7.0.0的版本将完全放弃type 。https://www.cnblogs.com/liugx/p/8470369.html
+ *          @Document(indexName = "photo_manage_album", type = "album", shards = 1, replicas = 0) 默认情况下添加@Document注解会对实体中的所有属性建立索引  indexName elasticsearch 的索引名称 可以理解为数据库名 必须为小写 不然会报org.elasticsearch.indices.InvalidIndexNameException异常
  *          @DynamicInsert属性:设置为true,设置为true,表示insert对象的时候,生成动态的insert语句,如果这个字段的值是null就不会加入到insert语句当中.默认true。
  *          比如希望数据库插入日期或时间戳字段时，在对象字段为空的情况下，表字段能自动填写当前的sysdate。
  *          @DynamicUpdate属性:设置为true,设置为true,表示update对象的时候,生成动态的update语句,如果这个字段的值是null就不会被加入到update语句中,默认true。

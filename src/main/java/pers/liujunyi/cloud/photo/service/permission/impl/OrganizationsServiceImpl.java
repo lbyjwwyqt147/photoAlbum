@@ -2,7 +2,6 @@ package pers.liujunyi.cloud.photo.service.permission.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import pers.liujunyi.cloud.photo.domain.permission.OrganizationsDto;
@@ -17,7 +16,6 @@ import pers.liujunyi.common.service.impl.BaseServiceImpl;
 import pers.liujunyi.common.util.DozerBeanMapperUtil;
 import pers.liujunyi.common.util.UserUtils;
 
-import javax.annotation.Resource;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -39,8 +37,6 @@ public class OrganizationsServiceImpl extends BaseServiceImpl<Organizations, Lon
     private OrganizationsRepository organizationsRepository;
     @Autowired
     private OrganizationsElasticsearchRepository organizationsElasticsearchRepository;
-    @Resource
-    private ElasticsearchTemplate elasticsearchTemplate;
     @Autowired
     private UserUtils userUtils;
 
@@ -89,22 +85,11 @@ public class OrganizationsServiceImpl extends BaseServiceImpl<Organizations, Lon
             Map<String, Object> docDataMap = new HashMap<>();
             docDataMap.put("orgStatus", status);
             docDataMap.put("updateTime", System.currentTimeMillis());
-
-         //   super.singleUpdateElasticsearchData(ids.get(0).toString(), docDataMap);
-
             ids.stream().forEach(item -> {
                 sourceMap.put(String.valueOf(item), docDataMap);
             });
-
-            //通过反射获取到类，填入类名
-            Class cl1 = Organizations.class;
-            //获取RequestMapping注解
-           // Document anno = (Document) cl1.getAnnotation(Document.class);
-          //  UpdateRequestBuilder urb = elasticsearchTemplate.getClient().prepareUpdate(anno.indexName(), anno.type(), "5");
-           // urb.setDoc(data);
-           // urb.execute().actionGet();
-            super.batchUpdateElasticsearchData(sourceMap);
-            //this.organizationsElasticsearchRepository.setOrgStatusByIds(status, new Date(), ids);
+            // 更新 Elasticsearch 中的数据
+            super.updateBatchElasticsearchData(sourceMap);
             return ResultUtil.success();
         }
         return ResultUtil.fail();

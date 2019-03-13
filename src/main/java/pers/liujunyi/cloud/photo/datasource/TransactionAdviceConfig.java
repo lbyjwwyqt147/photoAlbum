@@ -41,7 +41,7 @@ public class TransactionAdviceConfig {
      * 事物超时时间  (秒)
      */
     @Value("${spring.datasource.druid.transaction-threshold-millis}")
-    private String transactionTimeOut;
+    private Integer transactionTimeOut;
 
     /**
      * 定义切点变量：拦截pers.liujunyi.cloud.photo.service包下所有类的所有方法,返回值类型任意的方法
@@ -75,8 +75,7 @@ public class TransactionAdviceConfig {
         /* PROPAGATION_REQUIRED:事务隔离性为1，若当前存在事务，则加入该事务；如果当前没有事务，则创建一个新的事务。这是默认值。 */
         requireRule.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
         /* 设置事务失效时间，如果超过设定时间(秒)，则回滚事务 */
-        System.out.println(transactionTimeOut);
-       // requireRule.setTimeout(transactionTimeOut);
+        requireRule.setTimeout(transactionTimeOut);
         Map<String, TransactionAttribute> txMap = new HashMap<>();
         txMap.put("add*", requireRule);
         txMap.put("save*", requireRule);

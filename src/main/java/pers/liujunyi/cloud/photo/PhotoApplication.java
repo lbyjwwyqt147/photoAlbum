@@ -17,7 +17,7 @@ import pers.liujunyi.common.configuration.MySQLUpperCaseStrategy;
 @EnableJpaAuditing
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @ComponentScan(basePackages = {"pers.liujunyi.common", "pers.liujunyi.cloud.photo"}, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {MySQLUpperCaseStrategy.class}))
-@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 public class PhotoApplication {
 
     public static void main(String[] args) {

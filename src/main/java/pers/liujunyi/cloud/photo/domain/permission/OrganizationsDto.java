@@ -57,6 +57,11 @@ public class OrganizationsDto extends BaseDto {
     @Length(min = 0, max = 180, message = "机构名称 最多可以输入180个字符")
     private String fullName;
 
+    /** 完整的层级 */
+    @ApiModelProperty(value = "完整的层级")
+    @Length(min = 0, max = 32, message = "完整的层级 最多可以输入32个字符")
+    private String fullParent;
+
     /** 描述说明 */
     @ApiModelProperty(value = "描述说明")
     @Length(min = 0, max = 100, message = "机构名称 最多可以输入100个字符")

@@ -8,6 +8,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 import pers.liujunyi.common.entity.BaseEntity;
 
 import javax.persistence.Entity;
@@ -42,19 +43,19 @@ public class AlbumPicture extends BaseEntity {
     private Long pictureId;
 
     /** 照片地址 */
-    @Field(index = false)
+    @Field(type = FieldType.Keyword, index = false)
     private String pictureLocation;
 
     /** 照片名称 */
-    @Field(index = false)
+    @Field(type = FieldType.Keyword, index = false)
     private String pictureName;
 
     /** 照片说明 */
-    @Field(index = false)
+    @Field(type = FieldType.Keyword, index = false)
     private String description;
 
     /** 备注 */
-    @Field(index = false)
+    @Field(type = FieldType.Keyword, index = false)
     private String remarks;
 
     /** 是否是封面 0：是封面  1：不是 */

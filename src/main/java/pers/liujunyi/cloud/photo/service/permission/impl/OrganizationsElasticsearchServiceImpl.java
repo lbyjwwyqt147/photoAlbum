@@ -8,7 +8,6 @@ import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import pers.liujunyi.cloud.photo.domain.permission.OrganizationsQueryDto;
-import pers.liujunyi.cloud.photo.domain.permission.OrganizationsVo;
 import pers.liujunyi.cloud.photo.entity.permission.Organizations;
 import pers.liujunyi.cloud.photo.repository.elasticsearch.permission.OrganizationsElasticsearchRepository;
 import pers.liujunyi.cloud.photo.service.permission.OrganizationsElasticsearchService;
@@ -17,7 +16,6 @@ import pers.liujunyi.common.repository.elasticsearch.BaseElasticsearchRepository
 import pers.liujunyi.common.restful.ResultInfo;
 import pers.liujunyi.common.restful.ResultUtil;
 import pers.liujunyi.common.service.impl.BaseElasticsearchServiceImpl;
-import pers.liujunyi.common.util.DozerBeanMapperUtil;
 import pers.liujunyi.common.vo.tree.ZTreeBuilder;
 import pers.liujunyi.common.vo.tree.ZTreeNode;
 
@@ -51,6 +49,9 @@ public class OrganizationsElasticsearchServiceImpl extends BaseElasticsearchServ
 
     @Override
     public List<ZTreeNode> orgTree(Long pid) {
+        if (pid.longValue() == 0) {
+            pid = null;
+        }
         List<ZTreeNode> treeNodes = new LinkedList<>();
         List<Organizations> list = this.organizationsElasticsearchRepository.findByParentIdAndOrgStatusOrderBySeqAsc(pid,  Constant.ENABLE_STATUS, super.allPageable);
         if (!CollectionUtils.isEmpty(list)){
@@ -108,12 +109,7 @@ public class OrganizationsElasticsearchServiceImpl extends BaseElasticsearchServ
     public ResultInfo selectById(Long id) {
         Organizations  search =  this.getOrganizations(id);
         if (search != null) {
-            OrganizationsVo organizationsVo = DozerBeanMapperUtil.copyProperties(search, OrganizationsVo.class);
-            Organizations parent = this.getOrganizations(organizationsVo.getParentId());
-            if (parent != null) {
-                organizationsVo.setOrganizationParentName(parent.getOrgName());
-            }
-            return ResultUtil.success(organizationsVo);
+            return ResultUtil.success(search);
         }
         return ResultUtil.fail();
     }

@@ -86,6 +86,9 @@ spring:
 
   # elasticsearch 配置
   data:
+    redis:
+      repositories:
+        enabled: false  # true 会出现 Spring Data Redis - Could not safely identify store assignment for repository candidate interface pers.liujunyi.cloud.photo.repository.jpa.album.AlbumRepository.
     elasticsearch:
       #节点的地址 注意api模式下端口号是9300，千万不要写成9200
       cluster-nodes: 127.0.0.1:9300

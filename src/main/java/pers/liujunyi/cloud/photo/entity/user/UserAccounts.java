@@ -8,6 +8,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -60,10 +61,10 @@ public class UserAccounts implements Serializable {
     private Byte userCategory;
 
     /** 最后修改密码时间 */
-    @Field(index = false)
+    @Field(type = FieldType.Date, index = false)
     private Date changePasswordTime;
 
     /** 修改时间  */
-    @Field(index = false)
+    @Field(type = FieldType.Date, index = false)
     private Date updateTime;
 }

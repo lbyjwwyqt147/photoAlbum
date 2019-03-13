@@ -8,6 +8,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 import pers.liujunyi.common.entity.BaseEntity;
 
 import javax.persistence.Entity;
@@ -68,43 +69,44 @@ public class CustomerDetailInfo extends BaseEntity {
     private Integer district;
 
     /** 所在行政区街道 */
-    @Field(index = false)
+    @Field(type = FieldType.Keyword, index = false)
     private String street;
 
     /** 联系电话 */
+    @Field(type = FieldType.Keyword, index = false)
     private String customerPhone;
 
     /** 电子邮箱 */
-    @Field(index = false)
+    @Field(type = FieldType.Keyword, index = false)
     private String customerEmail;
 
     /** 联系QQ号 */
-    @Field(index = false)
+    @Field(type = FieldType.Keyword, index = false)
     private String customerQq;
 
     /** 联系微信号 */
-    @Field(index = false)
+    @Field(type = FieldType.Keyword, index = false)
     private String customerWechat;
 
     /** 生日 */
     private Date birthday;
 
     /** 年龄 */
-    @Field(index = false)
+    @Field(type = FieldType.Integer, index = false)
     private Byte customerAge;
 
     /** 描述说明 */
-    @Field(index = false)
+    @Field(type = FieldType.Keyword, index = false)
     private String description;
 
     /** 状态：0：正常  1：禁用   */
     private Byte customerStatus;
 
     /** 头像 */
-    @Field(index = false)
+    @Field(type = FieldType.Keyword, index = false)
     private String customerPortrait;
 
     /** 头像id  */
-    @Field(index = false)
+    @Field(type = FieldType.Keyword, index = false)
     private Long customerPortraitId;
 }

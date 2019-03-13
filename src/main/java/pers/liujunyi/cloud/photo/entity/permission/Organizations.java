@@ -8,6 +8,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 import pers.liujunyi.common.entity.BaseEntity;
 
 import javax.persistence.Entity;
@@ -49,11 +50,14 @@ public class Organizations extends BaseEntity {
     private Integer seq;
 
     /** 完整的机构名称 */
-    @Field(index = false)
+    @Field(type = FieldType.Keyword, index = false)
     private String fullName;
 
+    /** 完整的层级 */
+    private String fullParent;
+
     /** 描述说明 */
-    @Field(index = false)
+    @Field(type = FieldType.Auto, index = false)
     private String description;
 
     /** 状态：0：正常  1：禁用 */

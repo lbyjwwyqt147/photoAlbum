@@ -8,6 +8,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 import pers.liujunyi.common.entity.BaseEntity;
 
 import javax.persistence.Entity;
@@ -81,11 +82,11 @@ public class Album extends BaseEntity {
     private String albumMannequin;
 
     /** 背景音乐地址 */
-    @Field(index = false)
+    @Field(type = FieldType.Keyword, index = false)
     private String albumMusicAddress;
 
     /** 版权设置 */
-    @Field(index = false)
+    @Field(type = FieldType.Keyword, index = false)
     private String albumCopyright;
 
     /** 优先级 数字从小到大排列 */
@@ -95,11 +96,11 @@ public class Album extends BaseEntity {
     private String spotForPhotography;
 
     /** 相册描述 */
-    @Field(index = false)
+    @Field(type = FieldType.Keyword, index = false)
     private String albumDescription;
 
     /** 备注 */
-    @Field(index = false)
+    @Field(type = FieldType.Keyword, index = false)
     private String remarks;
 
     /** 拍摄时间 */

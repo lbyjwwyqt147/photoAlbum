@@ -8,6 +8,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 import pers.liujunyi.common.entity.BaseEntity;
 
 import javax.persistence.Entity;
@@ -35,7 +36,7 @@ public class RollingPicture extends BaseEntity {
     private Long pictureId;
 
     /** 照片地址 */
-    @Field(index = false)
+    @Field(type = FieldType.Keyword, index = false)
     private String pictureLocation;
 
     /** 状态 0：展示 1：不展示 */
@@ -48,11 +49,11 @@ public class RollingPicture extends BaseEntity {
     private Byte priority;
 
     /** href */
-    @Field(index = false)
+    @Field(type = FieldType.Keyword, index = false)
     private String hrefLink;
 
     /** 照片说明 */
-    @Field(index = false)
+    @Field(type = FieldType.Keyword, index = false)
     private String description;
 
     /** 文件分类 0：图片 1：文档  2：视频  5：其他 */

@@ -1,5 +1,6 @@
 package pers.liujunyi.cloud.photo.service.permission.impl;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -72,19 +73,38 @@ public class OrganizationsElasticsearchServiceImpl extends BaseElasticsearchServ
         // 查询数据
         SearchQuery searchQuery = query.toSpecPageable(pageable);
         Page<Organizations> searchPageResults = this.organizationsElasticsearchRepository.search(searchQuery);
+        List<Organizations> searchDataList = searchPageResults.getContent();
+        searchDataList.stream().forEach(item -> {
+            String fullName = this.getOrgFullName(item.getId());
+            item.setFullName(fullName);
+        });
         Long totalElements =  searchPageResults.getTotalElements();
-        ResultInfo result = ResultUtil.success(searchPageResults.getContent());
+        ResultInfo result = ResultUtil.success(searchDataList);
         result.setTotal(totalElements);
         return  result;
     }
 
     @Override
     public String getOrgFullName(Long id) {
-        Organizations organizations = getOrganizations(id);
+        StringBuffer fullName = new StringBuffer();
+        Organizations organizations = this.getOrganizations(id);
         if (organizations != null) {
-            return organizations.getFullName();
+            if (StringUtils.isNotBlank(organizations.getFullParent())) {
+                List<Long> parentIds = new LinkedList<>();
+                String[] parentIdArray = organizations.getFullParent().split(":");
+                for (String parentId : parentIdArray) {
+                    parentIds.add(Long.valueOf(parentId));
+                }
+                Map<Long, String> orgNameMap = this.getOrgNameMap(parentIds);
+                if (!CollectionUtils.isEmpty(orgNameMap)) {
+                    for (String orgName : orgNameMap.values()) {
+                        fullName.append(orgName).append("-");
+                    }
+                }
+            }
+            fullName.append(organizations.getOrgName());
         }
-        return "";
+        return fullName.toString();
     }
 
     @Override
@@ -123,6 +143,23 @@ public class OrganizationsElasticsearchServiceImpl extends BaseElasticsearchServ
         Optional<Organizations> organizations = this.organizationsElasticsearchRepository.findById(id);
         if (organizations.isPresent()) {
             return organizations.get();
+        }
+        return null;
+    }
+
+
+    /**
+     * 根据一组id 获取机构名称
+     * @param ids
+     * @return key = id  value = name
+     */
+    private Map<Long, String> getOrgNameMap(List<Long> ids) {
+        if (!CollectionUtils.isEmpty(ids)) {
+            List<Organizations> list = this.organizationsElasticsearchRepository.findByIdInOrderByIdAsc(ids, super.getPageable(ids.size()));
+            if (!CollectionUtils.isEmpty(list)) {
+                return  list.stream().collect(Collectors.toMap(Organizations::getId, Organizations::getOrgName));
+            }
+            return null;
         }
         return null;
     }

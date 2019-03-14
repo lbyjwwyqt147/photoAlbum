@@ -1,6 +1,5 @@
 package pers.liujunyi.cloud.photo.service.permission.impl;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -20,7 +19,6 @@ import pers.liujunyi.common.util.UserUtils;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
 /***
  * 文件名称: OrganizationsServiceImpl.java
@@ -66,40 +64,14 @@ public class OrganizationsServiceImpl extends BaseServiceImpl<Organizations, Lon
             organizations.setUpdateUserId(this.userUtils.getPresentLoginUserId());
         }
         if (record.getParentId().longValue() > 0) {
-            List<Long> parentIds = new LinkedList<>();
-            if (StringUtils.isNotBlank(record.getFullParent())) {
-                String[] parentIdArray = record.getFullParent().split(":");
-                for (String parentId : parentIdArray) {
-                    parentIds.add(Long.valueOf(parentId));
-                }
-                Map<Long, String> orgNameMap = this.getOrgNameMap(parentIds);
-                if (!CollectionUtils.isEmpty(orgNameMap)) {
-                    StringBuffer fullName = new StringBuffer();
-                    StringBuffer fullParentId = new StringBuffer();
-                    for (String orgName : orgNameMap.values()) {
-                        fullName.append(orgName).append("-");
-                    }
-                    for (Long parentId : orgNameMap.keySet()) {
-                        fullParentId.append(parentId).append(":");
-                    }
-                    fullName.append(record.getOrgName());
-                    organizations.setFullName(fullName.toString());
-                    organizations.setFullParent(fullParentId.toString());
-                    organizations.setOrgLevel((byte)(parentIds.size() + 1));
-                }
-            } else {
-                Organizations parent = this.getOrganizations(record.getParentId());
-                organizations.setFullName(parent.getOrgName() + "-" + record.getOrgName());
-                organizations.setFullParent(parent.getFullParent() + ":"  + parent.getId());
-                organizations.setOrgLevel((byte)(parent.getOrgLevel() + 1));
-            }
-
+            Organizations parent = this.getOrganizations(record.getParentId());
+            organizations.setFullParent(parent.getFullParent() + ":"  + parent.getId());
+            organizations.setOrgLevel((byte)(parent.getOrgLevel() + 1));
         } else {
             organizations.setFullParent("0");
-            organizations.setFullName(record.getOrgName());
             organizations.setOrgLevel((byte) 1);
         }
-
+        organizations.setFullName(record.getOrgName());
         Organizations saveObject = this.organizationsRepository.save(organizations);
         if (saveObject == null || saveObject.getId() == null) {
             return ResultUtil.fail();
@@ -211,20 +183,5 @@ public class OrganizationsServiceImpl extends BaseServiceImpl<Organizations, Lon
     }
 
 
-    /**
-     * 根据一组id 获取机构名称
-     * @param ids
-     * @return key = id  value = name
-     */
-    private Map<Long, String> getOrgNameMap(List<Long> ids) {
-        if (!CollectionUtils.isEmpty(ids)) {
-            List<Organizations> list = this.organizationsElasticsearchRepository.findByIdInOrderByIdAsc(ids, super.getPageable(ids.size()));
-            if (!CollectionUtils.isEmpty(list)) {
-                return  list.stream().collect(Collectors.toMap(Organizations::getId, Organizations::getOrgName));
-            }
-            return null;
-        }
-        return null;
-    }
 
 }

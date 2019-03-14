@@ -113,7 +113,7 @@ public class OrganizationsController extends BaseController {
     /**
      * 字典tree 结构数据
      *
-     * @param pid
+     * @param id
      * @return
      */
     @ApiOperation(value = "字典tree 结构数据", notes = "适用于tree 显示数据 请求示例：127.0.0.1:18080/api/v1/organization/tree")
@@ -123,9 +123,8 @@ public class OrganizationsController extends BaseController {
     })
     @PostMapping(value = "organization/ztree")
     @ApiVersion(1)
-        public List<ZTreeNode> orgZTree(@Valid @NotNull(message = "pid 必须填写")
-                                            @RequestParam(name = "pid", required = true) Long pid) {
-        return this.organizationsElasticsearchService.orgTree(pid);
+        public List<ZTreeNode> orgZTree(Long id) {
+        return this.organizationsElasticsearchService.orgTree(id);
     }
 
 

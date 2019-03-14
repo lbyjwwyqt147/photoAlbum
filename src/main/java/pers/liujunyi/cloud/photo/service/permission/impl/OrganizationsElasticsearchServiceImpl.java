@@ -50,9 +50,6 @@ public class OrganizationsElasticsearchServiceImpl extends BaseElasticsearchServ
 
     @Override
     public List<ZTreeNode> orgTree(Long pid) {
-        if (pid.longValue() == 0) {
-            pid = null;
-        }
         List<ZTreeNode> treeNodes = new LinkedList<>();
         List<Organizations> list = this.organizationsElasticsearchRepository.findByParentIdAndOrgStatusOrderBySeqAsc(pid,  Constant.ENABLE_STATUS, super.allPageable);
         if (!CollectionUtils.isEmpty(list)){

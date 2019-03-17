@@ -103,7 +103,7 @@ public class OrganizationsController extends BaseController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1")
     })
-    @GetMapping(value = "organization/grid")
+    @GetMapping(value = "table/organization/grid")
     @ApiVersion(1)
     public ResultInfo findPageGrid(@Valid OrganizationsQueryDto query) {
         return this.organizationsElasticsearchService.findPageGird(query);
@@ -121,9 +121,9 @@ public class OrganizationsController extends BaseController {
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
             @ApiImplicitParam(name = "pid", value = "pid",  required = true, dataType = "Long")
     })
-    @PostMapping(value = "organization/ztree")
+    @GetMapping(value = "tree/organization/ztree")
     @ApiVersion(1)
-        public List<ZTreeNode> orgZTree(Long id) {
+    public List<ZTreeNode> orgZTree(Long id) {
         return this.organizationsElasticsearchService.orgTree(id);
     }
 

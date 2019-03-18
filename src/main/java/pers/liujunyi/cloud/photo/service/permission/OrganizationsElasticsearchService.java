@@ -4,7 +4,7 @@ import pers.liujunyi.cloud.photo.domain.permission.OrganizationsQueryDto;
 import pers.liujunyi.cloud.photo.entity.permission.Organizations;
 import pers.liujunyi.common.restful.ResultInfo;
 import pers.liujunyi.common.service.BaseElasticsearchService;
-import pers.liujunyi.common.vo.tree.ZTreeNode;
+import pers.liujunyi.common.vo.tree.ZtreeNode;
 
 import java.util.List;
 import java.util.Map;
@@ -27,7 +27,7 @@ public interface OrganizationsElasticsearchService extends BaseElasticsearchServ
      * @param pid
      * @return
      */
-    List<ZTreeNode> orgTree(Long pid);
+    List<ZtreeNode> orgTree(Long pid);
 
     /**
      * 分页列表

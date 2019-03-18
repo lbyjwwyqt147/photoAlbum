@@ -15,7 +15,7 @@ import pers.liujunyi.common.annotation.ApiVersion;
 import pers.liujunyi.common.controller.BaseController;
 import pers.liujunyi.common.restful.ResultInfo;
 import pers.liujunyi.common.restful.ResultUtil;
-import pers.liujunyi.common.vo.tree.ZTreeNode;
+import pers.liujunyi.common.vo.tree.ZtreeNode;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -123,7 +123,7 @@ public class OrganizationsController extends BaseController {
     })
     @GetMapping(value = "tree/organization/ztree")
     @ApiVersion(1)
-    public List<ZTreeNode> orgZTree(Long id) {
+    public List<ZtreeNode> orgZTree(Long id) {
         return this.organizationsElasticsearchService.orgTree(id);
     }
 

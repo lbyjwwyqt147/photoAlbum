@@ -17,8 +17,8 @@ import pers.liujunyi.common.repository.elasticsearch.BaseElasticsearchRepository
 import pers.liujunyi.common.restful.ResultInfo;
 import pers.liujunyi.common.restful.ResultUtil;
 import pers.liujunyi.common.service.impl.BaseElasticsearchServiceImpl;
-import pers.liujunyi.common.vo.tree.ZTreeBuilder;
-import pers.liujunyi.common.vo.tree.ZTreeNode;
+import pers.liujunyi.common.vo.tree.ZtreeBuilder;
+import pers.liujunyi.common.vo.tree.ZtreeNode;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -49,16 +49,16 @@ public class OrganizationsElasticsearchServiceImpl extends BaseElasticsearchServ
 
 
     @Override
-    public List<ZTreeNode> orgTree(Long pid) {
-        List<ZTreeNode> treeNodes = new LinkedList<>();
+    public List<ZtreeNode> orgTree(Long pid) {
+        List<ZtreeNode> treeNodes = new LinkedList<>();
         List<Organizations> list = this.organizationsElasticsearchRepository.findByParentIdAndOrgStatusOrderBySeqAsc(pid,  Constant.ENABLE_STATUS, super.allPageable);
         if (!CollectionUtils.isEmpty(list)){
             list.stream().forEach(item -> {
-                ZTreeNode zTreeNode = new ZTreeNode(item.getId(), item.getParentId(), item.getOrgName());
+                ZtreeNode zTreeNode = new ZtreeNode(item.getId(), item.getParentId(), item.getOrgName());
                 treeNodes.add(zTreeNode);
             });
         }
-        return ZTreeBuilder.buildListToTree(treeNodes);
+        return ZtreeBuilder.buildListToTree(treeNodes);
     }
 
     @Override

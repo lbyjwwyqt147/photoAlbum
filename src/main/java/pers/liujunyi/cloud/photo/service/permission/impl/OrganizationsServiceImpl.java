@@ -135,6 +135,8 @@ public class OrganizationsServiceImpl extends BaseServiceImpl<Organizations, Lon
             } else {
                 this.organizationsElasticsearchRepository.saveAll(list);
             }
+        } else {
+            this.organizationsElasticsearchRepository.deleteAll();
         }
         return ResultUtil.success();
     }

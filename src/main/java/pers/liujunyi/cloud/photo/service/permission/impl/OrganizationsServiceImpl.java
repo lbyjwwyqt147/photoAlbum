@@ -82,6 +82,7 @@ public class OrganizationsServiceImpl extends BaseServiceImpl<Organizations, Lon
 
     @Override
     public ResultInfo updateStatus(Byte status, List<Long> ids) {
+        int a = 0/0;
         int count = this.organizationsRepository.setOrgStatusByIds(status, new Date(), ids);
         if (count > 0) {
             Map<String, Map<String, Object>> sourceMap = new ConcurrentHashMap<>();

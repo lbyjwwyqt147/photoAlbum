@@ -63,4 +63,16 @@ public class Organizations extends BaseEntity {
     /** 状态：0：正常  1：禁用 */
     private Byte orgStatus;
 
+    /** 预留字段1 */
+    @Field(type = FieldType.Keyword, index = false)
+    private String attributeOne;
+
+    /** 预留字段2 */
+    @Field(type = FieldType.Keyword, index = false)
+    private String attributeTwo;
+
+    /** 预留字段3 */
+    @Field(type = FieldType.Keyword, index = false)
+    private String attributeThree;
+
 }

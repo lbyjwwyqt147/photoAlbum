@@ -6,10 +6,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
 import pers.liujunyi.common.dto.BaseDto;
+import pers.liujunyi.common.util.RegexpUtils;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 
 /***
  * 文件名称: OrganizationsDto.java
@@ -28,19 +27,22 @@ import javax.validation.constraints.NotNull;
 public class OrganizationsDto extends BaseDto {
     private static final long serialVersionUID = -2904937024962048531L;
     /** 机构编号 */
-    @ApiModelProperty(value = "机构编号")
-    @NotBlank(message = "机构编号必须填写")
-    @Length(min = 0, max = 15, message = "机构编号 最多可以输入15个字符")
+    @ApiModelProperty(value = "机构代码")
+    @NotBlank(message = "机构代码必须填写")
+    @Length(min = 0, max = 15, message = "机构代码 最多可以输入15个字符")
+    @Pattern(regexp = RegexpUtils.ALNUM_CODE_REGEXP, message = "机构代码" + RegexpUtils.ALNUM_CODE_MSG)
     private String orgNumber;
 
     /** 机构名称 */
     @ApiModelProperty(value = "机构名称")
     @NotBlank(message = "机构名称必须填写")
     @Length(min = 0, max = 32, message = "机构名称 最多可以输入32个字符")
+    @Pattern(regexp = RegexpUtils.ALNUM_NAME_REGEXP, message = "机构名称" + RegexpUtils.ALNUM_NAME_MSG)
     private String orgName;
 
     /** 机构级别 */
     @ApiModelProperty(value = "机构级别")
+    @Max(value = 127)
     private Byte orgLevel;
 
     /** 父级主键id */
@@ -50,6 +52,7 @@ public class OrganizationsDto extends BaseDto {
 
     /** 排序号 */
     @ApiModelProperty(value = "序号")
+    @Max(value = 999)
     private Integer seq;
 
     /** 完整的机构名称 */
@@ -66,11 +69,13 @@ public class OrganizationsDto extends BaseDto {
     /** 描述说明 */
     @ApiModelProperty(value = "描述说明")
     @Length(min = 0, max = 100, message = "机构名称 最多可以输入100个字符")
+    @Pattern(regexp = RegexpUtils.ILLEGITMACY_REGEXP, message = "机构名称" + RegexpUtils.ILLEGITMACY_MSG)
     private String description;
 
     /** 状态：0：正常  1：禁用 */
     @ApiModelProperty(value = "状态")
     @Min(value = 0, message = "状态 必须是数字类型")
+    @Max(value = 127)
     private Byte orgStatus;
 
     /** 预留字段1 */

@@ -34,4 +34,13 @@ public interface OrganizationsElasticsearchRepository extends BaseElasticsearchR
      * @return
      */
     List<Organizations> findByParentIdAndOrgStatusOrderBySeqAsc(Long pid, Byte orgStatus, Pageable page);
+
+    /**
+     * 根据 fullParentCode 获取数据
+     * @param fullParentCode
+     * @param orgStatus  0：正常  1：禁用
+     * @return
+     */
+    List<Organizations> findByFullParentCodeLikeAndOrgStatusOrderBySeqAsc(String fullParentCode, Byte orgStatus, Pageable page);
+
 }

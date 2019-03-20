@@ -9,8 +9,9 @@ spring:
     date-format: yyyy-MM-dd HH:mm:ss
   profiles:
     active: dev
+  # 名称必须配置
   application:
-    name: album
+    name: photo_album
 
   jpa:
     open-in-view: true

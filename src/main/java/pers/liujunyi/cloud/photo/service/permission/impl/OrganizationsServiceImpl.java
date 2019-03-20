@@ -1,5 +1,6 @@
 package pers.liujunyi.cloud.photo.service.permission.impl;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -67,9 +68,11 @@ public class OrganizationsServiceImpl extends BaseServiceImpl<Organizations, Lon
             Organizations parent = this.getOrganizations(record.getParentId());
             organizations.setFullParent(parent.getFullParent() + ":"  + parent.getId());
             organizations.setOrgLevel((byte)(parent.getOrgLevel() + 1));
+            organizations.setFullParentCode(StringUtils.isNotBlank(parent.getFullParentCode()) ? parent.getFullParentCode()   + ":" + parent.getOrgNumber() : parent.getOrgNumber());
         } else {
             organizations.setFullParent("0");
             organizations.setOrgLevel((byte) 1);
+            organizations.setFullParent(null);
         }
         organizations.setFullName(record.getOrgName());
         Organizations saveObject = this.organizationsRepository.save(organizations);

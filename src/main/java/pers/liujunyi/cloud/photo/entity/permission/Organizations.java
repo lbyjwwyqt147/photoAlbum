@@ -53,8 +53,11 @@ public class Organizations extends BaseEntity {
     @Field(type = FieldType.Keyword, index = false)
     private String fullName;
 
-    /** 完整的层级 */
+    /** 完整的层级Id */
     private String fullParent;
+
+    /** 完整的层级代码 */
+    private String fullParentCode;
 
     /** 描述说明 */
     @Field(type = FieldType.Auto, index = false)

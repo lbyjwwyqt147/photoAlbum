@@ -23,11 +23,19 @@ import java.util.Map;
 public interface OrganizationsElasticsearchService extends BaseElasticsearchService<Organizations, Long> {
 
     /**
-     * 符合 ztree 结构的数据
+     *  根据 pid 符合 ztree 结构的数据
      * @param pid
+     * @param status
      * @return
      */
-    List<ZtreeNode> orgTree(Long pid);
+    List<ZtreeNode> orgTree(Long pid, Byte status);
+
+    /**
+     * 根据 fullParentCode 获取 符合 ztree 结构的数据
+     * @param fullParentCode
+     * @return
+     */
+    List<ZtreeNode> orgFullParentCodeTree(String fullParentCode);
 
     /**
      * 分页列表

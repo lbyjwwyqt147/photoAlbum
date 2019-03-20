@@ -49,16 +49,15 @@ public class OrganizationsElasticsearchServiceImpl extends BaseElasticsearchServ
 
 
     @Override
-    public List<ZtreeNode> orgTree(Long pid) {
-        List<ZtreeNode> treeNodes = new LinkedList<>();
-        List<Organizations> list = this.organizationsElasticsearchRepository.findByParentIdAndOrgStatusOrderBySeqAsc(pid,  Constant.ENABLE_STATUS, super.allPageable);
-        if (!CollectionUtils.isEmpty(list)){
-            list.stream().forEach(item -> {
-                ZtreeNode zTreeNode = new ZtreeNode(item.getId(), item.getParentId(), item.getOrgName());
-                treeNodes.add(zTreeNode);
-            });
-        }
-        return ZtreeBuilder.buildListToTree(treeNodes);
+    public List<ZtreeNode> orgTree(Long pid, Byte status) {
+        List<Organizations> list = this.organizationsElasticsearchRepository.findByParentIdAndOrgStatusOrderBySeqAsc(pid,  status, super.allPageable);
+        return this.startBuilderZtree(list);
+    }
+
+    @Override
+    public List<ZtreeNode> orgFullParentCodeTree(String fullParentCode) {
+        List<Organizations> list = this.organizationsElasticsearchRepository.findByFullParentCodeLikeAndOrgStatusOrderBySeqAsc(fullParentCode,  Constant.ENABLE_STATUS, super.allPageable);
+        return this.startBuilderZtree(list);
     }
 
     @Override
@@ -159,5 +158,21 @@ public class OrganizationsElasticsearchServiceImpl extends BaseElasticsearchServ
             return null;
         }
         return null;
+    }
+
+    /**
+     * 构建 ztree
+     * @param list
+     * @return
+     */
+    private List<ZtreeNode> startBuilderZtree( List<Organizations> list){
+        List<ZtreeNode> treeNodes = new LinkedList<>();
+        if (!CollectionUtils.isEmpty(list)){
+            list.stream().forEach(item -> {
+                ZtreeNode zTreeNode = new ZtreeNode(item.getId(), item.getParentId(), item.getOrgName());
+                treeNodes.add(zTreeNode);
+            });
+        }
+        return ZtreeBuilder.buildListToTree(treeNodes);
     }
 }

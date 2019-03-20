@@ -11,6 +11,7 @@ import pers.liujunyi.cloud.photo.domain.permission.OrganizationsDto;
 import pers.liujunyi.cloud.photo.domain.permission.OrganizationsQueryDto;
 import pers.liujunyi.cloud.photo.service.permission.OrganizationsElasticsearchService;
 import pers.liujunyi.cloud.photo.service.permission.OrganizationsService;
+import pers.liujunyi.cloud.photo.util.Constant;
 import pers.liujunyi.common.annotation.ApiVersion;
 import pers.liujunyi.common.controller.BaseController;
 import pers.liujunyi.common.restful.ResultInfo;
@@ -111,12 +112,12 @@ public class OrganizationsController extends BaseController {
 
 
     /**
-     * 字典tree 结构数据
+     * 根据 pid 获取 组织机构tree 结构数据 (只包含正常数据 不包含禁用数据)
      *
      * @param id
      * @return
      */
-    @ApiOperation(value = "字典tree 结构数据", notes = "适用于tree 显示数据 请求示例：127.0.0.1:18080/api/v1/organization/tree")
+    @ApiOperation(value = "根据 pid 获取 组织机构tree 结构数据 (只包含正常数据 不包含禁用数据)", notes = "适用于tree 显示数据 请求示例：127.0.0.1:18080/api/v1/organization/tree")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
             @ApiImplicitParam(name = "pid", value = "pid",  required = true, dataType = "Long")
@@ -124,7 +125,41 @@ public class OrganizationsController extends BaseController {
     @GetMapping(value = "tree/organization/ztree")
     @ApiVersion(1)
     public List<ZtreeNode> orgZTree(Long id) {
-        return this.organizationsElasticsearchService.orgTree(id);
+        return this.organizationsElasticsearchService.orgTree(id, Constant.ENABLE_STATUS);
+    }
+
+    /**
+     * 根据 pid 获取 组织机构tree 结构数据 (包含禁用数据)
+     *
+     * @param id
+     * @return
+     */
+    @ApiOperation(value = "根据 pid 获取 组织机构tree 结构数据 (包含禁用数据)", notes = "适用于tree 显示数据 请求示例：127.0.0.1:18080/api/v1/organization/tree")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "pid", value = "pid",  required = true, dataType = "Long")
+    })
+    @GetMapping(value = "tree/organization/all/ztree")
+    @ApiVersion(1)
+    public List<ZtreeNode> orgAllZTree(Long id) {
+        return this.organizationsElasticsearchService.orgTree(id, null);
+    }
+
+    /**
+     * 根据 fullParentCode 获取 组织机构tree 结构数据
+     *
+     * @param code
+     * @return
+     */
+    @ApiOperation(value = "根据 fullParentCode 获取 组织机构tree 结构数据", notes = "适用于tree 显示数据 请求示例：127.0.0.1:18080/api/v1/organization/tree")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "code", value = "code",  required = true, dataType = "String")
+    })
+    @GetMapping(value = "tree/organization/parentCode/ztree")
+    @ApiVersion(1)
+    public List<ZtreeNode> orgParentCodeZTree(String code) {
+        return this.organizationsElasticsearchService.orgFullParentCodeTree(code);
     }
 
 

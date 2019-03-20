@@ -3,8 +3,8 @@ package pers.liujunyi.cloud.photo.repository.jpa.user;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
+import pers.liujunyi.cloud.common.repository.jpa.BaseRepository;
 import pers.liujunyi.cloud.photo.entity.user.CustomerDetailInfo;
-import pers.liujunyi.common.repository.jpa.BaseRepository;
 
 import java.util.Date;
 import java.util.List;

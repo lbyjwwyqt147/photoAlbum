@@ -1,10 +1,10 @@
 package pers.liujunyi.cloud.photo.service.permission;
 
+import pers.liujunyi.cloud.common.restful.ResultInfo;
+import pers.liujunyi.cloud.common.service.BaseElasticsearchService;
+import pers.liujunyi.cloud.common.vo.tree.ZtreeNode;
 import pers.liujunyi.cloud.photo.domain.permission.OrganizationsQueryDto;
 import pers.liujunyi.cloud.photo.entity.permission.Organizations;
-import pers.liujunyi.common.restful.ResultInfo;
-import pers.liujunyi.common.service.BaseElasticsearchService;
-import pers.liujunyi.common.vo.tree.ZtreeNode;
 
 import java.util.List;
 import java.util.Map;

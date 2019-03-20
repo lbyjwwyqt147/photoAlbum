@@ -7,7 +7,7 @@ import lombok.ToString;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.elasticsearch.annotations.Document;
-import pers.liujunyi.common.entity.BaseEntity;
+import pers.liujunyi.cloud.common.entity.BaseEntity;
 
 import javax.persistence.Entity;
 

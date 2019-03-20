@@ -2,11 +2,12 @@ package pers.liujunyi.cloud.photo.service.user.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pers.liujunyi.cloud.common.repository.elasticsearch.BaseElasticsearchRepository;
+import pers.liujunyi.cloud.common.service.impl.BaseElasticsearchServiceImpl;
 import pers.liujunyi.cloud.photo.entity.UserAccounts;
 import pers.liujunyi.cloud.photo.repository.elasticsearch.user.UserAccountsElasticsearchRepository;
 import pers.liujunyi.cloud.photo.service.user.UserAccountsElasticsearchService;
-import pers.liujunyi.common.repository.elasticsearch.BaseElasticsearchRepository;
-import pers.liujunyi.common.service.impl.BaseElasticsearchServiceImpl;
+
 
 /***
  * 文件名称: UserAccountsElasticsearchServiceImpl.java

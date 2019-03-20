@@ -6,15 +6,15 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import pers.liujunyi.cloud.common.annotation.ApiVersion;
+import pers.liujunyi.cloud.common.controller.BaseController;
+import pers.liujunyi.cloud.common.restful.ResultInfo;
+import pers.liujunyi.cloud.common.restful.ResultUtil;
 import pers.liujunyi.cloud.photo.domain.IdParamDto;
 import pers.liujunyi.cloud.photo.domain.album.AlbumDto;
 import pers.liujunyi.cloud.photo.domain.album.AlbumQueryDto;
 import pers.liujunyi.cloud.photo.service.album.AlbumElasticsearchService;
 import pers.liujunyi.cloud.photo.service.album.AlbumService;
-import pers.liujunyi.common.annotation.ApiVersion;
-import pers.liujunyi.common.controller.BaseController;
-import pers.liujunyi.common.restful.ResultInfo;
-import pers.liujunyi.common.restful.ResultUtil;
 
 import javax.validation.Valid;
 

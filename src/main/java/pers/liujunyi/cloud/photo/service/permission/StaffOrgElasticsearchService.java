@@ -1,7 +1,7 @@
 package pers.liujunyi.cloud.photo.service.permission;
 
+import pers.liujunyi.cloud.common.service.BaseElasticsearchService;
 import pers.liujunyi.cloud.photo.entity.permission.StaffOrg;
-import pers.liujunyi.common.service.BaseElasticsearchService;
 
 /***
  * 文件名称: StaffOrgElasticsearchService.java

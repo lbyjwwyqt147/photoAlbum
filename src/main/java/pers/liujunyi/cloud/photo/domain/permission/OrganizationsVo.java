@@ -4,7 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import pers.liujunyi.common.vo.BaseVo;
+import pers.liujunyi.cloud.common.vo.BaseVo;
 
 /***
  * 文件名称: OrganizationsVo.java

@@ -2,8 +2,8 @@ package pers.liujunyi.cloud.photo.domain.album;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import pers.liujunyi.cloud.common.vo.BaseVo;
 import pers.liujunyi.cloud.photo.entity.album.AlbumPicture;
-import pers.liujunyi.common.vo.BaseVo;
 
 import java.util.Date;
 import java.util.List;

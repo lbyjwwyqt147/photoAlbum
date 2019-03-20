@@ -1,9 +1,9 @@
 package pers.liujunyi.cloud.photo;
 
 import com.alibaba.fastjson.JSON;
-import pers.liujunyi.common.restful.ResultUtil;
-import pers.liujunyi.common.vo.menus.ModuleTreeBuilder;
-import pers.liujunyi.common.vo.menus.ModuleVo;
+import pers.liujunyi.cloud.common.restful.ResultUtil;
+import pers.liujunyi.cloud.common.vo.menus.ModuleTreeBuilder;
+import pers.liujunyi.cloud.common.vo.menus.ModuleVo;
 
 import java.util.LinkedList;
 import java.util.List;

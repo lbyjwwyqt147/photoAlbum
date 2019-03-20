@@ -2,8 +2,8 @@ package pers.liujunyi.cloud.photo.repository.elasticsearch.album;
 
 import org.springframework.data.elasticsearch.annotations.Query;
 import org.springframework.data.jpa.repository.Modifying;
+import pers.liujunyi.cloud.common.repository.elasticsearch.BaseElasticsearchRepository;
 import pers.liujunyi.cloud.photo.entity.album.Album;
-import pers.liujunyi.common.repository.elasticsearch.BaseElasticsearchRepository;
 
 import java.util.Date;
 import java.util.List;

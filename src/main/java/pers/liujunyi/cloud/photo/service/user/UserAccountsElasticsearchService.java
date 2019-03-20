@@ -1,7 +1,7 @@
 package pers.liujunyi.cloud.photo.service.user;
 
+import pers.liujunyi.cloud.common.service.BaseElasticsearchService;
 import pers.liujunyi.cloud.photo.entity.UserAccounts;
-import pers.liujunyi.common.service.BaseElasticsearchService;
 
 /***
  * 文件名称: UserAccountsElasticsearchService.java

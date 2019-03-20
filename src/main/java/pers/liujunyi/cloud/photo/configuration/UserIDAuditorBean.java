@@ -3,7 +3,7 @@ package pers.liujunyi.cloud.photo.configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
-import pers.liujunyi.common.util.UserUtils;
+import pers.liujunyi.cloud.common.util.UserUtils;
 
 import java.util.Optional;
 

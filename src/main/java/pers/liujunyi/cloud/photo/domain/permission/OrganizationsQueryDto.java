@@ -4,9 +4,9 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import pers.liujunyi.common.query.elasticsearch.BaseEsQuery;
-import pers.liujunyi.common.query.jpa.annotation.MatchType;
-import pers.liujunyi.common.query.jpa.annotation.QueryCondition;
+import pers.liujunyi.cloud.common.query.elasticsearch.BaseEsQuery;
+import pers.liujunyi.cloud.common.query.jpa.annotation.MatchType;
+import pers.liujunyi.cloud.common.query.jpa.annotation.QueryCondition;
 
 import javax.validation.constraints.Min;
 

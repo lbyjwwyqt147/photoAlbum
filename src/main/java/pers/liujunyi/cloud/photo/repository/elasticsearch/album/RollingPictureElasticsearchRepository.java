@@ -1,7 +1,7 @@
 package pers.liujunyi.cloud.photo.repository.elasticsearch.album;
 
+import pers.liujunyi.cloud.common.repository.elasticsearch.BaseElasticsearchRepository;
 import pers.liujunyi.cloud.photo.entity.album.RollingPicture;
-import pers.liujunyi.common.repository.elasticsearch.BaseElasticsearchRepository;
 
 /***
  * 文件名称: RollingPictureElasticsearchRepository.java

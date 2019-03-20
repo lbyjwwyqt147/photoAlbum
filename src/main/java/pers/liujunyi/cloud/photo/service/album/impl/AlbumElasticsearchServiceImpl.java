@@ -6,6 +6,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Service;
+import pers.liujunyi.cloud.common.repository.elasticsearch.BaseElasticsearchRepository;
+import pers.liujunyi.cloud.common.restful.ResultInfo;
+import pers.liujunyi.cloud.common.restful.ResultUtil;
+import pers.liujunyi.cloud.common.service.impl.BaseElasticsearchServiceImpl;
+import pers.liujunyi.cloud.common.util.DictUtil;
 import pers.liujunyi.cloud.photo.domain.album.AlbumQueryDto;
 import pers.liujunyi.cloud.photo.domain.album.AlbumVo;
 import pers.liujunyi.cloud.photo.entity.album.Album;
@@ -14,11 +19,6 @@ import pers.liujunyi.cloud.photo.repository.elasticsearch.album.AlbumElasticsear
 import pers.liujunyi.cloud.photo.repository.elasticsearch.album.AlbumPictureElasticsearchRepository;
 import pers.liujunyi.cloud.photo.service.album.AlbumElasticsearchService;
 import pers.liujunyi.cloud.photo.util.DictConstant;
-import pers.liujunyi.common.repository.elasticsearch.BaseElasticsearchRepository;
-import pers.liujunyi.common.restful.ResultInfo;
-import pers.liujunyi.common.restful.ResultUtil;
-import pers.liujunyi.common.service.impl.BaseElasticsearchServiceImpl;
-import pers.liujunyi.common.util.DictUtil;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;

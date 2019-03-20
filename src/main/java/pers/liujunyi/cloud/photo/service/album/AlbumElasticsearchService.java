@@ -1,9 +1,10 @@
 package pers.liujunyi.cloud.photo.service.album;
 
+import pers.liujunyi.cloud.common.restful.ResultInfo;
+import pers.liujunyi.cloud.common.service.BaseElasticsearchService;
 import pers.liujunyi.cloud.photo.domain.album.AlbumQueryDto;
 import pers.liujunyi.cloud.photo.entity.album.Album;
-import pers.liujunyi.common.restful.ResultInfo;
-import pers.liujunyi.common.service.BaseElasticsearchService;
+
 
 /***
  * 文件名称: AlbumElasticsearchService.java

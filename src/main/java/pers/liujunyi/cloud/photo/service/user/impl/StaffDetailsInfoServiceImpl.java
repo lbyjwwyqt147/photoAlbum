@@ -2,14 +2,14 @@ package pers.liujunyi.cloud.photo.service.user.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pers.liujunyi.cloud.common.repository.jpa.BaseRepository;
+import pers.liujunyi.cloud.common.restful.ResultInfo;
+import pers.liujunyi.cloud.common.service.impl.BaseServiceImpl;
 import pers.liujunyi.cloud.photo.domain.album.AlbumDto;
 import pers.liujunyi.cloud.photo.entity.StaffDetailsInfo;
 import pers.liujunyi.cloud.photo.repository.elasticsearch.user.StaffDetailsInfoElasticsearchRepository;
 import pers.liujunyi.cloud.photo.repository.jpa.user.StaffDetailsInfoRepository;
 import pers.liujunyi.cloud.photo.service.user.StaffDetailsInfoService;
-import pers.liujunyi.common.repository.jpa.BaseRepository;
-import pers.liujunyi.common.restful.ResultInfo;
-import pers.liujunyi.common.service.impl.BaseServiceImpl;
 
 import java.util.List;
 

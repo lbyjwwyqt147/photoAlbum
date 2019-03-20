@@ -1,9 +1,9 @@
 package pers.liujunyi.cloud.photo.service.permission;
 
+import pers.liujunyi.cloud.common.restful.ResultInfo;
+import pers.liujunyi.cloud.common.service.BaseService;
 import pers.liujunyi.cloud.photo.domain.album.AlbumDto;
 import pers.liujunyi.cloud.photo.entity.permission.StaffOrg;
-import pers.liujunyi.common.restful.ResultInfo;
-import pers.liujunyi.common.service.BaseService;
 
 import java.util.List;
 

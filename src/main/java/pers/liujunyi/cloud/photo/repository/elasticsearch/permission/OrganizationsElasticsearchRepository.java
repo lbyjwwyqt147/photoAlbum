@@ -1,8 +1,8 @@
 package pers.liujunyi.cloud.photo.repository.elasticsearch.permission;
 
 import org.springframework.data.domain.Pageable;
+import pers.liujunyi.cloud.common.repository.elasticsearch.BaseElasticsearchRepository;
 import pers.liujunyi.cloud.photo.entity.permission.Organizations;
-import pers.liujunyi.common.repository.elasticsearch.BaseElasticsearchRepository;
 
 import java.util.List;
 

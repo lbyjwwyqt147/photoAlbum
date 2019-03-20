@@ -3,7 +3,7 @@ package pers.liujunyi.cloud.photo.domain.album;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import pers.liujunyi.common.dto.BaseDto;
+import pers.liujunyi.cloud.common.dto.BaseDto;
 
 /**
  * 轮播图片

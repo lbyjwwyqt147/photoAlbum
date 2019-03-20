@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
-import pers.liujunyi.common.dto.BaseDto;
+import pers.liujunyi.cloud.common.dto.BaseDto;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;

@@ -28,9 +28,11 @@ public class IdParamDto implements Serializable {
     @ApiModelProperty(value = "otherId")
     private Long otherId;
 
+    /** 一组 id  必须是 1,2,3 格式  */
     @ApiModelProperty(value = "ids")
     private String ids;
 
+    /** 一组 id  必须是 1,2,3 格式  */
     @ApiModelProperty(value = "otherId")
     private String otherIds;
 
@@ -41,6 +43,10 @@ public class IdParamDto implements Serializable {
     private List<Long> otherIdList;
 
     @ApiModelProperty(value = "code")
+    private String code;
+
+    /** 一组 code  必须是 1,2,3 格式  */
+    @ApiModelProperty(value = "codes")
     private String codes;
 
     @ApiModelProperty(value = "codes")

@@ -1,12 +1,7 @@
 package pers.liujunyi.cloud.photo.repository.elasticsearch.user;
 
-import org.springframework.data.elasticsearch.annotations.Query;
-import org.springframework.data.jpa.repository.Modifying;
 import pers.liujunyi.cloud.common.repository.elasticsearch.BaseElasticsearchRepository;
 import pers.liujunyi.cloud.photo.entity.StaffDetailsInfo;
-
-import java.util.Date;
-import java.util.List;
 
 /***
  * 文件名称: StaffDetailsInfoElasticsearchRepository.java
@@ -20,19 +15,17 @@ import java.util.List;
  * @author ljy
  */
 public interface StaffDetailsInfoElasticsearchRepository extends BaseElasticsearchRepository<StaffDetailsInfo, Long> {
+
     /**
-     * 修改状态
-     * @param staffStatus   0：正常  1：冻结  2：离职
-     * @param ids
+     * 根据 帐号id 获取员工详细数据
+     * @param staffAccountsId
+     * @param  staffStatus   0：正常  1：冻结  2：离职
      * @return
      */
-    @Modifying(clearAutomatically = true)
-    @Query("update StaffDetailsInfo u set u.staffStatus = ?1, u.updateTime = ?2 where u.id in (?3)")
-    int setStaffStatusByIds(Byte staffStatus, Date updateTime, List<Long> ids);
-
+    StaffDetailsInfo findFirstByStaffAccountsIdAndStaffStatus(Long staffAccountsId, Byte staffStatus);
 
     /**
-     * 根据 帐号id 获取顾客详细数据
+     * 根据 帐号id 获取员工详细数据
      * @param staffAccountsId
      * @return
      */

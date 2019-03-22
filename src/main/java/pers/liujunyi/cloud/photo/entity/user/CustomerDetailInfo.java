@@ -88,6 +88,10 @@ public class CustomerDetailInfo extends BaseEntity {
     @Field(type = FieldType.Keyword, index = false)
     private String customerWechat;
 
+    /** 微博 */
+    @Field(type = FieldType.Keyword, index = false)
+    private String customerWeiBo;
+
     /** 生日 */
     private Date birthday;
 

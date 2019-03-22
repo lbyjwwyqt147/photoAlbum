@@ -68,6 +68,9 @@ public class StaffDetailsInfo extends BaseEntity {
     /** 所在行政区 */
     private Integer district;
 
+    /**  身份证号  */
+    private String staffIdentiyCard;
+
     /** 所在行政区街道 */
     @Field(type = FieldType.Keyword, index = false)
     private String street;
@@ -87,6 +90,11 @@ public class StaffDetailsInfo extends BaseEntity {
     /** 联系微信号 */
     @Field(type = FieldType.Keyword, index = false)
     private String staffWechat;
+
+    /** 微博 */
+    @Field(type = FieldType.Keyword, index = false)
+    private String staffWeiBo;
+
 
     /** 生日 */
     private Date birthday;

@@ -2,7 +2,7 @@ package pers.liujunyi.cloud.photo.service.user;
 
 import pers.liujunyi.cloud.common.restful.ResultInfo;
 import pers.liujunyi.cloud.common.service.BaseService;
-import pers.liujunyi.cloud.photo.domain.album.AlbumDto;
+import pers.liujunyi.cloud.photo.domain.user.StaffDetailsInfoDto;
 import pers.liujunyi.cloud.photo.entity.StaffDetailsInfo;
 
 import java.util.List;
@@ -25,22 +25,30 @@ public interface StaffDetailsInfoService extends BaseService<StaffDetailsInfo, L
      * @param record
      * @return
      */
-    ResultInfo saveRecord(AlbumDto record);
+    ResultInfo saveRecord(StaffDetailsInfoDto record);
 
     /**
      * 修改状态
-     * @param status   0：已发布（可见）  1：不可见  2：草稿
+     * @param status   0：正常  1：冻结  2：离职
      * @param ids
      * @return
      */
-    ResultInfo updateStatus(Byte status, List<Long> ids);
+    ResultInfo updateStatus(Byte status, List<Long> ids, List<Long> userIds);
 
     /**
      * 批量删除
      * @param ids
      * @return
      */
-    ResultInfo batchDeletes(List<Long> ids);
+    ResultInfo batchDeletes(List<Long> ids, List<Long> userIds);
+
+    /**
+     * 单条删除
+     * @param id
+     * @param userId
+     * @return
+     */
+    ResultInfo singleDelete(Long id, Long userId);
 
     /**
      * 同步数据到es中

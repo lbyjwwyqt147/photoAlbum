@@ -34,4 +34,5 @@ public interface StaffDetailsInfoRepository extends BaseRepository<StaffDetailsI
     int setStaffStatusByIds(Byte staffStatus, Date updateTime, List<Long> ids);
 
 
+
 }

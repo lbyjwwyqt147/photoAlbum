@@ -5,6 +5,6 @@ package pers.liujunyi.cloud.photo.util;
  * @author ljy
  */
 public final class RedisKeys {
-
-    public static final String SYSTEM_AUTH = "cloud:core:systemAuthorization";
+    /** 顾客编号 key  */
+    public static final String CUSTOMER_NUMBER = "user:customer:number:";
 }

@@ -6,17 +6,20 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import pers.liujunyi.cloud.common.repository.elasticsearch.BaseElasticsearchRepository;
 import pers.liujunyi.cloud.common.restful.ResultInfo;
 import pers.liujunyi.cloud.common.restful.ResultUtil;
 import pers.liujunyi.cloud.common.service.impl.BaseElasticsearchServiceImpl;
 import pers.liujunyi.cloud.common.util.DictUtil;
 import pers.liujunyi.cloud.photo.domain.user.StaffDetailsInfoQueryDto;
+import pers.liujunyi.cloud.photo.domain.user.StaffDetailsInfoVo;
 import pers.liujunyi.cloud.photo.entity.StaffDetailsInfo;
 import pers.liujunyi.cloud.photo.repository.elasticsearch.user.StaffDetailsInfoElasticsearchRepository;
 import pers.liujunyi.cloud.photo.service.user.StaffDetailsInfoElasticsearchService;
 
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 
 /***
@@ -56,18 +59,43 @@ public class StaffDetailsInfoElasticsearchServiceImpl extends BaseElasticsearchS
     @Override
     public ResultInfo findPageGird(StaffDetailsInfoQueryDto query) {
         // 排序方式
-        Sort sort =  new Sort(Sort.Direction.ASC, "id");
+        Sort sort =  new Sort(Sort.Direction.ASC, "createTime");
         //分页参数
         Pageable pageable = query.toPageable(sort);
         // 查询数据
         SearchQuery searchQuery = query.toSpecPageable(pageable);
         Page<StaffDetailsInfo> searchPageResults = this.staffDetailsInfoElasticsearchRepository.search(searchQuery);
         List<StaffDetailsInfo> searchDataList = searchPageResults.getContent();
-        searchDataList.stream().forEach(item -> {
-        });
+        List<StaffDetailsInfoVo> resultDataList = new CopyOnWriteArrayList<>();
+        if (!CollectionUtils.isEmpty(searchDataList)) {
+
+            searchDataList.stream().forEach(item -> {
+
+            });
+        }
         Long totalElements =  searchPageResults.getTotalElements();
-        ResultInfo result = ResultUtil.success(searchDataList);
+        ResultInfo result = ResultUtil.success(resultDataList);
         result.setTotal(totalElements);
         return  result;
+    }
+
+    @Override
+    public ResultInfo findByStaffAccountsId(Long staffAccountsId) {
+        return ResultUtil.success(this.getStaffDetailsByStaffAccountsId(staffAccountsId));
+    }
+
+    @Override
+    public StaffDetailsInfoVo getStaffDetailsByStaffAccountsId(Long staffAccountsId) {
+        return null;
+    }
+
+    @Override
+    public ResultInfo findById(Long id) {
+        return ResultUtil.success(this.getStaffDetailsById(id));
+    }
+
+    @Override
+    public StaffDetailsInfoVo getStaffDetailsById(Long id) {
+        return null;
     }
 }

@@ -1,6 +1,9 @@
 package pers.liujunyi.cloud.photo.service.user;
 
+import pers.liujunyi.cloud.common.restful.ResultInfo;
 import pers.liujunyi.cloud.common.service.BaseElasticsearchService;
+import pers.liujunyi.cloud.photo.domain.user.CustomerDetailInfoQueryDto;
+import pers.liujunyi.cloud.photo.domain.user.CustomerDetailInfoVo;
 import pers.liujunyi.cloud.photo.entity.user.CustomerDetailInfo;
 
 
@@ -17,6 +20,54 @@ import pers.liujunyi.cloud.photo.entity.user.CustomerDetailInfo;
  */
 public interface CustomerDetailInfoElasticsearchService extends BaseElasticsearchService<CustomerDetailInfo, Long> {
 
+    /**
+     * 根据 帐号id 获取顾客详细数据
+     * @param customerAccountsId
+     * @param customerStatus  状态 0：正常  1：禁用
+     * @return
+     */
+    CustomerDetailInfo findFirstByCustomerAccountsIdAndCustomerStatus(Long customerAccountsId, Byte customerStatus);
 
+    /**
+     * 根据 帐号id 获取顾客详细数据
+     * @param customerAccountsId
+     * @return
+     */
+    CustomerDetailInfo findCustomerDetails(Long customerAccountsId);
+
+    /**
+     * 分页列表
+     * @param query
+     * @return
+     */
+    ResultInfo findPageGird(CustomerDetailInfoQueryDto query);
+
+    /**
+     * 根据 帐号id 获取顾客详细数据
+     * @param customerAccountsId
+     * @return
+     */
+    ResultInfo findByCustomerAccountsId(Long customerAccountsId);
+
+    /**
+     * 根据 帐号id 获取顾客详细数据
+     * @param customerAccountsId
+     * @return
+     */
+    CustomerDetailInfoVo getCustomerDetailsByCustomerAccountsId(Long customerAccountsId);
+
+    /**
+     * 根据 帐号id 获取顾客详细数据
+     * @param id
+     * @return
+     */
+    ResultInfo findById(Long id);
+
+    /**
+     * 根据 id 获取顾客详细数据
+     * @param id
+     * @return
+     */
+    CustomerDetailInfoVo getCustomerDetailsById(Long id);
 
 }

@@ -1,12 +1,7 @@
 package pers.liujunyi.cloud.photo.repository.elasticsearch.user;
 
-import org.springframework.data.elasticsearch.annotations.Query;
-import org.springframework.data.jpa.repository.Modifying;
 import pers.liujunyi.cloud.common.repository.elasticsearch.BaseElasticsearchRepository;
 import pers.liujunyi.cloud.photo.entity.user.CustomerDetailInfo;
-
-import java.util.Date;
-import java.util.List;
 
 /***
  * 文件名称: CustomerDetailInfoElasticsearchRepository.java
@@ -20,21 +15,15 @@ import java.util.List;
  * @author ljy
  */
 public interface CustomerDetailInfoElasticsearchRepository extends BaseElasticsearchRepository<CustomerDetailInfo, Long> {
-    /**
-     * 修改状态
-     * @param customerStatus  0：正常  1：禁用
-     * @param ids
-     * @return
-     */
-    @Modifying(clearAutomatically = true)
-    @Query("update CustomerDetailInfo u set u.customerStatus = ?1, u.updateTime = ?2 where u.id in (?3)")
-    int setCustomerStatusByIds(Byte customerStatus, Date updateTime,  List<Long> ids);
-
 
     /**
      * 根据 帐号id 获取顾客详细数据
      * @param customerAccountsId
+     * @param customerStatus  状态 0：正常  1：禁用
      * @return
      */
-    CustomerDetailInfo findFirstByCustomerAccountsId(Long customerAccountsId);
+    CustomerDetailInfo findFirstByCustomerAccountsIdAndCustomerStatus(Long customerAccountsId, Byte customerStatus);
+
+
+
 }

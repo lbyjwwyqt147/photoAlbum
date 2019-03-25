@@ -25,6 +25,7 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = true)
 public class StaffDetailsInfoVo extends BaseVo {
 
+    private static final long serialVersionUID = 562898741873474891L;
     /** 员工编号 */
     @ApiModelProperty(value = "员工编号")
     private String staffNumber;
@@ -121,7 +122,7 @@ public class StaffDetailsInfoVo extends BaseVo {
     @ApiModelProperty(value = "个人介绍")
     private String staffIntro;
 
-    /** 状态：0：正常  1：冻结  2：离职 */
+    /** 状态：0：正常  1：禁用 */
     @ApiModelProperty(value = "年龄")
     private Byte staffStatus;
 

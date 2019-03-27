@@ -10,12 +10,15 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import pers.liujunyi.cloud.common.configuration.MySQLUpperCaseStrategy;
+import pers.liujunyi.cloud.common.encrypt.annotation.EnableEncrypt;
 
 /***
  * exclude = DataSourceAutoConfiguration.class 解决 ：Consider defining a bean of type 'javax.sql.DataSource' in your configuration.
  * 开启增强代理 @EnableAspectJAutoProxy
+ * 开启加解密自动配置 @EnableEncrypt
  * @author
  */
+@EnableEncrypt
 @EnableJpaAuditing
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @ComponentScan(basePackages = {"pers.liujunyi.cloud"}, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {MySQLUpperCaseStrategy.class}))

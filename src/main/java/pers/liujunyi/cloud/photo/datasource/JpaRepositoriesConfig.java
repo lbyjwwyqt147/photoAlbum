@@ -2,6 +2,7 @@ package pers.liujunyi.cloud.photo.datasource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -24,14 +25,16 @@ import java.sql.SQLException;
  * 内容摘要:
  * 其他说明:  @EnableTransactionManagement  开启注解事物   @EnableJpaRepositories 开启JPA存储库扫描
  *            EnableJpaRepositories 和 EnableElasticsearchRepositories 不能在同一包下面
+ *            @EntityScan 配置 实体类所在的路径  解决： Not a managed type:
  * 完成日期:2019年01月17日
  * 修改记录:
  * @version 1.0
  * @author ljy
  */
 @Configuration
-@EnableJpaRepositories(basePackages = "pers.liujunyi.cloud.photo.repository.jpa")
-@EnableElasticsearchRepositories(basePackages = "pers.liujunyi.cloud.photo.repository.elasticsearch")
+@EntityScan(basePackages = {"pers.liujunyi.cloud.*.entity"})
+@EnableJpaRepositories(basePackages = {"pers.liujunyi.cloud.*.repository.jpa"})
+@EnableElasticsearchRepositories(basePackages = {"pers.liujunyi.cloud.*.repository.elasticsearch"})
 @EnableTransactionManagement(proxyTargetClass = true)
 public class JpaRepositoriesConfig {
 

@@ -10,11 +10,11 @@ import pers.liujunyi.cloud.common.annotation.ApiVersion;
 import pers.liujunyi.cloud.common.controller.BaseController;
 import pers.liujunyi.cloud.common.restful.ResultInfo;
 import pers.liujunyi.cloud.common.restful.ResultUtil;
-import pers.liujunyi.cloud.photo.domain.IdParamDto;
 import pers.liujunyi.cloud.photo.domain.album.AlbumDto;
 import pers.liujunyi.cloud.photo.domain.album.AlbumQueryDto;
 import pers.liujunyi.cloud.photo.service.album.AlbumElasticsearchService;
 import pers.liujunyi.cloud.photo.service.album.AlbumService;
+import pers.liujunyi.cloud.security.domain.IdParamDto;
 
 import javax.validation.Valid;
 

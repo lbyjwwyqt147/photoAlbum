@@ -8,20 +8,22 @@ data:
   allowedOrigin: '*'
   # 直接访问 http://localhost:18081 时 返回信息设置
   indexView: '请访问：http://localhost:18081/swagger-ui.html  查看API文档'
-  # 数据字典地址
-  dictUrl: http://101.132.136.225:18080/api/v1/dict/dictName
   # cloud_core 地址
-  cloudUrl: http://101.132.136.225:18080/api/v1
+  cloudUrl: http://101.132.136.225:18080/api/
   # redis 是否默填充application name 作为redis key 的前缀   true 填充 false 不填充   例如：photo_album:user    photo_album:为自动填充
   redisPrefixion: true
-  # 授权访问核心系统的 code
+  # 核心系统授权给 photo_album 访问的 code
   coreSystemCode: 1001
-  # 授权访问核心系统的 appId
+  # 核心系统授权给 photo_album 访问的 appId
   coreAppId: 1550817774159
-  # 授权访问核心系统的 appKey
+  # 核心系统授权给 photo_album 访问的 appKey
   coreAppKey: 0020a9ebfc7b4667b0617488d96c788b
-  # 授权访问核心系统的 credential
+  # 核心系统授权给 photo_album 访问的 credential
   coreCredential: 42e853886ec8d3cbdaa062a732551b10
+  # 核心系统的 appId  注意：是核心系统的appId 用于访问核心系统接口的数字签名
+  cloudAppId: 1550817758252
+  # 核心系统的 appKey 注意：核心系统的 appKey 用于访问核心系统接口的数字签名
+  cloudAppKey: c80e645007264e2684b393533ef7e832
 
 spring:
   datasource:
@@ -122,3 +124,16 @@ spring:
         min-idle: 10
     #连接超时时间
     timeout: 60000ms
+
+  # RSA 加密
+  encrypt:
+    # RSA 私钥
+    privateKey:
+    # RSA 公钥
+    publicKey:
+    # AES 密钥
+    secretKey: dO6+g3+08ELBKtx/1/WBYQ==
+    # 签名过期时间 单位 分钟
+    signExpireTime: 10
+    # 开启调试模式，调试模式下不进行加解密操作，用于像Swagger这种在线API测试场景
+    debug: false

@@ -137,4 +137,7 @@ public class StaffDetailsInfoVo extends BaseVo {
     @ApiModelProperty(value = "组织机构")
     private String orgName;
 
+    /** 版本号 */
+    private Long version;
+
 }

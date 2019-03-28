@@ -20,4 +20,6 @@ public class RollingPictureDto extends BaseDto {
 
     /** 状态 0：展示 1：不展示 */
     private Byte status;
+    /** 版本号 */
+    private Long version;
 }

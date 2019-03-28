@@ -159,7 +159,6 @@ public class StaffDetailsInfoDto extends BaseDto {
 
     /** 状态：0：正常  1：冻结  2：离职 */
     @ApiModelProperty(value = "状态")
-    @NotNull(message = "状态 必须填写")
     @Min(value = 0, message = "状态 最小为0")
     @Max(value = 127, message = "状态 不能大于127")
     private Byte staffStatus;
@@ -171,4 +170,7 @@ public class StaffDetailsInfoDto extends BaseDto {
 
     /** 头像id  */
     private Long staffPortraitId;
+
+    /** 版本号 */
+    private Long version;
 }

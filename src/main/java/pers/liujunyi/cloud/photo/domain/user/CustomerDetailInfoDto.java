@@ -139,7 +139,6 @@ public class CustomerDetailInfoDto extends BaseDto {
 
     /** 状态：0：正常  1：禁用   */
     @ApiModelProperty(value = "状态")
-    @NotNull(message = "状态 必须填写")
     @Min(value = 0, message = "状态 最小值为 0 ")
     @Max(value = 127, message = "状态 不能大于127")
     private Byte customerStatus;
@@ -151,5 +150,8 @@ public class CustomerDetailInfoDto extends BaseDto {
 
     /** 头像id  */
     private Long customerPortraitId;
+
+    /** 版本号 */
+    private Long version;
 
 }

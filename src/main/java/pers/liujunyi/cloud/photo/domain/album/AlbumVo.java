@@ -50,4 +50,6 @@ public class AlbumVo extends BaseVo {
     private Integer total;
     /** 相册图片 */
     private List<AlbumPicture> albumPictureDatas;
+    /** 版本号 */
+    private Long version;
 }

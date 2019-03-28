@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.data.annotation.Version;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
@@ -58,4 +59,8 @@ public class RollingPicture extends BaseEntity {
 
     /** 文件分类 0：图片 1：文档  2：视频  5：其他 */
     private Byte pictureCategory;
+
+    /** 版本号 */
+    @Version
+    private Long version;
 }

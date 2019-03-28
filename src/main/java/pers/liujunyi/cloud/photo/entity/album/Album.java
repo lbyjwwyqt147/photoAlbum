@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.data.annotation.Version;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
@@ -105,4 +106,8 @@ public class Album extends BaseEntity {
 
     /** 拍摄时间 */
     private Date shootingsDate;
+
+    /** 版本号 */
+    @Version
+    private Long version;
 }

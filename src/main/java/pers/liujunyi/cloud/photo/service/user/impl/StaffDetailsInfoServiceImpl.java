@@ -82,7 +82,7 @@ public class StaffDetailsInfoServiceImpl extends BaseServiceImpl<StaffDetailsInf
     }
 
     @Override
-    public ResultInfo updateStatus(Byte status, List<Long> ids, List<Long> userIds) {
+    public ResultInfo updateStatus(Byte status, List<Long> ids, List<Long> userIds, String putParams) {
         int count = this.staffDetailsInfoRepository.setStaffStatusByIds(status, new Date(), ids);
         if (count > 0) {
             Map<String, Map<String, Object>> sourceMap = new ConcurrentHashMap<>();
@@ -93,7 +93,7 @@ public class StaffDetailsInfoServiceImpl extends BaseServiceImpl<StaffDetailsInf
                 sourceMap.put(String.valueOf(item), docDataMap);
             });
             super.updateBatchElasticsearchData(sourceMap);
-            this.userAccountsService.updateStatus(status.byteValue() == Constant.ENABLE_STATUS.byteValue() ? Constant.ENABLE_STATUS : Constant.DISABLE_STATUS, userIds);
+            this.userAccountsService.updateStatus(status.byteValue() == Constant.ENABLE_STATUS.byteValue() ? Constant.ENABLE_STATUS : Constant.DISABLE_STATUS, userIds, putParams);
             return ResultUtil.success();
         }
         return ResultUtil.fail();

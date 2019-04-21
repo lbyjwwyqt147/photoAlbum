@@ -124,7 +124,7 @@ public class StaffDetailsInfoController extends BaseController {
     @PutMapping(value = "staff/status")
     @ApiVersion(1)
     public ResultInfo updateDataStatus(@Valid IdParamDto param ) {
-        return this.staffDetailsInfoService.updateStatus(param.getStatus(), param.getIdList(), param.getOtherIdList());
+        return this.staffDetailsInfoService.updateStatus(param.getStatus(), param.getIdList(), param.getOtherIdList(), param.getPutParams());
     }
 
 

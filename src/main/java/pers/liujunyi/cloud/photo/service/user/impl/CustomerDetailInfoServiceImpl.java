@@ -89,7 +89,7 @@ public class CustomerDetailInfoServiceImpl extends BaseServiceImpl<CustomerDetai
     }
 
     @Override
-    public ResultInfo updateStatus(Byte status, List<Long> ids, List<Long> userIds) {
+    public ResultInfo updateStatus(Byte status, List<Long> ids, List<Long> userIds, String putParams) {
         int count = this.customerDetailInfoRepository.setCustomerStatusByIds(status, new Date(), ids);
         if (count > 0) {
             Map<String, Map<String, Object>> sourceMap = new ConcurrentHashMap<>();
@@ -100,7 +100,7 @@ public class CustomerDetailInfoServiceImpl extends BaseServiceImpl<CustomerDetai
                 sourceMap.put(String.valueOf(item), docDataMap);
             });
             super.updateBatchElasticsearchData(sourceMap);
-            this.userAccountsService.updateStatus(status, userIds);
+            this.userAccountsService.updateStatus(status, userIds, putParams);
             return ResultUtil.success();
         }
         return ResultUtil.fail();

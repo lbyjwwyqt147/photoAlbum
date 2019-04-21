@@ -33,7 +33,7 @@ public interface CustomerDetailInfoService extends BaseService<CustomerDetailInf
      * @param ids
      * @return
      */
-    ResultInfo updateStatus(Byte status, List<Long> ids, List<Long> userIds);
+    ResultInfo updateStatus(Byte status, List<Long> ids, List<Long> userIds, String putParams);
 
     /**
      * 批量删除

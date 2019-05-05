@@ -151,6 +151,11 @@
             <appender-ref ref="DruidSqlRollingFile"/>
         </logger>
 
+        <!-- hibernate 日志 -->
+        <!--<logger name="org.hibernate.SQL" level="DEBUG"/>-->
+        <logger name="org.hibernate.engine.QueryParameters" level="DEBUG"/>
+        <logger name="org.hibernate.engine.query.HQLQueryPlan" level="DEBUG"/>
+        <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE"/>
 
         <!--log4j2 自带过滤日志-->
         <Logger name="org.apache.catalina.startup.DigesterFactory" level="error" />
@@ -162,7 +167,6 @@
         <logger name="org.crsh.ssh" level="warn"/>
         <Logger name="org.eclipse.jetty.util.component.AbstractLifeCycle" level="error" />
         <Logger name="org.hibernate.validator.internal.util.Version" level="warn" />
-        <logger name="org.hibernate.SQL" level="DEBUG"/>
         <Logger name="org.hibernate.type.descriptor.sql" level="trace"
                 additivity="false">
             <AppenderRef ref="Console" />
@@ -172,13 +176,20 @@
         <logger name="org.thymeleaf" level="warn"/>
 
 
-        <!-- jdbc -->
         <logger name="jdbc.sqlonly" level="WARN"/>
         <logger name="jdbc.sqltiming" level="INFO"/>
         <logger name="jdbc.resultsettable" level="INFO"/>
         <logger name="jdbc.resultset" level="WARN"/>
         <logger name="jdbc.connection" level="WARN"/>
         <logger name="jdbc.audit" level="WARN"/>
+
+        <!-- 根据需要关闭不必要的日志输出 -->
+        <logger name="jdbc.connection" level="OFF" />
+        <logger name="jdbc.audit" level="OFF" />
+        <logger name="jdbc.resultset" level="OFF" />
+        <logger name="jdbc.sqlonly" level="OFF" />
+        <logger name="jdbc.sqltiming" level="INFO" />
+        <logger name="jdbc.resultsettable" level="INFO"/>
 
         <!-- 根据需要关闭不必要的日志输出 -->
       <!--  <logger name="jdbc.connection" level="OFF" />

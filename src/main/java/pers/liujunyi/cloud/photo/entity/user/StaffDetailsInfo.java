@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
-import org.springframework.data.annotation.Version;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
@@ -108,10 +107,6 @@ public class StaffDetailsInfo extends BaseEntity {
     @Field(type = FieldType.Keyword, index = false)
     private String staffEquipment;
 
-    /** 描述说明 */
-    @Field(type = FieldType.Keyword, index = false)
-    private String description;
-
     /** 个人介绍 */
     @Field(type = FieldType.Keyword, index = false)
     private String staffIntro;
@@ -119,15 +114,18 @@ public class StaffDetailsInfo extends BaseEntity {
     /** 状态：0：正常  1：冻结  2：离职 */
     private Byte staffStatus;
 
-    /** 头像 */
-    @Field(type = FieldType.Long, index = false)
-    private String staffPortrait;
+    /** 大尺寸头像 */
+    @Field(type = FieldType.Keyword, index = false)
+    private String staffPortraitHuge;
 
-    /** 头像id  */
-    @Field(type = FieldType.Long, index = false)
-    private Long staffPortraitId;
+    /** 中尺寸头像 */
+    @Field(type = FieldType.Keyword, index = false)
+    private String staffPortraitMiddle;
 
-    /** 版本号 */
-    @Version
-    private Long version;
+    /** 小尺寸头像 */
+    @Field(type = FieldType.Keyword, index = false)
+    private String staffPortraitTiny;
+
+    private Long dataVersion;
+
 }

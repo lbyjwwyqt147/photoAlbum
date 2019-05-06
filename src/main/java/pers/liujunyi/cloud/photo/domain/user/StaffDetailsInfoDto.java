@@ -36,7 +36,6 @@ public class StaffDetailsInfoDto extends BaseDto {
     private String staffNumber;
 
     /** 员工帐号 */
-    @NotNull(message = "必须关联员工帐号")
     private Long staffAccountsId;
 
     /** 员工真实姓名 */
@@ -147,14 +146,9 @@ public class StaffDetailsInfoDto extends BaseDto {
     @Length(min = 0, max = 200, message = "器材装备 最多可以输入200个字符")
     private String staffEquipment;
 
-    /** 描述说明 */
-    @ApiModelProperty(value = "描述说明")
-    @Length(min = 0, max = 255, message = "描述 最多可以输入255个字符")
-    private String description;
-
     /** 个人介绍 */
     @ApiModelProperty(value = "个人介绍")
-    @Length(min = 0, max = 500, message = "个人介绍 最多可以输入500个字符")
+    @Length(min = 0, max = 350, message = "个人简介 最多可以输入400个字符")
     private String staffIntro;
 
     /** 状态：0：正常  1：冻结  2：离职 */
@@ -163,14 +157,20 @@ public class StaffDetailsInfoDto extends BaseDto {
     @Max(value = 127, message = "状态 不能大于127")
     private Byte staffStatus;
 
-    /** 头像 */
-    @ApiModelProperty(value = "头像")
-    @Length(min = 0, max = 255, message = "头像 最多可以输入255个字符")
-    private String staffPortrait;
+    /** 大尺寸头像 */
+    @ApiModelProperty(value = "大尺寸头像")
+    @Length(min = 0, max = 300, message = "头像 最多可以输入300个字符")
+    private String staffPortraitHuge;
 
-    /** 头像id  */
-    private Long staffPortraitId;
+    /** 中尺寸头像 */
+    @ApiModelProperty(value = "中尺寸头像")
+    @Length(min = 0, max = 300, message = "头像 最多可以输入300个字符")
+    private String staffPortraitMiddle;
 
-    /** 版本号 */
-    private Long version;
+    /** 小尺寸头像 */
+    @ApiModelProperty(value = "小尺寸头像")
+    @Length(min = 0, max = 300, message = "头像 最多可以输入300个字符")
+    private String staffPortraitTiny;
+
+    private Long dataVersion;
 }

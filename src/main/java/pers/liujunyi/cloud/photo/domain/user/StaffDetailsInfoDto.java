@@ -81,15 +81,15 @@ public class StaffDetailsInfoDto extends BaseDto {
 
     /** 所在省份 */
     @ApiModelProperty(value = "所在省份")
-    private Integer province;
+    private Long province;
 
     /** 所在城市 */
     @ApiModelProperty(value = "所在城市")
-    private Integer city;
+    private Long city;
 
     /** 所在行政区 */
     @ApiModelProperty(value = "所在行政区")
-    private Integer district;
+    private Long district;
 
     /** 所在行政区街道 */
     @ApiModelProperty(value = "所在行政区街道")
@@ -101,6 +101,10 @@ public class StaffDetailsInfoDto extends BaseDto {
     @ApiModelProperty(value = "身份证号")
     @Pattern(regexp = RegexpUtils.IDENTIFICATIONCARD_REGEXP, message =  RegexpUtils.IDENTIFICATIONCARD_MSG)
     private String staffIdentiyCard;
+
+    /** 入职日期 */
+    @ApiModelProperty(value = "入职日期")
+    private Date entryDate;
 
     /** 员工联系电话 */
     @ApiModelProperty(value = "联系电话")
@@ -171,6 +175,8 @@ public class StaffDetailsInfoDto extends BaseDto {
     @ApiModelProperty(value = "小尺寸头像")
     @Length(min = 0, max = 300, message = "头像 最多可以输入300个字符")
     private String staffPortraitTiny;
+
+    private Long userId;
 
     private Long dataVersion;
 }

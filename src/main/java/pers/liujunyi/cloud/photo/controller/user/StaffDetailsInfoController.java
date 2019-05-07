@@ -48,7 +48,7 @@ public class StaffDetailsInfoController extends BaseController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1")
     })
-    @PostMapping(value = "staff/save")
+    @PostMapping(value = "staff/s")
     @ApiVersion(1)
     public ResultInfo saveRecord(@Valid StaffDetailsInfoDto param) {
         return this.staffDetailsInfoService.saveRecord(param);
@@ -58,14 +58,17 @@ public class StaffDetailsInfoController extends BaseController {
      * 单条删除数据
      *
      * @param id
+     * @param userId
      * @return
      */
     @ApiOperation(value = "单条删除数据", notes = "适用于单条删除数据 请求示例：127.0.0.1:18080/api/v1/staff/delete")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "userId", value = "userId",  required = true, dataType = "Long"),
             @ApiImplicitParam(name = "id", value = "id",  required = true, dataType = "Long")
+
     })
-    @DeleteMapping(value = "staff/delete")
+    @DeleteMapping(value = "staff/d")
     @ApiVersion(1)
     public ResultInfo singleDelete(@Valid @NotNull(message = "id 必须填写")
                                        @RequestParam(name = "id", required = true) Long id, @NotNull(message = "userId 必须填写")
@@ -85,7 +88,7 @@ public class StaffDetailsInfoController extends BaseController {
             @ApiImplicitParam(name = "ids", value = "ids",  required = true, dataType = "String"),
             @ApiImplicitParam(name = "otherIds", value = "账户id",  required = true, dataType = "String")
     })
-    @DeleteMapping(value = "staff/batchDelete")
+    @DeleteMapping(value = "staff/b/d")
     @ApiVersion(1)
     public ResultInfo batchDelete(@Valid IdParamDto param) {
         return this.staffDetailsInfoService.batchDeletes(param.getIdList(), param.getOtherIdList());
@@ -101,7 +104,7 @@ public class StaffDetailsInfoController extends BaseController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1")
     })
-    @GetMapping(value = "table/staff/grid")
+    @GetMapping(value = "table/staff/g")
     @ApiVersion(1)
     public ResultInfo findPageGrid(@Valid StaffDetailsInfoQueryDto query) {
         return this.staffDetailsInfoElasticsearchService.findPageGird(query);
@@ -121,7 +124,7 @@ public class StaffDetailsInfoController extends BaseController {
             @ApiImplicitParam(name = "status", value = "status",  required = true, dataType = "integer"),
             @ApiImplicitParam(name = "otherIds", value = "账户id",  required = true, dataType = "integer")
     })
-    @PutMapping(value = "staff/status")
+    @PutMapping(value = "staff/p")
     @ApiVersion(1)
     public ResultInfo updateDataStatus(@Valid IdParamDto param ) {
         return this.staffDetailsInfoService.updateStatus(param.getStatus(), param.getIdList(), param.getOtherIdList(), param.getPutParams());

@@ -55,6 +55,7 @@ public class StaffDetailsInfoServiceImpl extends BaseServiceImpl<StaffDetailsInf
 
     @Override
     public ResultInfo saveRecord(StaffDetailsInfoDto record) {
+        // 先保存账户信息
         ResultInfo result = this.saveUserAccountRecord(record);
         if (result.getSuccess()) {
             if (record.getStaffCategory() == null) {
@@ -177,6 +178,7 @@ public class StaffDetailsInfoServiceImpl extends BaseServiceImpl<StaffDetailsInf
             userAccountsUpdate.setUserName(record.getStaffName());
             userAccountsUpdate.setUserNickName(record.getStaffNickName());
             userAccountsUpdate.setUserNumber(record.getStaffNumber());
+            userAccountsUpdate.setDataVersion(record.getDataVersion());
             return this.userAccountsService.updateUserAccountsInfo(userAccountsUpdate);
         }
     }

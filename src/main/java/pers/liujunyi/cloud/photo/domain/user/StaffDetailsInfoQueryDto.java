@@ -45,7 +45,7 @@ public class StaffDetailsInfoQueryDto extends BaseEsQuery {
     @QueryCondition()
     private Byte staffPosition;
 
-    /** 状态：0：正常  1：冻结  2：离职 */
+    /** 状态：0：正常  1：禁用  2：离职 */
     @ApiModelProperty(value = "状态")
     @QueryCondition()
     private Byte staffStatus;

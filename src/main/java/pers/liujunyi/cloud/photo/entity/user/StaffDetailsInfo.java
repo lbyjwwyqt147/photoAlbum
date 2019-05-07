@@ -53,6 +53,9 @@ public class StaffDetailsInfo extends BaseEntity {
     /** 绑定的手机号 */
     private String mobilePhone;
 
+    /** 入职日期 */
+    private Date entryDate;
+
     /** 员工类别   0：超级管理员 1：普通管理员  2：员工   */
     private Byte staffCategory;
 
@@ -60,13 +63,13 @@ public class StaffDetailsInfo extends BaseEntity {
     private Byte staffPosition;
 
     /** 所在省份 */
-    private Integer province;
+    private Long province;
 
     /** 所在城市 */
-    private Integer city;
+    private Long city;
 
     /** 所在行政区 */
-    private Integer district;
+    private Long district;
 
     /**  身份证号  */
     private String staffIdentiyCard;

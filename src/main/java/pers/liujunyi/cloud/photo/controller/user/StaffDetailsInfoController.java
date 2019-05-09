@@ -48,7 +48,7 @@ public class StaffDetailsInfoController extends BaseController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1")
     })
-    @PostMapping(value = "staff/s")
+    @PostMapping(value = "intrude/staff/s")
     @ApiVersion(1)
     public ResultInfo saveRecord(@Valid StaffDetailsInfoDto param) {
         return this.staffDetailsInfoService.saveRecord(param);
@@ -68,7 +68,7 @@ public class StaffDetailsInfoController extends BaseController {
             @ApiImplicitParam(name = "id", value = "id",  required = true, dataType = "Long")
 
     })
-    @DeleteMapping(value = "staff/d")
+    @DeleteMapping(value = "intrude/staff/d")
     @ApiVersion(1)
     public ResultInfo singleDelete(@Valid @NotNull(message = "id 必须填写")
                                        @RequestParam(name = "id", required = true) Long id, @NotNull(message = "userId 必须填写")
@@ -88,7 +88,7 @@ public class StaffDetailsInfoController extends BaseController {
             @ApiImplicitParam(name = "ids", value = "ids",  required = true, dataType = "String"),
             @ApiImplicitParam(name = "otherIds", value = "账户id",  required = true, dataType = "String")
     })
-    @DeleteMapping(value = "staff/b/d")
+    @DeleteMapping(value = "intrude/staff/b/d")
     @ApiVersion(1)
     public ResultInfo batchDelete(@Valid IdParamDto param) {
         return this.staffDetailsInfoService.batchDeletes(param.getIdList(), param.getOtherIdList());
@@ -124,7 +124,7 @@ public class StaffDetailsInfoController extends BaseController {
             @ApiImplicitParam(name = "status", value = "status",  required = true, dataType = "integer"),
             @ApiImplicitParam(name = "otherIds", value = "账户id",  required = true, dataType = "integer")
     })
-    @PutMapping(value = "staff/p")
+    @PutMapping(value = "intrude/staff/p")
     @ApiVersion(1)
     public ResultInfo updateDataStatus(@Valid IdParamDto param ) {
         return this.staffDetailsInfoService.updateStatus(param.getStatus(), param.getIdList(), param.getOtherIdList(), param.getPutParams());
@@ -141,7 +141,7 @@ public class StaffDetailsInfoController extends BaseController {
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
             @ApiImplicitParam(name = "id", value = "id", paramType = "path",   required = true, dataType = "Long")
     })
-    @GetMapping(value = "staff/details/{id}")
+    @GetMapping(value = "intrude/staff/details/{id}")
     @ApiVersion(1)
     public ResultInfo findById(@PathVariable(name = "id") Long id) {
         return this.staffDetailsInfoElasticsearchService.findById(id);
@@ -157,7 +157,7 @@ public class StaffDetailsInfoController extends BaseController {
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
             @ApiImplicitParam(name = "staffAccountsId", value = "staffAccountsId", paramType = "path",   required = true, dataType = "Long")
     })
-    @GetMapping(value = "staff/details/accounts/{staffAccountsId}")
+    @GetMapping(value = "intrude/staff/details/accounts/{staffAccountsId}")
     @ApiVersion(1)
     public ResultInfo findByStaffAccountsId(@PathVariable(name = "staffAccountsId") Long staffAccountsId) {
         return this.staffDetailsInfoElasticsearchService.findByStaffAccountsId(staffAccountsId);
@@ -177,7 +177,7 @@ public class StaffDetailsInfoController extends BaseController {
             @ApiImplicitParam(name = "portrait", value = "头像地址", paramType = "query",   required = true, dataType = "String"),
             @ApiImplicitParam(name = "portraitId", value = "头像ID", paramType = "query",   required = true, dataType = "Long")
     })
-    @PutMapping(value = "staff/portrait/p")
+    @PutMapping(value = "intrude/staff/portrait/p")
     @ApiVersion(1)
     public ResultInfo setPortrait(Long id, String portrait, Long portraitId) {
         return this.staffDetailsInfoService.setPortrait(id, portrait, portraitId);
@@ -192,7 +192,7 @@ public class StaffDetailsInfoController extends BaseController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
     })
-    @PostMapping(value = "staff/sync")
+    @PostMapping(value = "intrude/staff/sync")
     @ApiVersion(1)
     public ResultInfo syncDataToElasticsearch() {
         return this.staffDetailsInfoService.syncDataToElasticsearch();

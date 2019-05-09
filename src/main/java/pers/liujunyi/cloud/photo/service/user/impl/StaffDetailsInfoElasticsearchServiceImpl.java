@@ -100,6 +100,7 @@ public class StaffDetailsInfoElasticsearchServiceImpl extends BaseElasticsearchS
                     DayCompare dayCompare = DateTimeUtils.dayCompare(item.getEntryDate(), new Date());
                     staffDetailsInfo.setDuration(dayCompare.getMonth());
                     staffDetailsInfo.setDataVersion(userAccountsMap.get(item.getStaffAccountsId()).getDataVersion());
+                    staffDetailsInfo.setUserId(item.getStaffAccountsId());
                     resultDataList.add(staffDetailsInfo);
                 }
             });

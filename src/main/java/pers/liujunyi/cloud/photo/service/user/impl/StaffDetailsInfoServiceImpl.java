@@ -154,6 +154,22 @@ public class StaffDetailsInfoServiceImpl extends BaseServiceImpl<StaffDetailsInf
         return ResultUtil.success();
     }
 
+    @Override
+    public ResultInfo setPortrait(Long id, String portrait, Long portraitId) {
+        int count = this.staffDetailsInfoRepository.setPortrait(id, portrait, portraitId, new Date());
+        if (count > 0) {
+            Map<String, Map<String, Object>> sourceMap = new ConcurrentHashMap<>();
+            Map<String, Object> docDataMap = new HashMap<>();
+            docDataMap.put("portrait", portrait);
+            docDataMap.put("portraitId", portraitId);
+            docDataMap.put("updateTime", System.currentTimeMillis());
+            sourceMap.put(id.toString(), docDataMap);
+            super.updateBatchElasticsearchData(sourceMap);
+            return ResultUtil.success();
+        }
+        return ResultUtil.fail();
+    }
+
     /**
      * 保存用户帐号信息
      * @param record

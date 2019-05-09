@@ -164,6 +164,26 @@ public class StaffDetailsInfoController extends BaseController {
     }
 
     /**
+     * 设置头像
+     * @param id
+     * @param portrait
+     * @param portraitId
+     * @return
+     */
+    @ApiOperation(value = "根据账户id  获取详细信息", notes = "适用于根据账户id  获取详细信息 请求示例：127.0.0.1:18080/api/v1/staff/portrait/p")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "id", value = "id", paramType = "query",   required = true, dataType = "Long"),
+            @ApiImplicitParam(name = "portrait", value = "头像地址", paramType = "query",   required = true, dataType = "String"),
+            @ApiImplicitParam(name = "portraitId", value = "头像ID", paramType = "query",   required = true, dataType = "Long")
+    })
+    @PutMapping(value = "staff/portrait/p")
+    @ApiVersion(1)
+    public ResultInfo setPortrait(Long id, String portrait, Long portraitId) {
+        return this.staffDetailsInfoService.setPortrait(id, portrait, portraitId);
+    }
+
+    /**
      *  同步数据到es中
      * @param
      * @return

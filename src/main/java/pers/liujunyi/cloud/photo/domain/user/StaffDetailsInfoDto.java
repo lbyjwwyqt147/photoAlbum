@@ -161,20 +161,16 @@ public class StaffDetailsInfoDto extends BaseDto {
     @Max(value = 127, message = "状态 不能大于127")
     private Byte staffStatus;
 
-    /** 大尺寸头像 */
-    @ApiModelProperty(value = "大尺寸头像")
-    @Length(min = 0, max = 300, message = "头像 最多可以输入300个字符")
-    private String staffPortraitHuge;
+    /** 头像 */
+    private String staffPortrait;
 
-    /** 中尺寸头像 */
-    @ApiModelProperty(value = "中尺寸头像")
-    @Length(min = 0, max = 300, message = "头像 最多可以输入300个字符")
-    private String staffPortraitMiddle;
+    /** 头像id  */
+    private Long staffPortraitId;
 
-    /** 小尺寸头像 */
-    @ApiModelProperty(value = "小尺寸头像")
-    @Length(min = 0, max = 300, message = "头像 最多可以输入300个字符")
-    private String staffPortraitTiny;
+    /** 技能 多个用;隔开 */
+    @ApiModelProperty(value = "技能 多个用;隔开")
+    @Length(min = 0, max = 20, message = "技能 最多可以输入20个字符")
+    private String skill;
 
     private Long userId;
 

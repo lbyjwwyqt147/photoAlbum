@@ -56,4 +56,13 @@ public interface StaffDetailsInfoService extends BaseService<StaffDetailsInfo, L
      */
     ResultInfo syncDataToElasticsearch();
 
+    /**
+     * 设置头像
+     * @param id 员工id
+     * @param portrait  头像url
+     * @param portraitId  头像id
+     * @return
+     */
+    ResultInfo setPortrait(Long id, String portrait, Long portraitId);
+
 }

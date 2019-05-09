@@ -117,17 +117,16 @@ public class StaffDetailsInfo extends BaseEntity {
     /** 状态：0：正常  1：冻结  2：离职 */
     private Byte staffStatus;
 
-    /** 大尺寸头像 */
+    /** 头像 */
     @Field(type = FieldType.Keyword, index = false)
-    private String staffPortraitHuge;
+    private String staffPortrait;
 
-    /** 中尺寸头像 */
+    /** 头像id  */
     @Field(type = FieldType.Keyword, index = false)
-    private String staffPortraitMiddle;
+    private Long staffPortraitId;
 
-    /** 小尺寸头像 */
-    @Field(type = FieldType.Keyword, index = false)
-    private String staffPortraitTiny;
+    /** 技能 多个用;隔开 */
+    private String skill;
 
     private Long dataVersion;
 

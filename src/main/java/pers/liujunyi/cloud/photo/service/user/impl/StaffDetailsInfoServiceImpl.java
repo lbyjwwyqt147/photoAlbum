@@ -73,6 +73,7 @@ public class StaffDetailsInfoServiceImpl extends BaseServiceImpl<StaffDetailsInf
             StaffDetailsInfo staffDetailsInfo = DozerBeanMapperUtil.copyProperties(record, StaffDetailsInfo.class);
             StaffDetailsInfo saveObj = this.staffDetailsInfoRepository.save(staffDetailsInfo);
             if (saveObj != null && saveObj.getId() != null) {
+                result.setData(saveObj.getId());
                 this.staffDetailsInfoElasticsearchRepository.save(saveObj);
             }else {
                 result.setSuccess(false);

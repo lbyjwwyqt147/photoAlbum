@@ -175,4 +175,10 @@ public class StaffDetailsInfoDto extends BaseDto {
     private Long userId;
 
     private Long dataVersion;
+    /** 部门父id */
+    private String staffFullParent;
+    /** 部门id */
+    private Long staffOrgId;
+    /** 部门编号 */
+    private String staffOrgNumber;
 }

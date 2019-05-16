@@ -42,7 +42,7 @@ public interface StaffDetailsInfoRepository extends BaseRepository<StaffDetailsI
      */
     @Transactional(rollbackFor = {RuntimeException.class, Exception.class})
     @Modifying(clearAutomatically = true)
-    @Query("update StaffDetailsInfo u set u.portrait = ?2, u.updateTime = ?4, u.portraitId = ?3 where u.id = ?1 ")
+    @Query("update StaffDetailsInfo u set u.staffPortrait = ?2, u.updateTime = ?4, u.staffPortraitId = ?3 where u.id = ?1 ")
     int setPortrait(Long id, String portrait, Long portraitId, Date updateTime);
 
 }

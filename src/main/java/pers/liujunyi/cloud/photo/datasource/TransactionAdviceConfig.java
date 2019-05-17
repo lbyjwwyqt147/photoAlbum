@@ -81,6 +81,7 @@ public class TransactionAdviceConfig {
         txMap.put("save*", requireRule);
         txMap.put("insert*", requireRule);
         txMap.put("update*", requireRule);
+        txMap.put("set*", requireRule);
         txMap.put("delete*", requireRule);
         txMap.put("remove*", requireRule);
         txMap.put("get*", readOnlyRule);

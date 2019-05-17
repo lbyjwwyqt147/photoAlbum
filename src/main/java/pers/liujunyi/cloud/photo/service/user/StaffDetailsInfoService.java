@@ -40,7 +40,7 @@ public interface StaffDetailsInfoService extends BaseService<StaffDetailsInfo, L
      * @param ids
      * @return
      */
-    ResultInfo batchDeletes(List<Long> ids, List<Long> userIds);
+    ResultInfo deleteBatch(List<Long> ids, List<Long> userIds);
 
     /**
      * 单条删除
@@ -48,7 +48,7 @@ public interface StaffDetailsInfoService extends BaseService<StaffDetailsInfo, L
      * @param userId
      * @return
      */
-    ResultInfo singleDelete(Long id, Long userId);
+    ResultInfo deleteSingle(Long id, Long userId);
 
     /**
      * 同步数据到es中

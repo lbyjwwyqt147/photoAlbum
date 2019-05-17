@@ -19,10 +19,13 @@ import pers.liujunyi.cloud.photo.service.user.StaffDetailsInfoService;
 import pers.liujunyi.cloud.photo.util.Constant;
 import pers.liujunyi.cloud.security.domain.user.UserAccountsDto;
 import pers.liujunyi.cloud.security.domain.user.UserAccountsUpdateDto;
+import pers.liujunyi.cloud.security.entity.organizations.StaffOrg;
+import pers.liujunyi.cloud.security.service.organizations.StaffOrgService;
 import pers.liujunyi.cloud.security.service.user.UserAccountsService;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /***
  * 文件名称: StaffDetailsInfoServiceImpl.java
@@ -44,6 +47,8 @@ public class StaffDetailsInfoServiceImpl extends BaseServiceImpl<StaffDetailsInf
     private StaffDetailsInfoElasticsearchRepository staffDetailsInfoElasticsearchRepository;
     @Autowired
     private UserAccountsService userAccountsService;
+    @Autowired
+    private StaffOrgService staffOrgService;
     @Autowired
     private UserUtils userUtils;
 
@@ -74,6 +79,8 @@ public class StaffDetailsInfoServiceImpl extends BaseServiceImpl<StaffDetailsInf
             StaffDetailsInfo saveObj = this.staffDetailsInfoRepository.save(staffDetailsInfo);
             if (saveObj != null && saveObj.getId() != null) {
                 result.setData(saveObj.getId());
+                record.setId(saveObj.getId());
+                this.saveStaffOrg(record);
                 this.staffDetailsInfoElasticsearchRepository.save(saveObj);
             }else {
                 result.setSuccess(false);
@@ -102,21 +109,23 @@ public class StaffDetailsInfoServiceImpl extends BaseServiceImpl<StaffDetailsInf
     }
 
     @Override
-    public ResultInfo batchDeletes(List<Long> ids, List<Long> userIds) {
+    public ResultInfo deleteBatch(List<Long> ids, List<Long> userIds) {
         long count = this.staffDetailsInfoRepository.deleteByIdIn(ids);
         if (count > 0) {
             this.staffDetailsInfoElasticsearchRepository.deleteByIdIn(ids);
-            this.userAccountsService.batchDeletes(userIds);
+            this.userAccountsService.deleteBatch(userIds);
+            this.staffOrgService.deleteByStaffIds(ids);
             return ResultUtil.success();
         }
         return ResultUtil.fail();
     }
 
     @Override
-    public ResultInfo singleDelete(Long id, Long userId) {
+    public ResultInfo deleteSingle(Long id, Long userId) {
         this.staffDetailsInfoRepository.deleteById(id);
         this.staffDetailsInfoElasticsearchRepository.deleteById(id);
-        this.userAccountsService.singleDelete(userId);
+        this.userAccountsService.deleteSingle(userId);
+        this.staffOrgService.deleteByStaffId(id);
         return ResultUtil.success();
     }
 
@@ -198,5 +207,20 @@ public class StaffDetailsInfoServiceImpl extends BaseServiceImpl<StaffDetailsInf
             userAccountsUpdate.setDataVersion(record.getDataVersion());
             return this.userAccountsService.updateUserAccountsInfo(userAccountsUpdate);
         }
+    }
+
+    /**
+     * 保存 职工 所属组织机构 关联数据
+     * @param record
+     */
+    private void saveStaffOrg(StaffDetailsInfoDto record) {
+        this.staffOrgService.deleteByOrgId(record.getStaffOrgId());
+        StaffOrg staffOrg = new StaffOrg();
+        staffOrg.setFullParent(record.getStaffFullParent());
+        staffOrg.setOrgId(record.getStaffOrgId());
+        staffOrg.setOrgNumber(record.getStaffOrgNumber());
+        List<Long> staffIdList = new CopyOnWriteArrayList<>();
+        staffIdList.add(record.getId());
+        this.staffOrgService.saveRecord(staffOrg, staffIdList);
     }
 }

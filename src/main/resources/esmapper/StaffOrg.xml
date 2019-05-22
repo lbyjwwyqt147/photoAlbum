@@ -1,0 +1,138 @@
+<properties>
+    <!--
+        updateByquery
+        deleteByquery
+        dsl配置之文件
+    -->
+
+    <!-- 根据机构ID 禁用数据 -->
+    <property name="updateByOrgIdQueryDisable">
+        <![CDATA[
+         {
+            "query": {
+                "bool": {
+                    "filter": [
+                        {  ## 检索条件
+                            "term": {
+                                "orgId.keyword": [#[orgId]]
+                            }
+                        }
+                    ]
+                }
+            },
+            "script": {
+                "source": "ctx._source[status] = 1",
+                "lang": "painless"
+            }
+        }
+        ]]>
+    </property>
+
+    <!-- 根据职工ID 禁用数据 -->
+    <property name="updateByStaffIdQueryDisable">
+        <![CDATA[
+         {
+            "query": {
+                "bool": {
+                    "filter": [
+                        {  ## 检索条件
+                            "term": {
+                                "staffId.keyword": [#[staffId]]
+                            }
+                        }
+                    ]
+                }
+            },
+            "script": {
+                "source": "ctx._source[status] = 1",
+                "lang": "painless"
+            }
+        }
+        ]]>
+    </property>
+
+    <!-- 根据机构ID 启用数据 -->
+    <property name="updateByOrgIdQueryEnable">
+        <![CDATA[
+         {
+            "query": {
+                "bool": {
+                    "filter": [
+                        {  ## 检索条件
+                            "term": {
+                                "orgId.keyword": [#[orgId]]
+                            }
+                        }
+                    ]
+                }
+            },
+            "script": {
+                "source": "ctx._source[status] = 0",
+                "lang": "painless"
+            }
+        }
+        ]]>
+    </property>
+
+    <!-- 根据职工ID 启用数据 -->
+    <property name="updateByStaffIdQueryEnable">
+        <![CDATA[
+         {
+            "query": {
+                "bool": {
+                    "filter": [
+                        {  ## 检索条件
+                            "term": {
+                                "staffId.keyword": [#[staffId]]
+                            }
+                        }
+                    ]
+                }
+            },
+            "script": {
+                "source": "ctx._source[status] = 0",
+                "lang": "painless"
+            }
+        }
+        ]]>
+    </property>
+
+    <!-- 根据职工ID 删除数据 -->
+    <property name="deleteByStaffIdQuery">
+        <![CDATA[
+         {
+            "query": {
+                "bool": {
+                    "filter": [
+                        {  ## 检索条件
+                            "term": {
+                                "staffId.keyword": [#[staffId]]
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+        ]]>
+    </property>
+
+    <!-- 根据机构ID 删除数据 -->
+    <property name="deleteByOrgIdQuery">
+        <![CDATA[
+         {
+            "query": {
+                "bool": {
+                    "filter": [
+                        {  ## 检索条件
+                            "term": {
+                                "orgId.keyword": [#[orgId]]
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+        ]]>
+    </property>
+
+</properties>

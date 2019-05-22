@@ -108,6 +108,38 @@ spring:
           tcp:
             connect_timeout: 120s  # 连接超时的时间
 
+  # 集成springboot-bboss-elasticsearch 配置
+  elasticsearch:
+    bboss:
+      elasticUser:
+      elasticPassword:
+      elasticsearch:
+        rest:
+          hostNames: 101.132.136.225:9300
+        dateFormat: yyyy-MM-dd hh:mm:ss
+        timeZone: Asia/Shanghai
+        ttl: 2d
+        showTemplate: true
+        discoverHost: false
+      dslfile:
+        refreshInterval: -1
+      http:
+         timeoutConnection: 400000
+         timeoutSocket: 400000
+         connectionRequestTimeout: 400000
+         retryTime: 1
+         maxLineLength: -1
+         maxHeaderCount: 200
+         maxTotal: 400
+         defaultMaxPerRoute: 200
+         soReuseAddress: false
+         soKeepAlive: false
+         timeToLive: 3600000
+         keepAlive: 3600000
+         keystore:
+         keyPassword:
+         hostnameVerifier:
+
   # redis 配置
   redis:
     host: 101.132.136.225

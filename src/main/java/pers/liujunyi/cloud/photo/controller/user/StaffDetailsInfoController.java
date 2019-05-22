@@ -73,7 +73,7 @@ public class StaffDetailsInfoController extends BaseController {
     public ResultInfo singleDelete(@Valid @NotNull(message = "id 必须填写")
                                        @RequestParam(name = "id", required = true) Long id, @NotNull(message = "userId 必须填写")
     @RequestParam(name = "userId", required = true) Long userId) {
-        return this.staffDetailsInfoService.singleDelete(id, userId);
+        return this.staffDetailsInfoService.deleteSingle(id, userId);
     }
 
     /**
@@ -91,7 +91,7 @@ public class StaffDetailsInfoController extends BaseController {
     @DeleteMapping(value = "verify/staff/d/b")
     @ApiVersion(1)
     public ResultInfo batchDelete(@Valid IdParamDto param) {
-        return this.staffDetailsInfoService.batchDeletes(param.getIdList(), param.getOtherIdList());
+        return this.staffDetailsInfoService.deleteBatch(param.getIdList(), param.getOtherIdList());
     }
 
     /**

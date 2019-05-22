@@ -128,6 +128,9 @@ public class StaffDetailsInfo extends BaseEntity {
     /** 技能 多个用;隔开 */
     private String skill;
 
+    /** 试用期 状态 1：试用期职工   2：正式职工 */
+    private String probationStatus;
+
     private Long dataVersion;
 
 }

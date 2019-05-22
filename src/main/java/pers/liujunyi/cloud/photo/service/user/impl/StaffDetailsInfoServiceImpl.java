@@ -103,6 +103,7 @@ public class StaffDetailsInfoServiceImpl extends BaseServiceImpl<StaffDetailsInf
             });
             super.updateBatchElasticsearchData(sourceMap);
             this.userAccountsService.updateStatus(status.byteValue() == Constant.ENABLE_STATUS.byteValue() ? Constant.ENABLE_STATUS : Constant.DISABLE_STATUS, userIds, putParams);
+            this.staffOrgService.updateStatusByStaffIds(status, ids);
             return ResultUtil.success();
         }
         return ResultUtil.fail();

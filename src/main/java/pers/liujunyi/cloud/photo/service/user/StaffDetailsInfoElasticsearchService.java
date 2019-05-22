@@ -4,7 +4,7 @@ import pers.liujunyi.cloud.common.restful.ResultInfo;
 import pers.liujunyi.cloud.common.service.BaseElasticsearchService;
 import pers.liujunyi.cloud.photo.domain.user.StaffDetailsInfoQueryDto;
 import pers.liujunyi.cloud.photo.domain.user.StaffDetailsInfoVo;
-import pers.liujunyi.cloud.photo.entity.StaffDetailsInfo;
+import pers.liujunyi.cloud.photo.entity.user.StaffDetailsInfo;
 
 /***
  * 文件名称: StaffDetailsInfoElasticsearchService.java

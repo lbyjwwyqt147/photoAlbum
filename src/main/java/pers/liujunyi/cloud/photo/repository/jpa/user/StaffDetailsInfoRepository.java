@@ -4,7 +4,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 import pers.liujunyi.cloud.common.repository.jpa.BaseRepository;
-import pers.liujunyi.cloud.photo.entity.StaffDetailsInfo;
+import pers.liujunyi.cloud.photo.entity.user.StaffDetailsInfo;
 
 import java.util.Date;
 import java.util.List;

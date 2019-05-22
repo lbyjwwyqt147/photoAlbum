@@ -3,7 +3,7 @@ package pers.liujunyi.cloud.photo.service.user;
 import pers.liujunyi.cloud.common.restful.ResultInfo;
 import pers.liujunyi.cloud.common.service.BaseService;
 import pers.liujunyi.cloud.photo.domain.user.StaffDetailsInfoDto;
-import pers.liujunyi.cloud.photo.entity.StaffDetailsInfo;
+import pers.liujunyi.cloud.photo.entity.user.StaffDetailsInfo;
 
 import java.util.List;
 

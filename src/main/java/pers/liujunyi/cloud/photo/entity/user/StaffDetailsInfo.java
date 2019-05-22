@@ -1,4 +1,4 @@
-package pers.liujunyi.cloud.photo.entity;
+package pers.liujunyi.cloud.photo.entity.user;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

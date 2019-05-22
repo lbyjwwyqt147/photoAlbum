@@ -1,7 +1,7 @@
 package pers.liujunyi.cloud.photo.repository.elasticsearch.user;
 
 import pers.liujunyi.cloud.common.repository.elasticsearch.BaseElasticsearchRepository;
-import pers.liujunyi.cloud.photo.entity.StaffDetailsInfo;
+import pers.liujunyi.cloud.photo.entity.user.StaffDetailsInfo;
 
 /***
  * 文件名称: StaffDetailsInfoElasticsearchRepository.java

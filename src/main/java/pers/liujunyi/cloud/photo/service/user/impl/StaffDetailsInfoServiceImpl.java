@@ -12,7 +12,7 @@ import pers.liujunyi.cloud.common.service.impl.BaseServiceImpl;
 import pers.liujunyi.cloud.common.util.DozerBeanMapperUtil;
 import pers.liujunyi.cloud.common.util.UserUtils;
 import pers.liujunyi.cloud.photo.domain.user.StaffDetailsInfoDto;
-import pers.liujunyi.cloud.photo.entity.StaffDetailsInfo;
+import pers.liujunyi.cloud.photo.entity.user.StaffDetailsInfo;
 import pers.liujunyi.cloud.photo.repository.elasticsearch.user.StaffDetailsInfoElasticsearchRepository;
 import pers.liujunyi.cloud.photo.repository.jpa.user.StaffDetailsInfoRepository;
 import pers.liujunyi.cloud.photo.service.user.StaffDetailsInfoService;

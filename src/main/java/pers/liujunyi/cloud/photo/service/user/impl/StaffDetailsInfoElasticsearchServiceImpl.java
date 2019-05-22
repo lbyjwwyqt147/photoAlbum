@@ -17,7 +17,7 @@ import pers.liujunyi.cloud.common.util.DictUtil;
 import pers.liujunyi.cloud.common.util.DozerBeanMapperUtil;
 import pers.liujunyi.cloud.photo.domain.user.StaffDetailsInfoQueryDto;
 import pers.liujunyi.cloud.photo.domain.user.StaffDetailsInfoVo;
-import pers.liujunyi.cloud.photo.entity.StaffDetailsInfo;
+import pers.liujunyi.cloud.photo.entity.user.StaffDetailsInfo;
 import pers.liujunyi.cloud.photo.repository.elasticsearch.user.StaffDetailsInfoElasticsearchRepository;
 import pers.liujunyi.cloud.photo.service.user.StaffDetailsInfoElasticsearchService;
 import pers.liujunyi.cloud.photo.util.DictConstant;

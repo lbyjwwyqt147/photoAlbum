@@ -55,13 +55,13 @@ public class Album extends BaseEntity {
     /** 相册主题 */
     private String albumTitle;
 
-    /** 相册风格 例如：小清新、日系、森系、复古、婚纱 等 */
+    /** 相册风格 例如：1：小清新、2:日系、3:森系、4:复古、5:婚纱 等 */
     private String albumStyle;
 
-    /** 相册归类 例如：样片、客片 等 */
+    /** 相册归类 例如：1：样片、2：客片 3:商业 等 */
     private String albumClassification;
 
-    /** 相册分类 例如：写真、婚纱、旅拍 等 */
+    /** 相册分类 例如：1：写真、2：婚纱、3：旅拍 等 */
     private String albumClassify;
 
     /** 相册状态  0：已发布（可见）  1：不可见  2：草稿 */

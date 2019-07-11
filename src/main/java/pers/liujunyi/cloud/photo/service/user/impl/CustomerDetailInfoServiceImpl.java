@@ -107,21 +107,21 @@ public class CustomerDetailInfoServiceImpl extends BaseServiceImpl<CustomerDetai
     }
 
     @Override
-    public ResultInfo batchDeletes(List<Long> ids, List<Long> userIds) {
+    public ResultInfo deleteBatch(List<Long> ids, List<Long> userIds) {
         long count = this.customerDetailInfoRepository.deleteByIdIn(ids);
         if (count > 0) {
             this.customerDetailInfoElasticsearchRepository.deleteByIdIn(ids);
-            this.userAccountsService.batchDeletes(userIds);
+            this.userAccountsService.deleteBatch(userIds);
             return ResultUtil.success();
         }
         return ResultUtil.fail();
     }
 
     @Override
-    public ResultInfo singleDelete(Long id, Long userId) {
+    public ResultInfo deleteSingle(Long id, Long userId) {
         this.customerDetailInfoRepository.deleteById(id);
         this.customerDetailInfoElasticsearchRepository.deleteById(id);
-        this.userAccountsService.singleDelete(userId);
+        this.userAccountsService.deleteSingle(userId);
         return ResultUtil.success();
     }
 

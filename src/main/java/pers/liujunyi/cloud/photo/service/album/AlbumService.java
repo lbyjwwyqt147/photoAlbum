@@ -40,7 +40,7 @@ public interface AlbumService extends BaseService<Album, Long> {
      * @param ids
      * @return
      */
-    ResultInfo batchDeletes(List<Long> ids);
+    ResultInfo deleteBatch(List<Long> ids);
 
     /**
      * 同步数据到es中

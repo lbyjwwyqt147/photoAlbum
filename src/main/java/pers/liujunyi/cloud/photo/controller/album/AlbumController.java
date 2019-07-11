@@ -84,7 +84,7 @@ public class AlbumController  extends BaseController {
     @DeleteMapping(value = "album/batchDelete")
     @ApiVersion(1)
     public ResultInfo batchDelete(@Valid IdParamDto param) {
-        return this.albumService.batchDeletes(param.getIdList());
+        return this.albumService.deleteBatch(param.getIdList());
     }
 
     /**

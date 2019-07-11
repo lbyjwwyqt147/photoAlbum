@@ -92,7 +92,7 @@ public class AlbumServiceImpl extends BaseServiceImpl<Album, Long> implements Al
     }
 
     @Override
-    public ResultInfo batchDeletes(List<Long> ids) {
+    public ResultInfo deleteBatch(List<Long> ids) {
         return null;
     }
 

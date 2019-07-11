@@ -51,3 +51,6 @@ logging:
   level:
     io.swagger.models.parameters.AbstractSerializableParameter: error
 
+# es mapper 文件路径
+es:
+  basePath: esmapper/

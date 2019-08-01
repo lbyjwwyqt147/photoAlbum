@@ -104,6 +104,7 @@ public class StaffDetailsInfoDto extends BaseDto {
 
     /** 入职日期 */
     @ApiModelProperty(value = "入职日期")
+    @NotNull(message = "入职日期 必须填写")
     private Date entryDate;
 
     /** 员工联系电话 */

@@ -195,6 +195,9 @@ public class StaffDetailsInfoServiceImpl extends BaseServiceImpl<StaffDetailsInf
             userAccounts.setUserName(record.getStaffName());
             userAccounts.setUserNickName(record.getStaffNickName());
             userAccounts.setUserNumber(record.getStaffNumber());
+            userAccounts.setUserPassword(record.getMobilePhone());
+            userAccounts.setRegisteredSource((byte) 1);
+            userAccounts.setUserCategory(Constant.USER_CATEGORY_STAFF);
             return this.userAccountsService.saveRecord(userAccounts);
         } else {
             UserAccountsUpdateDto userAccountsUpdate = new UserAccountsUpdateDto();

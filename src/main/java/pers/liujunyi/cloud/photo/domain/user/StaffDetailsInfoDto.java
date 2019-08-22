@@ -1,5 +1,6 @@
 package pers.liujunyi.cloud.photo.domain.user;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -105,6 +106,7 @@ public class StaffDetailsInfoDto extends BaseDto {
     /** 入职日期 */
     @ApiModelProperty(value = "入职日期")
     @NotNull(message = "入职日期 必须填写")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     private Date entryDate;
 
     /** 员工联系电话 */
@@ -138,6 +140,7 @@ public class StaffDetailsInfoDto extends BaseDto {
     /** 生日 */
     @ApiModelProperty(value = "出生日期")
     @NotNull(message = "出生日期 必须填写")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     private Date birthday;
 
     /** 年龄 */

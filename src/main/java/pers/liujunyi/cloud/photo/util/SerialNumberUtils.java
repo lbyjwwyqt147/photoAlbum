@@ -1,6 +1,6 @@
 package pers.liujunyi.cloud.photo.util;
 
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -12,7 +12,7 @@ import pers.liujunyi.cloud.common.util.DateTimeUtils;
  * 编号 工具类
  * @author Administrator
  */
-@Slf4j
+@Log4j2
 @Component
 public class SerialNumberUtils {
 

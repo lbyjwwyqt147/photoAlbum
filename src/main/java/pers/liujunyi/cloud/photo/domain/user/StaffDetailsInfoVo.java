@@ -38,9 +38,10 @@ public class StaffDetailsInfoVo extends StaffDetailsInfoDto {
     private String addressText;
 
 
-    /** 组织机构 */
+    /** 所属组织机构名称 */
     @ApiModelProperty(value = "组织机构")
-    private String orgName;
+    private String staffOrgName;
+
 
     /** 在职年限 */
     @ApiModelProperty(value = "在职年限")

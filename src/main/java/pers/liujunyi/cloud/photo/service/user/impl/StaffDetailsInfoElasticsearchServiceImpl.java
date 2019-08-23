@@ -21,7 +21,9 @@ import pers.liujunyi.cloud.photo.entity.user.StaffDetailsInfo;
 import pers.liujunyi.cloud.photo.repository.elasticsearch.user.StaffDetailsInfoElasticsearchRepository;
 import pers.liujunyi.cloud.photo.service.user.StaffDetailsInfoElasticsearchService;
 import pers.liujunyi.cloud.photo.util.DictConstant;
+import pers.liujunyi.cloud.security.entity.organizations.Organizations;
 import pers.liujunyi.cloud.security.entity.user.UserAccounts;
+import pers.liujunyi.cloud.security.service.organizations.StaffOrgElasticsearchService;
 import pers.liujunyi.cloud.security.service.user.UserAccountsElasticsearchService;
 
 import java.util.Date;
@@ -52,6 +54,8 @@ public class StaffDetailsInfoElasticsearchServiceImpl extends BaseElasticsearchS
     private UserAccountsElasticsearchService userAccountsElasticsearchService;
     @Autowired
     private DictUtil dictUtil;
+    @Autowired
+    private StaffOrgElasticsearchService staffOrgElasticsearchService;
 
     public StaffDetailsInfoElasticsearchServiceImpl(BaseElasticsearchRepository<StaffDetailsInfo, Long> baseElasticsearchRepository) {
         super(baseElasticsearchRepository);
@@ -84,25 +88,34 @@ public class StaffDetailsInfoElasticsearchServiceImpl extends BaseElasticsearchS
             List<String> dictCodeList = new LinkedList<>();
             dictCodeList.add(DictConstant.STAFF_POSITION);
             Map<String, Map<String, String>> dictMap = this.dictUtil.getDictNameToMapList(dictCodeList);
+            List<Long> staffIds =  searchDataList.stream().map(StaffDetailsInfo::getId).distinct().collect(Collectors.toList());
             // 获取行政区划
             List<Long> districtList = searchDataList.stream().map(StaffDetailsInfo::getDistrict).distinct().collect(Collectors.toList());
             Map<Long, String> districtMap = this.dictUtil.getAreaNameToMap(districtList);
             // 获取账户信息
             List<Long> accountIdList = searchDataList.stream().map(StaffDetailsInfo::getStaffAccountsId).distinct().collect(Collectors.toList());
             Map<Long, UserAccounts> userAccountsMap = this.userAccountsElasticsearchService.getUserAccountInfoToMap(accountIdList);
+            // 获取组织机构信息
+           Map<Long, List<Organizations>> orgInfoMap = this.staffOrgElasticsearchService.getOrgInfoByStaffIdIn(staffIds);
             searchDataList.stream().forEach(item -> {
+                StaffDetailsInfoVo staffDetailsInfo = DozerBeanMapperUtil.copyProperties(item, StaffDetailsInfoVo.class);
                 if (!CollectionUtils.isEmpty(dictMap)) {
-                    StaffDetailsInfoVo staffDetailsInfo = DozerBeanMapperUtil.copyProperties(item, StaffDetailsInfoVo.class);
                     Map<String, String> positionMap = dictMap.get(DictConstant.STAFF_POSITION);
                     staffDetailsInfo.setStaffPositionText(!CollectionUtils.isEmpty(positionMap) ? positionMap.get(item.getStaffPosition()) : "");
-                    staffDetailsInfo.setAddressText(!CollectionUtils.isEmpty(districtMap) ? districtMap.get(item.getDistrict()) : "");
-                    // 计算在职年限
-                    DayCompare dayCompare = DateTimeUtils.dayCompare(item.getEntryDate(), new Date());
-                    staffDetailsInfo.setDuration(dayCompare.getMonth());
-                    staffDetailsInfo.setDataVersion(userAccountsMap.get(item.getStaffAccountsId()).getDataVersion());
-                    staffDetailsInfo.setUserId(item.getStaffAccountsId());
-                    resultDataList.add(staffDetailsInfo);
                 }
+                if (!CollectionUtils.isEmpty(orgInfoMap)) {
+                    List<Organizations> organizationsList = orgInfoMap.get(item.getId());
+                    Organizations organizations = organizationsList.get(0);
+                    staffDetailsInfo.setStaffOrgName(organizations.getFullName());
+                    staffDetailsInfo.setStaffOrgId(organizations.getId());
+                }
+                staffDetailsInfo.setAddressText(!CollectionUtils.isEmpty(districtMap) ? districtMap.get(item.getDistrict()) : "");
+                staffDetailsInfo.setDataVersion(userAccountsMap.get(item.getStaffAccountsId()).getDataVersion());
+                staffDetailsInfo.setUserId(item.getStaffAccountsId());
+                // 计算在职年限
+                DayCompare dayCompare = DateTimeUtils.dayCompare(item.getEntryDate(), new Date());
+                staffDetailsInfo.setDuration(dayCompare.getMonth());
+                resultDataList.add(staffDetailsInfo);
             });
         }
         Long totalElements =  searchPageResults.getTotalElements();

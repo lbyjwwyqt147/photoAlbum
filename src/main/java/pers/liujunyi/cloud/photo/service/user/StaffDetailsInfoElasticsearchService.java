@@ -6,6 +6,9 @@ import pers.liujunyi.cloud.photo.domain.user.StaffDetailsInfoQueryDto;
 import pers.liujunyi.cloud.photo.domain.user.StaffDetailsInfoVo;
 import pers.liujunyi.cloud.photo.entity.user.StaffDetailsInfo;
 
+import java.util.List;
+import java.util.Map;
+
 /***
  * 文件名称: StaffDetailsInfoElasticsearchService.java
  * 文件描述: 职工档案信息 Elasticsearch Service
@@ -68,4 +71,25 @@ public interface StaffDetailsInfoElasticsearchService extends BaseElasticsearchS
      * @return
      */
     StaffDetailsInfoVo getStaffDetailsById(Long id);
+
+    /**
+     * 员工下拉框数据
+     * @param query
+     * @return
+     */
+    List<Map<String, String>> staffSelect(StaffDetailsInfoQueryDto query);
+
+    /**
+     * 获取职工名称
+     * @param ids
+     * @return
+     */
+    Map<Long, String> getStaffNameMap(List<Long> ids);
+
+    /**
+     * 获取职工信息
+     * @param ids
+     * @return
+     */
+    Map<Long, StaffDetailsInfo> getDetailsInfoMap(List<Long> ids);
 }

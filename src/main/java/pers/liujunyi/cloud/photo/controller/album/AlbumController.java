@@ -44,11 +44,11 @@ public class AlbumController  extends BaseController {
      * @param param
      * @return
      */
-    @ApiOperation(value = "保存数据", notes = "适用于保存数据 请求示例：127.0.0.1:18081/api/v1/album/save")
+    @ApiOperation(value = "保存数据", notes = "适用于保存数据 请求示例：127.0.0.1:18081/api/v1/verify/album/s")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1")
     })
-    @PostMapping(value = "album/save")
+    @PostMapping(value = "verify/album/s")
     @ApiVersion(1)
     public ResultInfo saveRecord(@Valid AlbumDto param) {
         return this.albumService.saveRecord(param);
@@ -60,11 +60,11 @@ public class AlbumController  extends BaseController {
      * @param param
      * @return
      */
-    @ApiOperation(value = "单条删除数据", notes = "适用于单条删除数据 请求示例：127.0.0.1:18081/api/v1/album/delete")
+    @ApiOperation(value = "单条删除数据", notes = "适用于单条删除数据 请求示例：127.0.0.1:18081/api/v1/verify/album/d")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1")
     })
-    @DeleteMapping(value = "album/delete")
+    @DeleteMapping(value = "verify/album/d")
     @ApiVersion(1)
     public ResultInfo singleDelete(@Valid IdParamDto param) {
         this.albumService.deleteById(param.getId());
@@ -77,11 +77,11 @@ public class AlbumController  extends BaseController {
      * @param param 　 多个id 用 , 隔开
      * @return
      */
-    @ApiOperation(value = "删除多条数据", notes = "适用于批量删除数据 请求示例：127.0.0.1:18081/api/v1/album/batchDelete")
+    @ApiOperation(value = "删除多条数据", notes = "适用于批量删除数据 请求示例：127.0.0.1:18081/api/v1/verify/album/d/b")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1")
     })
-    @DeleteMapping(value = "album/batchDelete")
+    @DeleteMapping(value = "verify/album/d/b")
     @ApiVersion(1)
     public ResultInfo batchDelete(@Valid IdParamDto param) {
         return this.albumService.deleteBatch(param.getIdList());
@@ -93,11 +93,11 @@ public class AlbumController  extends BaseController {
      * @param query
      * @return
      */
-    @ApiOperation(value = "分页列表数据", notes = "适用于分页grid 显示数据 请求示例：127.0.0.1:18081/api/v1/album/grid")
+    @ApiOperation(value = "分页列表数据", notes = "适用于分页grid 显示数据 请求示例：127.0.0.1:18081/api/v1/table/album/g")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1")
     })
-    @GetMapping(value = "album/grid")
+    @GetMapping(value = "table/album/g")
     @ApiVersion(1)
     public ResultInfo findPageGrid(@Valid AlbumQueryDto query) {
         return this.albumElasticsearchService.findPageGird(query);
@@ -112,14 +112,31 @@ public class AlbumController  extends BaseController {
      * @param param
      * @return
      */
-    @ApiOperation(value = "修改数据状态", notes = "适用于修改数据状态 请求示例：127.0.0.1:18081/api/v1/album/status")
+    @ApiOperation(value = "修改数据状态", notes = "适用于修改数据状态 请求示例：127.0.0.1:18081/api/v1/verify/album/p")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1")
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
     })
-    @PutMapping(value = "album/status")
+    @PutMapping(value = "verify/album/p")
     @ApiVersion(1)
     public ResultInfo updateDataStatus(@Valid IdParamDto param ) {
         return this.albumService.updateStatus(param.getStatus(), param.getIdList());
+    }
+
+    /**
+     *  根据ID 获取数据详情
+     *
+     * @param id
+     * @return
+     */
+    @ApiOperation(value = "根据ID 获取数据详情", notes = "根据ID 获取数据详情 请求示例：127.0.0.1:18081/api/v1/table/album/1")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "id", value = "id", paramType = "path",   required = true, dataType = "Long")
+    })
+    @GetMapping(value = "table/album/{id}")
+    @ApiVersion(1)
+    public ResultInfo findById(@PathVariable(name = "id") Long id) {
+        return this.albumElasticsearchService.details(id);
     }
 
 
@@ -128,11 +145,11 @@ public class AlbumController  extends BaseController {
      * @param
      * @return
      */
-    @ApiOperation(value = "同步数据", notes = "同步数据 请求示例：127.0.0.1:18081/api/v1/album/sync")
+    @ApiOperation(value = "同步数据", notes = "同步数据 请求示例：127.0.0.1:18081/api/v1/verify/album/sync")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
     })
-    @PostMapping(value = "album/sync")
+    @PostMapping(value = "verify/album/sync")
     @ApiVersion(1)
     public ResultInfo syncDataToElasticsearch() {
         return this.albumService.syncDataToElasticsearch();

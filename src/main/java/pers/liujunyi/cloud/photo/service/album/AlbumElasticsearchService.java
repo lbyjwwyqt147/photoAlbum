@@ -26,4 +26,17 @@ public interface AlbumElasticsearchService extends BaseElasticsearchService<Albu
      */
     ResultInfo findPageGird(AlbumQueryDto query);
 
+    /**
+     * 根据ID 获取详细数据
+     * @param id
+     * @return
+     */
+    ResultInfo details(Long id);
+
+    /**
+     * 根据ID 获取详细数据
+     * @param id
+     * @return
+     */
+    Album findById(Long id);
 }

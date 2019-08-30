@@ -151,7 +151,5 @@ public class CustomerDetailInfoDto extends BaseDto {
     /** 头像id  */
     private Long customerPortraitId;
 
-    /** 版本号 */
-    private Long version;
 
 }

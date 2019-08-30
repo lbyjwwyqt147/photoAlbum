@@ -62,6 +62,7 @@ public class StaffDetailsInfoServiceImpl extends BaseServiceImpl<StaffDetailsInf
     public ResultInfo saveRecord(StaffDetailsInfoDto record) {
         // 先保存账户信息
         ResultInfo result = this.saveUserAccountRecord(record);
+        record.setStaffPhone(record.getMobilePhone());
         if (result.getSuccess()) {
             if (record.getStaffCategory() == null) {
                 record.setStaffCategory((byte)2);
@@ -181,6 +182,29 @@ public class StaffDetailsInfoServiceImpl extends BaseServiceImpl<StaffDetailsInf
         return ResultUtil.fail();
     }
 
+    @Override
+    public ResultInfo setCurDimissionInfo(Long id, Long userId, Date date, String dimissionReason, Long dataVersion) {
+        StaffDetailsInfo staffDetailsInfo = new StaffDetailsInfo();
+        staffDetailsInfo.setId(id);
+        staffDetailsInfo.setStaffStatus((byte) 2);
+        staffDetailsInfo.setDimissionDate(date);
+        staffDetailsInfo.setDimissionReason(dimissionReason);
+        StaffDetailsInfo detailsInfo = this.staffDetailsInfoRepository.save(staffDetailsInfo);
+        if (detailsInfo != null) {
+            Map<String, Map<String, Object>> sourceMap = new ConcurrentHashMap<>();
+            Map<String, Object> docDataMap = new HashMap<>();
+            docDataMap.put("dimissionDate", staffDetailsInfo.getDimissionDate());
+            docDataMap.put("staffStatus", staffDetailsInfo.getStaffStatus());
+            docDataMap.put("dimissionReason", staffDetailsInfo.getDimissionReason());
+            docDataMap.put("updateTime", System.currentTimeMillis());
+            sourceMap.put(id.toString(), docDataMap);
+            super.updateBatchElasticsearchData(sourceMap);
+            this.userAccountsService.updateStatus(Constant.DISABLE_STATUS, userId, dataVersion);
+            return ResultUtil.success();
+        }
+        return ResultUtil.fail();
+    }
+
     /**
      * 保存用户帐号信息
      * @param record
@@ -201,6 +225,7 @@ public class StaffDetailsInfoServiceImpl extends BaseServiceImpl<StaffDetailsInf
             return this.userAccountsService.saveRecord(userAccounts);
         } else {
             UserAccountsUpdateDto userAccountsUpdate = new UserAccountsUpdateDto();
+            userAccountsUpdate.setRegisteredSource((byte) 1);
             userAccountsUpdate.setId(record.getStaffAccountsId());
             userAccountsUpdate.setMobilePhone(record.getMobilePhone());
             userAccountsUpdate.setUserAccounts(record.getMobilePhone());
@@ -218,7 +243,7 @@ public class StaffDetailsInfoServiceImpl extends BaseServiceImpl<StaffDetailsInf
      * @param record
      */
     private void saveStaffOrg(StaffDetailsInfoDto record) {
-        this.staffOrgService.deleteByOrgId(record.getStaffOrgId());
+        this.staffOrgService.deleteByStaffId(record.getId());
         StaffOrg staffOrg = new StaffOrg();
         staffOrg.setFullParent(record.getStaffFullParent());
         staffOrg.setOrgId(record.getStaffOrgId());

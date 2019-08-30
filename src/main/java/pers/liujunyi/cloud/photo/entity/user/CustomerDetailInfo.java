@@ -117,5 +117,6 @@ public class CustomerDetailInfo extends BaseEntity {
 
     /** 版本号 */
     @Version
-    private Long version;
+    private Long dataVersion;
+
 }

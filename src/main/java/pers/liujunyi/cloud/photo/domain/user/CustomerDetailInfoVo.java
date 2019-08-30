@@ -115,6 +115,5 @@ public class CustomerDetailInfoVo  extends BaseVo {
 
     /** 头像id  */
     private Long customerPortraitId;
-    /** 版本号 */
-    private Long version;
+
 }

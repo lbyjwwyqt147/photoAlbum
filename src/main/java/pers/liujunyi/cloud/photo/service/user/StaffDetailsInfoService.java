@@ -5,6 +5,7 @@ import pers.liujunyi.cloud.common.service.BaseService;
 import pers.liujunyi.cloud.photo.domain.user.StaffDetailsInfoDto;
 import pers.liujunyi.cloud.photo.entity.user.StaffDetailsInfo;
 
+import java.util.Date;
 import java.util.List;
 
 /***
@@ -65,4 +66,14 @@ public interface StaffDetailsInfoService extends BaseService<StaffDetailsInfo, L
      */
     ResultInfo setPortrait(Long id, String portrait, Long portraitId);
 
+    /**
+     * 设置员工离职信息
+     * @param id
+     * @param userId
+     * @param date    离职日期
+     * @param dimissionReason  离职原因
+     * @param dataVersion
+     * @return
+     */
+    ResultInfo setCurDimissionInfo(Long id, Long userId, Date date, String dimissionReason, Long dataVersion);
 }

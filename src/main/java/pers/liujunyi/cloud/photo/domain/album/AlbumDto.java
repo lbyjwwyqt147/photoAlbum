@@ -127,6 +127,5 @@ public class AlbumDto extends BaseDto {
     @ApiModelProperty(value = "拍摄时间")
     private Date shootingsDate;
 
-    /** 版本号 */
-    private Long version;
+
 }

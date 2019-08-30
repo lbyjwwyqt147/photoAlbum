@@ -30,7 +30,7 @@ public interface StaffDetailsInfoRepository extends BaseRepository<StaffDetailsI
      */
     @Transactional(rollbackFor = {RuntimeException.class, Exception.class})
     @Modifying(clearAutomatically = true)
-    @Query(value = "update staff_details_info u set u.staffStatus = ?1, u.updateTime = ?2 where u.id in (?3)", nativeQuery = true)
+    @Query(value = "update staff_details_info u set u.staff_status = ?1, u.update_time = ?2 where u.id in (?3)", nativeQuery = true)
     int setStaffStatusByIds(Byte staffStatus, Date updateTime, List<Long> ids);
 
     /**

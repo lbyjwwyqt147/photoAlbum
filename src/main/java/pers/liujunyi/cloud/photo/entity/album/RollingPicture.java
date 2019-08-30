@@ -62,5 +62,6 @@ public class RollingPicture extends BaseEntity {
 
     /** 版本号 */
     @Version
-    private Long version;
+    private Long dataVersion;
+
 }

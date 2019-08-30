@@ -131,6 +131,19 @@ public class StaffDetailsInfo extends BaseEntity {
     /** 试用期 状态 1：试用期职工   2：正式职工 */
     private String probationStatus;
 
+    /** 在职年限 (月) */
+    private Integer workingAge;
+
+    /** 在职年限 年月日 格式 */
+    private String  workingYears;
+
+    /** 离职日期 */
+    private Date dimissionDate;
+
+    /** 离职原因 */
+    private String dimissionReason;
+
     private Long dataVersion;
+
 
 }

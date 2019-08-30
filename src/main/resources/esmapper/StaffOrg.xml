@@ -10,18 +10,12 @@
         <![CDATA[
          {
             "query": {
-                "bool": {
-                    "filter": [
-                        {  ## 检索条件
-                            "term": {
-                                "orgId.keyword": [#[orgId]]
-                            }
-                        }
-                    ]
+                "term": {
+                    "orgId": #[orgId]
                 }
             },
             "script": {
-                "source": "ctx._source[status] = 1",
+                "source": "ctx._source['status'] = 1",
                 "lang": "painless"
             }
         }
@@ -33,18 +27,12 @@
         <![CDATA[
          {
             "query": {
-                "bool": {
-                    "filter": [
-                        {  ## 检索条件
-                            "term": {
-                                "staffId.keyword": [#[staffId]]
-                            }
-                        }
-                    ]
+                "term": {
+                    "staffId": #[staffId]
                 }
             },
             "script": {
-                "source": "ctx._source[status] = 1",
+                "source": "ctx._source['status'] = 1",
                 "lang": "painless"
             }
         }
@@ -56,18 +44,12 @@
         <![CDATA[
          {
             "query": {
-                "bool": {
-                    "filter": [
-                        {  ## 检索条件
-                            "term": {
-                                "orgId.keyword": [#[orgId]]
-                            }
-                        }
-                    ]
+                "term": {
+                    "orgId": #[orgId]
                 }
             },
             "script": {
-                "source": "ctx._source[status] = 0",
+                "source": "ctx._source['status'] = 0",
                 "lang": "painless"
             }
         }
@@ -79,18 +61,12 @@
         <![CDATA[
          {
             "query": {
-                "bool": {
-                    "filter": [
-                        {  ## 检索条件
-                            "term": {
-                                "staffId.keyword": [#[staffId]]
-                            }
-                        }
-                    ]
+                "term": {
+                    "staffId": #[staffId]
                 }
             },
             "script": {
-                "source": "ctx._source[status] = 0",
+                "source": "ctx._source['status'] = 0",
                 "lang": "painless"
             }
         }
@@ -102,14 +78,8 @@
         <![CDATA[
          {
             "query": {
-                "bool": {
-                    "filter": [
-                        {  ## 检索条件
-                            "term": {
-                                "staffId.keyword": [#[staffId]]
-                            }
-                        }
-                    ]
+                "term": {
+                    "staffId": #[staffId]
                 }
             }
         }
@@ -121,14 +91,8 @@
         <![CDATA[
          {
             "query": {
-                "bool": {
-                    "filter": [
-                        {  ## 检索条件
-                            "term": {
-                                "orgId.keyword": [#[orgId]]
-                            }
-                        }
-                    ]
+                "term": {
+                    "orgId": #[orgId]
                 }
             }
         }

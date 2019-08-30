@@ -115,12 +115,13 @@ spring:
       elasticPassword:
       elasticsearch:
         rest:
-          hostNames: 101.132.136.225:9300
+          hostNames: 101.132.136.225:9200
         dateFormat: yyyy-MM-dd hh:mm:ss
         timeZone: Asia/Shanghai
         ttl: 2d
         showTemplate: true
         discoverHost: false
+      #dsl配置文件热加载扫描时间间隔，毫秒为单位，默认5秒扫描一次，<= 0时关闭扫描机制
       dslfile:
         refreshInterval: -1
       http:

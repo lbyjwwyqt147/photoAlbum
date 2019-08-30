@@ -27,6 +27,8 @@ public class StaffDetailsInfoVo extends StaffDetailsInfoDto {
     /** 员工职务   1: 摄影师 2：数码师（后期）  3：化妆师 等 */
     @ApiModelProperty(value = "职务")
     private Byte staffPosition;
+
+
     @ApiModelProperty(value = "职务")
     private String staffPositionText;
 
@@ -42,9 +44,7 @@ public class StaffDetailsInfoVo extends StaffDetailsInfoDto {
     @ApiModelProperty(value = "组织机构")
     private String staffOrgName;
 
-
-    /** 在职年限 */
-    @ApiModelProperty(value = "在职年限")
-    private Integer duration;
+    /** 技能（特长）*/
+    private String skillText;
 
 }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import pers.liujunyi.cloud.common.annotation.ApiVersion;
 import pers.liujunyi.cloud.common.controller.BaseController;
 import pers.liujunyi.cloud.common.restful.ResultInfo;
+import pers.liujunyi.cloud.common.restful.ResultUtil;
 import pers.liujunyi.cloud.photo.domain.user.StaffDetailsInfoDto;
 import pers.liujunyi.cloud.photo.domain.user.StaffDetailsInfoQueryDto;
 import pers.liujunyi.cloud.photo.service.user.StaffDetailsInfoElasticsearchService;
@@ -17,6 +18,7 @@ import pers.liujunyi.cloud.security.domain.IdParamDto;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 /***
  * 文件名称: StaffDetailsInfoController.java
@@ -44,7 +46,7 @@ public class StaffDetailsInfoController extends BaseController {
      * @param param
      * @return
      */
-    @ApiOperation(value = "保存数据", notes = "适用于保存数据 请求示例：127.0.0.1:18080/api/v1/staff/save")
+    @ApiOperation(value = "保存数据", notes = "适用于保存数据 请求示例：127.0.0.1:18080/api/v1/verify/staff/s")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1")
     })
@@ -61,7 +63,7 @@ public class StaffDetailsInfoController extends BaseController {
      * @param userId
      * @return
      */
-    @ApiOperation(value = "单条删除数据", notes = "适用于单条删除数据 请求示例：127.0.0.1:18080/api/v1/staff/delete")
+    @ApiOperation(value = "单条删除数据", notes = "适用于单条删除数据 请求示例：127.0.0.1:18080/api/v1/verify/staff/d")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
             @ApiImplicitParam(name = "userId", value = "userId",  required = true, dataType = "Long"),
@@ -82,7 +84,7 @@ public class StaffDetailsInfoController extends BaseController {
      * @param param 　 多个id 用 , 隔开
      * @return
      */
-    @ApiOperation(value = "删除多条数据", notes = "适用于批量删除数据 请求示例：127.0.0.1:18080/api/v1/staff/batchDelete")
+    @ApiOperation(value = "删除多条数据", notes = "适用于批量删除数据 请求示例：127.0.0.1:18080/api/v1/verify/staff/d/b")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
             @ApiImplicitParam(name = "ids", value = "ids",  required = true, dataType = "String"),
@@ -100,7 +102,7 @@ public class StaffDetailsInfoController extends BaseController {
      * @param query
      * @return
      */
-    @ApiOperation(value = "分页列表数据", notes = "适用于分页grid 显示数据 请求示例：127.0.0.1:18080/api/v1/staff/grid")
+    @ApiOperation(value = "分页列表数据", notes = "适用于分页grid 显示数据 请求示例：127.0.0.1:18080/api/v1/table/staff/g")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1")
     })
@@ -117,7 +119,7 @@ public class StaffDetailsInfoController extends BaseController {
      * @param param
      * @return
      */
-    @ApiOperation(value = "修改数据状态", notes = "适用于修改数据状态 请求示例：127.0.0.1:18080/api/v1/staff/status")
+    @ApiOperation(value = "修改数据状态", notes = "适用于修改数据状态 请求示例：127.0.0.1:18080/api/v1/verify/staff/p")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
             @ApiImplicitParam(name = "ids", value = "ids",  required = true, dataType = "String"),
@@ -136,15 +138,30 @@ public class StaffDetailsInfoController extends BaseController {
      * @param id
      * @return
      */
-    @ApiOperation(value = "根据id 获取详细信息", notes = "适用于根据id 获取详细信息 请求示例：127.0.0.1:18080/api/v1/staff/details/{id}")
+    @ApiOperation(value = "根据id 获取详细信息", notes = "适用于根据id 获取详细信息 请求示例：127.0.0.1:18080/api/v1/table/staff/{id}")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
             @ApiImplicitParam(name = "id", value = "id", paramType = "path",   required = true, dataType = "Long")
     })
-    @GetMapping(value = "table/staff/g/{id}")
+    @GetMapping(value = "table/staff/{id}")
     @ApiVersion(1)
     public ResultInfo findById(@PathVariable(name = "id") Long id) {
         return this.staffDetailsInfoElasticsearchService.findById(id);
+    }
+
+    /**
+     * 员工下拉框数据
+     * @param query
+     * @return
+     */
+    @ApiOperation(value = "员工下拉框数据", notes = "员工下拉框数据 获取详细信息 请求示例：127.0.0.1:18080/api/v1/table/staff/select")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+    })
+    @GetMapping(value = "table/staff/select")
+    @ApiVersion(1)
+    public ResultInfo staffSelect(@Valid StaffDetailsInfoQueryDto query) {
+        return ResultUtil.success(this.staffDetailsInfoElasticsearchService.staffSelect(query));
     }
 
     /**
@@ -152,7 +169,7 @@ public class StaffDetailsInfoController extends BaseController {
      * @param staffAccountsId
      * @return
      */
-    @ApiOperation(value = "根据账户id  获取详细信息", notes = "适用于根据账户id  获取详细信息 请求示例：127.0.0.1:18080/api/v1/staff/details/{staffAccountsId}")
+    @ApiOperation(value = "根据账户id  获取详细信息", notes = "适用于根据账户id  获取详细信息 请求示例：127.0.0.1:18080/api/v1/table/staff/g/accounts/{staffAccountsId}")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
             @ApiImplicitParam(name = "staffAccountsId", value = "staffAccountsId", paramType = "path",   required = true, dataType = "Long")
@@ -170,7 +187,7 @@ public class StaffDetailsInfoController extends BaseController {
      * @param portraitId
      * @return
      */
-    @ApiOperation(value = "根据账户id  获取详细信息", notes = "适用于根据账户id  获取详细信息 请求示例：127.0.0.1:18080/api/v1/staff/portrait/p")
+    @ApiOperation(value = "根据账户id  获取详细信息", notes = "适用于根据账户id  获取详细信息 请求示例：127.0.0.1:18080/api/v1/verify/staff/s/portrait")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
             @ApiImplicitParam(name = "id", value = "id", paramType = "query",   required = true, dataType = "Long"),
@@ -184,11 +201,35 @@ public class StaffDetailsInfoController extends BaseController {
     }
 
     /**
+     * 设置离职信息
+     * @param id
+     * @param userId
+     * @param date
+     * @param dimissionReason
+     * @param dataVersion
+     * @return
+     */
+    @ApiOperation(value = "根据id  设置离职信息", notes = "适用于根据id  设置离职信息 请求示例：127.0.0.1:18080/api/v1/verify/staff/s/dimission")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "id", value = "id", paramType = "query",   required = true, dataType = "Long"),
+            @ApiImplicitParam(name = "userId", value = "userId", paramType = "query",   required = true, dataType = "String"),
+            @ApiImplicitParam(name = "date", value = "离职日期", paramType = "query",   required = true, dataType = "String"),
+            @ApiImplicitParam(name = "dimissionReason", value = "离职原因", paramType = "query",   required = true, dataType = "String"),
+            @ApiImplicitParam(name = "dataVersion", value = "数据版本号", paramType = "query",   required = true, dataType = "Long")
+    })
+    @PutMapping(value = "verify/staff/s/dimission")
+    @ApiVersion(1)
+    public ResultInfo setCurDimissionInfo(Long id, Long userId, Date date, String dimissionReason, Long dataVersion) {
+        return this.staffDetailsInfoService.setCurDimissionInfo(id, userId, date, dimissionReason, dataVersion);
+    }
+
+    /**
      *  同步数据到es中
      * @param
      * @return
      */
-    @ApiOperation(value = "同步数据", notes = "同步数据 请求示例：127.0.0.1:18080/api/v1/staff/sync")
+    @ApiOperation(value = "同步数据", notes = "同步数据 请求示例：127.0.0.1:18080/api/v1/verify/staff/sync")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
     })

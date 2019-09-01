@@ -55,7 +55,9 @@ public class AlbumServiceImpl extends BaseServiceImpl<Album, Long> implements Al
     public ResultInfo saveRecord(AlbumDto record) {
         Album album = DozerBeanMapperUtil.copyProperties(record, Album.class);
         album.setAlbumNumber(String.valueOf(System.currentTimeMillis()));
-        album.setAlbumPriority((byte) 10);
+        if (record.getAlbumPriority() == null) {
+            album.setAlbumPriority((byte) 10);
+        }
         Album saveObject = this.albumRepository.save(album);
         if (saveObject == null || saveObject.getId() == null) {
             return ResultUtil.fail();
@@ -71,6 +73,7 @@ public class AlbumServiceImpl extends BaseServiceImpl<Album, Long> implements Al
             albumPicture.setPictureId(jsonObject.getLong("id"));
             albumPicture.setPictureLocation(jsonObject.getString("fileCallAddress"));
             albumPicture.setPictureName(jsonObject.getString("fileName"));
+            albumPicture.setPictureCategory(jsonObject.getByte("fileCategory"));
             albumPicture.setStatus(Constant.ENABLE_STATUS);
             albumPicture.setPriority(i);
             if (i == 1) {
@@ -83,7 +86,7 @@ public class AlbumServiceImpl extends BaseServiceImpl<Album, Long> implements Al
         }
         List<AlbumPicture> albumPictures =  this.albumPictureRepository.saveAll(albumPictureList);
         this.albumPictureElasticsearchRepository.saveAll(albumPictures);
-        return ResultUtil.success();
+        return ResultUtil.success(saveObject.getId());
     }
 
     @Override

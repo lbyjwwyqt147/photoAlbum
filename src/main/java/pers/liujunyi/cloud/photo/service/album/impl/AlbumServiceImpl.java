@@ -128,7 +128,7 @@ public class AlbumServiceImpl extends BaseServiceImpl<Album, Long> implements Al
         Sort sort =  new Sort(Sort.Direction.ASC, "id");
         List<Album> albumList = this.albumRepository.findAll(sort);
         if (!CollectionUtils.isEmpty(albumList)) {
-            this.albumRepository.deleteAll();
+            this.albumElasticsearchRepository.deleteAll();
             // 限制条数
             int pointsDataLimit = 1000;
             int size = albumList.size();
@@ -141,22 +141,22 @@ public class AlbumServiceImpl extends BaseServiceImpl<Album, Long> implements Al
                     List<Album> partList = new LinkedList<>(albumList.subList(0, pointsDataLimit));
                     //剔除
                     albumList.subList(0, pointsDataLimit).clear();
-                    this.albumRepository.saveAll(partList);
+                    this.albumElasticsearchRepository.saveAll(partList);
                 }
                 //表示最后剩下的数据
                 if (!CollectionUtils.isEmpty(albumList)) {
-                    this.albumRepository.saveAll(albumList);
+                    this.albumElasticsearchRepository.saveAll(albumList);
                 }
             } else {
-                this.albumRepository.saveAll(albumList);
+                this.albumElasticsearchRepository.saveAll(albumList);
             }
         } else {
-            this.albumRepository.deleteAll();
+            this.albumElasticsearchRepository.deleteAll();
         }
         // 同步相册照片信息
         List<AlbumPicture> pictureList = this.albumPictureRepository.findAll(sort);
         if (!CollectionUtils.isEmpty(pictureList)) {
-            this.albumPictureRepository.deleteAll();
+            this.albumPictureElasticsearchRepository.deleteAll();
             // 限制条数
             int pointsDataLimit = 1000;
             int size = pictureList.size();
@@ -169,17 +169,17 @@ public class AlbumServiceImpl extends BaseServiceImpl<Album, Long> implements Al
                     List<AlbumPicture> partList = new LinkedList<>(pictureList.subList(0, pointsDataLimit));
                     //剔除
                     pictureList.subList(0, pointsDataLimit).clear();
-                    this.albumPictureRepository.saveAll(partList);
+                    this.albumPictureElasticsearchRepository.saveAll(partList);
                 }
                 //表示最后剩下的数据
                 if (!CollectionUtils.isEmpty(pictureList)) {
-                    this.albumPictureRepository.saveAll(pictureList);
+                    this.albumPictureElasticsearchRepository.saveAll(pictureList);
                 }
             } else {
-                this.albumPictureRepository.saveAll(pictureList);
+                this.albumPictureElasticsearchRepository.saveAll(pictureList);
             }
         } else {
-            this.albumPictureRepository.deleteAll();
+            this.albumPictureElasticsearchRepository.deleteAll();
         }
         return ResultUtil.success();
     }

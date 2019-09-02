@@ -4,7 +4,9 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import pers.liujunyi.cloud.common.repository.jpa.BaseRepository;
 import pers.liujunyi.cloud.common.restful.ResultInfo;
 import pers.liujunyi.cloud.common.restful.ResultUtil;
@@ -20,8 +22,8 @@ import pers.liujunyi.cloud.photo.repository.jpa.album.AlbumRepository;
 import pers.liujunyi.cloud.photo.service.album.AlbumService;
 import pers.liujunyi.cloud.photo.util.Constant;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /***
  * 文件名称: AlbumServiceImpl.java
@@ -90,8 +92,19 @@ public class AlbumServiceImpl extends BaseServiceImpl<Album, Long> implements Al
     }
 
     @Override
-    public ResultInfo updateStatus(Byte status, List<Long> ids) {
-        return null;
+    public ResultInfo updateStatus(Byte status, Long id, Long dataVersion) {
+        int count = this.albumRepository.setStatusByIds(status, id, dataVersion);
+        if (count > 0) {
+            Map<String, Map<String, Object>> sourceMap = new ConcurrentHashMap<>();
+            Map<String, Object> docDataMap = new HashMap<>();
+            docDataMap.put("albumStatus", status);
+            docDataMap.put("updateTime", System.currentTimeMillis());
+            docDataMap.put("dataVersion", dataVersion + 1);
+            sourceMap.put(String.valueOf(id), docDataMap);
+            super.updateBatchElasticsearchData(sourceMap);
+            return ResultUtil.success();
+        }
+        return ResultUtil.fail();
     }
 
     @Override
@@ -100,7 +113,74 @@ public class AlbumServiceImpl extends BaseServiceImpl<Album, Long> implements Al
     }
 
     @Override
+    public ResultInfo deleteSingle(Long id) {
+        this.albumRepository.deleteById(id);
+        int count = this.albumPictureRepository.deleteByAlbumId(id);
+        if (count > 0) {
+            return ResultUtil.success();
+        }
+        return ResultUtil.fail();
+    }
+
+    @Override
     public ResultInfo syncDataToElasticsearch() {
-        return null;
+        // 先同步相册信息
+        Sort sort =  new Sort(Sort.Direction.ASC, "id");
+        List<Album> albumList = this.albumRepository.findAll(sort);
+        if (!CollectionUtils.isEmpty(albumList)) {
+            this.albumRepository.deleteAll();
+            // 限制条数
+            int pointsDataLimit = 1000;
+            int size = albumList.size();
+            //判断是否有必要分批
+            if(pointsDataLimit < size){
+                //分批数
+                int part = size/pointsDataLimit;
+                for (int i = 0; i < part; i++) {
+                    //1000条
+                    List<Album> partList = new LinkedList<>(albumList.subList(0, pointsDataLimit));
+                    //剔除
+                    albumList.subList(0, pointsDataLimit).clear();
+                    this.albumRepository.saveAll(partList);
+                }
+                //表示最后剩下的数据
+                if (!CollectionUtils.isEmpty(albumList)) {
+                    this.albumRepository.saveAll(albumList);
+                }
+            } else {
+                this.albumRepository.saveAll(albumList);
+            }
+        } else {
+            this.albumRepository.deleteAll();
+        }
+        // 同步相册照片信息
+        List<AlbumPicture> pictureList = this.albumPictureRepository.findAll(sort);
+        if (!CollectionUtils.isEmpty(pictureList)) {
+            this.albumPictureRepository.deleteAll();
+            // 限制条数
+            int pointsDataLimit = 1000;
+            int size = pictureList.size();
+            //判断是否有必要分批
+            if(pointsDataLimit < size){
+                //分批数
+                int part = size/pointsDataLimit;
+                for (int i = 0; i < part; i++) {
+                    //1000条
+                    List<AlbumPicture> partList = new LinkedList<>(pictureList.subList(0, pointsDataLimit));
+                    //剔除
+                    pictureList.subList(0, pointsDataLimit).clear();
+                    this.albumPictureRepository.saveAll(partList);
+                }
+                //表示最后剩下的数据
+                if (!CollectionUtils.isEmpty(pictureList)) {
+                    this.albumPictureRepository.saveAll(pictureList);
+                }
+            } else {
+                this.albumPictureRepository.saveAll(pictureList);
+            }
+        } else {
+            this.albumPictureRepository.deleteAll();
+        }
+        return ResultUtil.success();
     }
 }

@@ -30,10 +30,11 @@ public interface AlbumService extends BaseService<Album, Long> {
     /**
      * 修改状态
      * @param status   0：已发布（可见）  1：不可见  2：草稿
-     * @param ids
+     * @param id
+     * @param dataVersion
      * @return
      */
-    ResultInfo updateStatus(Byte status, List<Long> ids);
+    ResultInfo updateStatus(Byte status, Long id, Long dataVersion);
 
     /**
      * 批量删除
@@ -41,6 +42,13 @@ public interface AlbumService extends BaseService<Album, Long> {
      * @return
      */
     ResultInfo deleteBatch(List<Long> ids);
+
+    /**
+     * 单条删除
+     * @param id
+     * @return
+     */
+    ResultInfo deleteSingle(Long id);
 
     /**
      * 同步数据到es中

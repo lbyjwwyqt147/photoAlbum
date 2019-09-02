@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import pers.liujunyi.cloud.common.annotation.ApiVersion;
 import pers.liujunyi.cloud.common.controller.BaseController;
 import pers.liujunyi.cloud.common.restful.ResultInfo;
-import pers.liujunyi.cloud.common.restful.ResultUtil;
 import pers.liujunyi.cloud.photo.domain.album.AlbumDto;
 import pers.liujunyi.cloud.photo.domain.album.AlbumQueryDto;
 import pers.liujunyi.cloud.photo.service.album.AlbumElasticsearchService;
@@ -67,8 +66,7 @@ public class AlbumController  extends BaseController {
     @DeleteMapping(value = "verify/album/d")
     @ApiVersion(1)
     public ResultInfo singleDelete(@Valid IdParamDto param) {
-        this.albumService.deleteById(param.getId());
-        return ResultUtil.success();
+        return this.albumService.deleteSingle(param.getId());
     }
 
     /**
@@ -104,8 +102,6 @@ public class AlbumController  extends BaseController {
     }
 
 
-
-
     /**
      *  修改数据状态
      *
@@ -119,7 +115,7 @@ public class AlbumController  extends BaseController {
     @PutMapping(value = "verify/album/p")
     @ApiVersion(1)
     public ResultInfo updateDataStatus(@Valid IdParamDto param ) {
-        return this.albumService.updateStatus(param.getStatus(), param.getIdList());
+        return this.albumService.updateStatus(param.getStatus(), param.getId(), param.getDataVersion());
     }
 
     /**

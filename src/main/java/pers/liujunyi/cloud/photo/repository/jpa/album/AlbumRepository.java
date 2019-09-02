@@ -6,8 +6,6 @@ import org.springframework.transaction.annotation.Transactional;
 import pers.liujunyi.cloud.common.repository.jpa.BaseRepository;
 import pers.liujunyi.cloud.photo.entity.album.Album;
 
-import java.util.List;
-
 /***
  * 文件名称: AlbumRepository.java
  * 文件描述: 相册管理 Repository
@@ -24,11 +22,12 @@ public interface AlbumRepository extends BaseRepository<Album, Long> {
     /**
      * 修改状态
      * @param albumStatus  0：已发布（可见）  1：不可见  2：草稿
-     * @param ids
+     * @param id
+     * @param dataVersion
      * @return
      */
     @Transactional(rollbackFor = {RuntimeException.class, Exception.class})
     @Modifying(clearAutomatically = true)
-    @Query("update Album u set u.albumStatus = ?1 where u.id in (?2)")
-    int setStatusByIds(Byte albumStatus, List<Long> ids);
+    @Query(value = "update album u set u.album_status = ?1, u.update_time = now(), u.data_version = data_version+1 where u.id = ?2 and u.data_version = ?3 ", nativeQuery = true)
+    int setStatusByIds(Byte albumStatus, Long id, Long dataVersion);
 }

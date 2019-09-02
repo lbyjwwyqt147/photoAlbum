@@ -33,4 +33,10 @@ public interface AlbumPictureRepository extends BaseRepository<AlbumPicture, Lon
     @Query("update Album u set u.albumStatus = ?1, u.updateTime = ?2 where u.id in (?3)")
     int setAlbumStatusByIds(Byte albumStatus, Date updateTime, List<Long> ids);
 
+    /**
+     * 根据相册ID 删除相册图片
+     * @param albumId
+     * @return
+     */
+    int deleteByAlbumId(Long albumId);
 }

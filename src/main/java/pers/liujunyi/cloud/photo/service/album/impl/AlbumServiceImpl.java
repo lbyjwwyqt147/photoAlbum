@@ -115,11 +115,8 @@ public class AlbumServiceImpl extends BaseServiceImpl<Album, Long> implements Al
     @Override
     public ResultInfo deleteSingle(Long id) {
         this.albumRepository.deleteById(id);
-        int count = this.albumPictureRepository.deleteByAlbumId(id);
-        if (count > 0) {
-            return ResultUtil.success();
-        }
-        return ResultUtil.fail();
+        this.albumPictureRepository.deleteByAlbumId(id);
+        return ResultUtil.success();
     }
 
     @Override

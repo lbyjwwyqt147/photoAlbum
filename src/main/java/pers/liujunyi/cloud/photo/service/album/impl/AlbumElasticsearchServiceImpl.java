@@ -73,6 +73,8 @@ public class AlbumElasticsearchServiceImpl extends BaseElasticsearchServiceImpl<
             List<AlbumPicture> albumPictures = this.albumPictureElasticsearchRepository.findByAlbumId(item.getId(), this.allPageable);
             albumVo.setTotal(albumPictures.size());
             albumVo.setAlbumPictureData(albumPictures);
+            albumVo.setTitle(item.getAlbumTitle());
+            albumVo.setStatus(item.getAlbumStatus());
             List<AlbumPicture> filterList = albumPictures.stream().filter(u -> u.getCover().byteValue() == 0).limit(1).collect(Collectors.toList());
             albumVo.setCover(!filterList.isEmpty() ? filterList.get(0).getPictureLocation() : null);
             datas.add(albumVo);

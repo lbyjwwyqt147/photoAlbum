@@ -38,5 +38,7 @@ public class AlbumVo extends AlbumDto {
     private String spotForPhotographyText;
     /** 封面 */
     private String cover;
+    /** 标题 */
+    private String title;
 
 }

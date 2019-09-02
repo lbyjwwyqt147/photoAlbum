@@ -28,6 +28,15 @@ public interface AlbumPictureElasticsearchRepository extends BaseElasticsearchRe
     List<AlbumPicture> findByAlbumId(Long albumId,  Pageable pageable);
 
     /**
+     * 根据相册ID 获取相册封面图片信息
+     * @param albumId
+     * @param cover
+     * @param pageable
+     * @return
+     */
+    List<AlbumPicture> findByAlbumIdAndCover(Long albumId, Byte cover, Pageable pageable);
+
+    /**
      * 根据相册ID 获取相册图片信息
      * @param albumIds
      * @param pageable

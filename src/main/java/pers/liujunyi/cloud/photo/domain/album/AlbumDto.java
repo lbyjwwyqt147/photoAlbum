@@ -1,5 +1,6 @@
 package pers.liujunyi.cloud.photo.domain.album;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -125,6 +126,7 @@ public class AlbumDto extends BaseDto {
 
     /** 拍摄时间 */
     @ApiModelProperty(value = "拍摄时间")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     private Date shootingsDate;
 
 

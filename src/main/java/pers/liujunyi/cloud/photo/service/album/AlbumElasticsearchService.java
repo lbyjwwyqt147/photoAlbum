@@ -39,4 +39,12 @@ public interface AlbumElasticsearchService extends BaseElasticsearchService<Albu
      * @return
      */
     Album findById(Long id);
+
+    /**
+     * 相册图片信息
+     * @param albumId
+     * @return
+     */
+    ResultInfo findAlbumPictureByAlbumId(Long albumId);
+
 }

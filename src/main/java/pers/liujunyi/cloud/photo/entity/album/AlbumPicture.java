@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
-import org.springframework.data.annotation.Version;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
@@ -71,8 +70,13 @@ public class AlbumPicture extends BaseEntity {
     /** 文件分类 0：图片 1：文档  2：视频  5：其他 */
     private Byte pictureCategory;
 
+    /** 文件大小 */
+    private Long pictureSize;
+
+    /** 文件类型 */
+    private String pictureType;
+
     /** 版本号 */
-    @Version
     private Long dataVersion;
 
 }

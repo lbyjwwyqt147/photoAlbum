@@ -5,6 +5,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import pers.liujunyi.cloud.common.query.elasticsearch.BaseEsQuery;
+import pers.liujunyi.cloud.common.query.jpa.annotation.MatchType;
+import pers.liujunyi.cloud.common.query.jpa.annotation.QueryCondition;
 
 import javax.validation.constraints.Min;
 
@@ -27,14 +29,17 @@ public class AlbumQueryDto extends BaseEsQuery {
     private static final long serialVersionUID = 5223845406864513819L;
     /** 相册分类 例如：人像、文艺、性感、古风、清纯、等 */
     @ApiModelProperty(value = "相册分类")
+    @QueryCondition()
     private String albumClassify;
 
     /** 相册风格 例如：小清新、日系、森系、复古、婚纱 等 */
     @ApiModelProperty(value = "相册风格")
+    @QueryCondition(func = MatchType.equals)
     private String albumStyle;
 
     /** 相册状态  0：已发布（可见）  1：不可见  2：草稿 */
     @ApiModelProperty(value = "状态")
     @Min(value = 0, message = "状态 必须是数字类型")
+    @QueryCondition()
     private Byte albumStatus;
 }

@@ -152,26 +152,22 @@
         </logger>
 
         <!-- hibernate 日志 -->
-        <logger name="org.hibernate.engine.QueryParameters" additivity="false" >
-            <level value="DEBUG" />
+        <logger name="org.hibernate.engine.QueryParameters" level="debug" additivity="false" >
             <appender-ref ref="Console" />
             <appender-ref ref="ConsoleApplication" />
         </logger>
-        <logger name="org.hibernate.engine.query.HQLQueryPlan" additivity="false" >
-            <level value="DEBUG" />
+        <logger name="org.hibernate.engine.query.HQLQueryPlan" level="debug" additivity="false" >
             <appender-ref ref="Console" />
             <appender-ref ref="ConsoleApplication" />
         </logger>
         <!-- 1. 输出SQL 到控制台和文件-->
-        <logger name="org.hibernate.SQL" additivity="false" >
-            <level value="DEBUG" />
+        <logger name="org.hibernate.SQL" level="debug" additivity="false" >
             <appender-ref ref="Console" />
             <appender-ref ref="ConsoleApplication" />
         </logger>
 
         <!-- 2. 输出SQL 的参数到控制台和文件-->
-        <logger name="org.hibernate.type.descriptor.sql.BasicBinder" additivity="false" level="TRACE" >
-            <level value="TRACE" />
+        <logger name="org.hibernate.type.descriptor.sql.BasicBinder" additivity="false" level="trace" >
             <appender-ref ref="Console" />
             <appender-ref ref="ConsoleApplication" />
         </logger>

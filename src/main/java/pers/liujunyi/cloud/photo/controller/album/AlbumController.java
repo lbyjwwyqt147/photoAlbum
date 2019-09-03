@@ -70,6 +70,23 @@ public class AlbumController  extends BaseController {
     }
 
     /**
+     * 单条删除图片数据
+     *
+     * @param param
+     * @return
+     */
+    @ApiOperation(value = "单条删单条删除图片数据除数据", notes = "适用于单条删除图片数据请求示例：127.0.0.1:18081/api/v1/verify/albumPicture/d")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1")
+    })
+    @DeleteMapping(value = "verify/album/picture/d")
+    @ApiVersion(1)
+    public ResultInfo singleDeleteAlbumPicture(@Valid IdParamDto param) {
+        return this.albumService.deleteSingle(param.getId());
+    }
+
+
+    /**
      * 批量删除
      *
      * @param param 　 多个id 用 , 隔开
@@ -135,6 +152,22 @@ public class AlbumController  extends BaseController {
         return this.albumElasticsearchService.details(id);
     }
 
+    /**
+     *  根据相册ID 获取图片数据详情
+     *
+     * @param id
+     * @return
+     */
+    @ApiOperation(value = "根据相册ID 获取图片数据详情", notes = "根据相册ID 获取图片数据详情 请求示例：127.0.0.1:18081/api/v1/table/album/picture")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "id", value = "id", paramType = "path",   required = true, dataType = "Long")
+    })
+    @GetMapping(value = "table/album/picture")
+    @ApiVersion(1)
+    public ResultInfo findAlbumPictureByAlbumId(Long id) {
+        return this.albumElasticsearchService.findAlbumPictureByAlbumId(id);
+    }
 
     /**
      *  同步数据到es中

@@ -30,6 +30,10 @@ import java.util.Date;
 public class AlbumDto extends BaseDto {
 
     private static final long serialVersionUID = -1197543425348740669L;
+
+    /** 相册编号 */
+    private String albumNumber;
+
     /** 相册名称 */
     @ApiModelProperty(value = "相册名称")
     @NotBlank(message = "名称必须填写")

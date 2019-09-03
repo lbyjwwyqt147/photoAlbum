@@ -3,6 +3,7 @@ package pers.liujunyi.cloud.photo.service.album.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import pers.liujunyi.cloud.common.restful.ResultInfo;
 import pers.liujunyi.cloud.common.restful.ResultUtil;
 import pers.liujunyi.cloud.common.service.impl.BaseServiceImpl;
 import pers.liujunyi.cloud.common.util.DozerBeanMapperUtil;
+import pers.liujunyi.cloud.common.util.FileManageUtil;
 import pers.liujunyi.cloud.photo.domain.album.AlbumDto;
 import pers.liujunyi.cloud.photo.entity.album.Album;
 import pers.liujunyi.cloud.photo.entity.album.AlbumPicture;
@@ -24,6 +26,7 @@ import pers.liujunyi.cloud.photo.util.Constant;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 /***
  * 文件名称: AlbumServiceImpl.java
@@ -47,6 +50,8 @@ public class AlbumServiceImpl extends BaseServiceImpl<Album, Long> implements Al
     private AlbumPictureRepository albumPictureRepository;
     @Autowired
     private AlbumPictureElasticsearchRepository albumPictureElasticsearchRepository;
+    @Autowired
+    private FileManageUtil fileManageUtil;
 
     public AlbumServiceImpl(BaseRepository<Album, Long> baseRepository) {
         super(baseRepository);
@@ -56,7 +61,10 @@ public class AlbumServiceImpl extends BaseServiceImpl<Album, Long> implements Al
     @Override
     public ResultInfo saveRecord(AlbumDto record) {
         Album album = DozerBeanMapperUtil.copyProperties(record, Album.class);
-        album.setAlbumNumber(String.valueOf(System.currentTimeMillis()));
+        boolean add = album.getId() != null ? false : true;
+        if (add) {
+            album.setAlbumNumber(String.valueOf(System.currentTimeMillis()));
+        }
         if (record.getAlbumPriority() == null) {
             album.setAlbumPriority((byte) 10);
         }
@@ -64,7 +72,9 @@ public class AlbumServiceImpl extends BaseServiceImpl<Album, Long> implements Al
         if (saveObject == null || saveObject.getId() == null) {
             return ResultUtil.fail();
         }
-        this.albumElasticsearchRepository.save(saveObject);
+        if (!add) {
+            saveObject.setDataVersion(record.getDataVersion() + 1);
+        }
         List<AlbumPicture> albumPictureList = new LinkedList<>();
         JSONArray jsonArray = JSON.parseArray(record.getPictures());
         byte i = 1;
@@ -76,6 +86,8 @@ public class AlbumServiceImpl extends BaseServiceImpl<Album, Long> implements Al
             albumPicture.setPictureLocation(jsonObject.getString("fileCallAddress"));
             albumPicture.setPictureName(jsonObject.getString("fileName"));
             albumPicture.setPictureCategory(jsonObject.getByte("fileCategory"));
+            albumPicture.setPictureSize(jsonObject.getLong("fileSize"));
+            albumPicture.setPictureType(jsonObject.getString("fileSuffix"));
             albumPicture.setStatus(Constant.ENABLE_STATUS);
             albumPicture.setPriority(i);
             if (i == 1) {
@@ -88,6 +100,7 @@ public class AlbumServiceImpl extends BaseServiceImpl<Album, Long> implements Al
         }
         List<AlbumPicture> albumPictures =  this.albumPictureRepository.saveAll(albumPictureList);
         this.albumPictureElasticsearchRepository.saveAll(albumPictures);
+        this.albumElasticsearchRepository.save(saveObject);
         return ResultUtil.success(saveObject.getId());
     }
 
@@ -115,7 +128,13 @@ public class AlbumServiceImpl extends BaseServiceImpl<Album, Long> implements Al
     @Override
     public ResultInfo deleteSingle(Long id) {
         this.albumRepository.deleteById(id);
-        this.albumPictureRepository.deleteByAlbumId(id);
+        List<AlbumPicture> pictureList = this.albumPictureElasticsearchRepository.findByAlbumId(id, this.allPageable);
+        if (!CollectionUtils.isEmpty(pictureList)) {
+            this.albumPictureRepository.deleteAll(pictureList);
+            List<Long> fileIds = pictureList.stream().map(AlbumPicture::getId).collect(Collectors.toList());
+            // 删除服务器上的文件
+            this.fileManageUtil.batchDeleteById(StringUtils.join(fileIds, ","));
+        }
         return ResultUtil.success();
     }
 
@@ -177,6 +196,21 @@ public class AlbumServiceImpl extends BaseServiceImpl<Album, Long> implements Al
             }
         } else {
             this.albumPictureElasticsearchRepository.deleteAll();
+        }
+        return ResultUtil.success();
+    }
+
+    @Override
+    public ResultInfo deleteAlbumPictureById(Long pictureId) {
+        AlbumPicture albumPicture = null;
+        Optional<AlbumPicture> optional   = this.albumPictureElasticsearchRepository.findById(pictureId);
+        if (optional.isPresent()) {
+            albumPicture = optional.get();
+        }
+        this.albumPictureRepository.deleteById(pictureId);
+        if (albumPicture != null) {
+            // 删除服务器上的文件
+            this.fileManageUtil.batchDeleteById(albumPicture.getPictureId().toString());
         }
         return ResultUtil.success();
     }

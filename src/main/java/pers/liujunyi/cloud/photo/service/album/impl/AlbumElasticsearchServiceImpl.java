@@ -1,5 +1,6 @@
 package pers.liujunyi.cloud.photo.service.album.impl;
 
+import com.alibaba.fastjson.JSON;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -94,7 +95,7 @@ public class AlbumElasticsearchServiceImpl extends BaseElasticsearchServiceImpl<
             //获取相册图片信息
             List<AlbumPicture> albumPictures = this.albumPictureElasticsearchRepository.findByAlbumId(album.getId(), this.allPageable);
             albumVo.setTotal(albumPictures.size());
-            albumVo.setAlbumPictureData(albumPictures);
+            albumVo.setPictures(JSON.toJSONString(albumPictures));
             albumVo.setSpotForPhotographyText(this.dictUtil.getDictName(DictConstant.IMAGE_SITE, album.getSpotForPhotography()));
             Set<Long> staffIdSet = new HashSet<>();
             List<Long> albumPhotographyAuthorList = new ArrayList<>();
@@ -151,5 +152,11 @@ public class AlbumElasticsearchServiceImpl extends BaseElasticsearchServiceImpl<
             return optional.get();
         }
         return null;
+    }
+
+    @Override
+    public ResultInfo findAlbumPictureByAlbumId(Long albumId) {
+        List<AlbumPicture> albumPictures = this.albumPictureElasticsearchRepository.findByAlbumId(albumId, this.allPageable);
+        return ResultUtil.success(albumPictures);
     }
 }

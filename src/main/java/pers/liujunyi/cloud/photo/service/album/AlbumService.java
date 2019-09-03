@@ -56,4 +56,11 @@ public interface AlbumService extends BaseService<Album, Long> {
      */
     ResultInfo syncDataToElasticsearch();
 
+
+    /**
+     * 根据图片ID 删除图片
+     * @param pictureId  图片ID
+     * @return
+     */
+    ResultInfo deleteAlbumPictureById(Long pictureId);
 }

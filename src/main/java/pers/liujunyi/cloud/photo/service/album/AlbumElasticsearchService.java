@@ -3,6 +3,7 @@ package pers.liujunyi.cloud.photo.service.album;
 import pers.liujunyi.cloud.common.restful.ResultInfo;
 import pers.liujunyi.cloud.common.service.BaseElasticsearchService;
 import pers.liujunyi.cloud.photo.domain.album.AlbumQueryDto;
+import pers.liujunyi.cloud.photo.domain.album.AlbumVo;
 import pers.liujunyi.cloud.photo.entity.album.Album;
 
 
@@ -27,11 +28,18 @@ public interface AlbumElasticsearchService extends BaseElasticsearchService<Albu
     ResultInfo findPageGird(AlbumQueryDto query);
 
     /**
-     * 根据ID 获取详细数据
+     * 根据ID 获取详细数据(包含相册图片信息)
      * @param id
      * @return
      */
     ResultInfo details(Long id);
+
+    /**
+     * 根据ID 获取详细数据(不包含相册图片信息)
+     * @param id
+     * @return
+     */
+    AlbumVo detailsById(Long id);
 
     /**
      * 根据ID 获取详细数据

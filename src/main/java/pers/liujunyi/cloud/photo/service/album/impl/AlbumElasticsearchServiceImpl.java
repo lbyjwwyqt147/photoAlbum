@@ -88,14 +88,22 @@ public class AlbumElasticsearchServiceImpl extends BaseElasticsearchServiceImpl<
 
     @Override
     public ResultInfo details(Long id) {
+        AlbumVo albumVo = this.detailsById(id);
+        if (albumVo != null) {
+            //获取相册图片信息
+            List<AlbumPicture> albumPictures = this.albumPictureElasticsearchRepository.findByAlbumId(albumVo.getId(), this.allPageable);
+            albumVo.setTotal(albumPictures.size());
+            albumVo.setPictures(JSON.toJSONString(albumPictures));
+        }
+        return ResultUtil.success(albumVo);
+    }
+
+    @Override
+    public AlbumVo detailsById(Long id) {
         AlbumVo albumVo = null;
         Album album = this.findById(id);
         if (album != null) {
             albumVo = DozerBeanMapperUtil.copyProperties(album, AlbumVo.class);
-            //获取相册图片信息
-            List<AlbumPicture> albumPictures = this.albumPictureElasticsearchRepository.findByAlbumId(album.getId(), this.allPageable);
-            albumVo.setTotal(albumPictures.size());
-            albumVo.setPictures(JSON.toJSONString(albumPictures));
             albumVo.setSpotForPhotographyText(this.dictUtil.getDictName(DictConstant.IMAGE_SITE, album.getSpotForPhotography()));
             Set<Long> staffIdSet = new HashSet<>();
             List<Long> albumPhotographyAuthorList = new ArrayList<>();
@@ -142,7 +150,7 @@ public class AlbumElasticsearchServiceImpl extends BaseElasticsearchServiceImpl<
                 }
             }
         }
-        return ResultUtil.success(albumVo);
+        return albumVo;
     }
 
     @Override

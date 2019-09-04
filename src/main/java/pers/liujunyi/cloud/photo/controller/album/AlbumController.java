@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import pers.liujunyi.cloud.common.annotation.ApiVersion;
 import pers.liujunyi.cloud.common.controller.BaseController;
 import pers.liujunyi.cloud.common.restful.ResultInfo;
+import pers.liujunyi.cloud.common.restful.ResultUtil;
 import pers.liujunyi.cloud.photo.domain.album.AlbumDto;
 import pers.liujunyi.cloud.photo.domain.album.AlbumQueryDto;
 import pers.liujunyi.cloud.photo.service.album.AlbumElasticsearchService;
@@ -82,7 +83,7 @@ public class AlbumController  extends BaseController {
     @DeleteMapping(value = "verify/album/picture/d")
     @ApiVersion(1)
     public ResultInfo singleDeleteAlbumPicture(@Valid IdParamDto param) {
-        return this.albumService.deleteSingle(param.getId());
+        return this.albumService.deleteAlbumPictureById(param.getId());
     }
 
 
@@ -136,12 +137,29 @@ public class AlbumController  extends BaseController {
     }
 
     /**
-     *  根据ID 获取数据详情
+     *  根据ID 获取数据详情（包含图片信息）
      *
      * @param id
      * @return
      */
-    @ApiOperation(value = "根据ID 获取数据详情", notes = "根据ID 获取数据详情 请求示例：127.0.0.1:18081/api/v1/table/album/1")
+    @ApiOperation(value = "根据ID 获取数据详情 （包含图片信息）", notes = "根据ID 获取数据详情 请求示例：127.0.0.1:18081/api/v1/table/album/picture/1")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "id", value = "id", paramType = "path",   required = true, dataType = "Long")
+    })
+    @GetMapping(value = "table/album/picture/{id}")
+    @ApiVersion(1)
+    public ResultInfo detailsById(@PathVariable(name = "id") Long id) {
+        return this.albumElasticsearchService.details(id);
+    }
+
+    /**
+     *  根据ID 获取数据详情（不包含图片信息）
+     *
+     * @param id
+     * @return
+     */
+    @ApiOperation(value = "根据ID 获取数据详情(不包含图片信息) ", notes = "根据ID 获取数据详情 请求示例：127.0.0.1:18081/api/v1/table/album/1")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
             @ApiImplicitParam(name = "id", value = "id", paramType = "path",   required = true, dataType = "Long")
@@ -149,8 +167,9 @@ public class AlbumController  extends BaseController {
     @GetMapping(value = "table/album/{id}")
     @ApiVersion(1)
     public ResultInfo findById(@PathVariable(name = "id") Long id) {
-        return this.albumElasticsearchService.details(id);
+        return ResultUtil.success(this.albumElasticsearchService.detailsById(id));
     }
+
 
     /**
      *  根据相册ID 获取图片数据详情

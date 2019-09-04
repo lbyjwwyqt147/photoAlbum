@@ -30,8 +30,8 @@ public interface AlbumPictureRepository extends BaseRepository<AlbumPicture, Lon
      */
     @Transactional(rollbackFor = {RuntimeException.class, Exception.class})
     @Modifying(clearAutomatically = true)
-    @Query("update Album u set u.albumStatus = ?1, u.updateTime = ?2 where u.id in (?3)")
-    int setAlbumStatusByIds(Byte albumStatus, Date updateTime, List<Long> ids);
+    @Query("update AlbumPicture u set u.status = ?1, u.updateTime = ?2 where u.id in (?3)")
+    int setStatusByIds(Byte albumStatus, Date updateTime, List<Long> ids);
 
     /**
      * 根据相册ID 删除相册图片
@@ -39,4 +39,11 @@ public interface AlbumPictureRepository extends BaseRepository<AlbumPicture, Lon
      * @return
      */
     int deleteByAlbumId(Long albumId);
+
+    /**
+     * 根据文件Id 获取数据
+     * @param pictureIds
+     * @return
+     */
+    List<AlbumPicture> findByPictureIdIn(List<Long> pictureIds);
 }

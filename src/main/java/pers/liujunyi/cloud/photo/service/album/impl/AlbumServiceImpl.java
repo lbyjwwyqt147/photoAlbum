@@ -98,6 +98,18 @@ public class AlbumServiceImpl extends BaseServiceImpl<Album, Long> implements Al
             i++;
             albumPictureList.add(albumPicture);
         }
+        List<Long> pictureIds = albumPictureList.stream().map(AlbumPicture::getPictureId).collect(Collectors.toList());
+        List<AlbumPicture> pictureList = this.albumPictureRepository.findByPictureIdIn(pictureIds);
+        if (!CollectionUtils.isEmpty(pictureList)) {
+            Map<Long, List<AlbumPicture>> pictureMap = pictureList.stream().collect(Collectors.groupingBy(AlbumPicture::getPictureId));
+            Iterator<AlbumPicture> albumPictureIterator = albumPictureList.iterator();
+            while (albumPictureIterator.hasNext()) {
+                AlbumPicture albumPicture = albumPictureIterator.next();
+                if (pictureMap.get(albumPicture.getPictureId()) != null) {
+                    albumPictureIterator.remove();
+                }
+            }
+        }
         List<AlbumPicture> albumPictures =  this.albumPictureRepository.saveAll(albumPictureList);
         this.albumPictureElasticsearchRepository.saveAll(albumPictures);
         this.albumElasticsearchRepository.save(saveObject);
@@ -209,6 +221,7 @@ public class AlbumServiceImpl extends BaseServiceImpl<Album, Long> implements Al
         }
         this.albumPictureRepository.deleteById(pictureId);
         if (albumPicture != null) {
+            this.albumPictureElasticsearchRepository.deleteById(pictureId);
             // 删除服务器上的文件
             this.fileManageUtil.batchDeleteById(albumPicture.getPictureId().toString());
         }

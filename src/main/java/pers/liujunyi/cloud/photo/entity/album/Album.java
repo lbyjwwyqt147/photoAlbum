@@ -109,6 +109,7 @@ public class Album extends BaseEntity {
 
     /** 版本号 */
     @Version
+    @Field(index = false)
     private Long dataVersion;
 
 }

@@ -1,5 +1,5 @@
 server:
-  port: 18081
+  port: 18082
   tomcat:
       uri-encoding: utf-8
 # 系统参数 信息

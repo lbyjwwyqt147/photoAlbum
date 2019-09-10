@@ -1,5 +1,5 @@
 server:
-  port: 18081
+  port: 18082
   tomcat:
       uri-encoding: utf-8
 # 系统参数 信息
@@ -9,7 +9,7 @@ data:
   # 直接访问 http://localhost:18081 时 返回信息设置
   indexView: '请访问：http://localhost:18081/swagger-ui.html  查看API文档'
   # cloud_core 地址
-  cloudUrl: http://localhost:18080/api/
+  cloudUrl: http://127.0.0.1:18080/api/
   # redis 是否默填充application name 作为redis key 的前缀   true 填充 false 不填充   例如：photo_album:user    photo_album:为自动填充
   redisPrefixion: true
   # 核心系统授权给 photo_album 访问的 code
@@ -29,10 +29,10 @@ spring:
   datasource:
     # 使用阿里的Druid连接池
     type: com.alibaba.druid.pool.DruidDataSource
-   # driver-class-name: com.mysql.cj.jdbc.Driver
-   # url: jdbc:mysql://101.132.136.225:3306/photo_manage?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=CTT&rewriteBatchedStatements=true&autoReconnect=true
-    driver-class-name: net.sf.log4jdbc.DriverSpy
-    url: jdbc:log4jdbc:mysql://101.132.136.225:3306/photo_manage?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=CTT&rewriteBatchedStatements=true&autoReconnect=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://101.132.136.225:3306/photo_manage?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=CTT&rewriteBatchedStatements=true&autoReconnect=true&failOverReadOnly=false
+   # driver-class-name: net.sf.log4jdbc.DriverSpy
+   # url: jdbc:log4jdbc:mysql://101.132.136.225:3306/photo_manage?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=CTT&rewriteBatchedStatements=true&autoReconnect=true&failOverReadOnly=false
     username: root
     password: root@123
     druid:

@@ -36,6 +36,12 @@ public class AlbumVo extends AlbumDto {
     /** 拍摄地点名称 */
     @ApiModelProperty(value = "拍摄地点名称")
     private String spotForPhotographyText;
+    /** 风格名称 */
+    @ApiModelProperty(value = "风格名称")
+    private String albumStyleText;
+    /** 类型名称 */
+    @ApiModelProperty(value = "类型名称")
+    private String albumClassificationText;
     /** 封面 */
     private String cover;
     /** 标题 */

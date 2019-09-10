@@ -105,6 +105,8 @@ public class AlbumElasticsearchServiceImpl extends BaseElasticsearchServiceImpl<
         if (album != null) {
             albumVo = DozerBeanMapperUtil.copyProperties(album, AlbumVo.class);
             albumVo.setSpotForPhotographyText(this.dictUtil.getDictName(DictConstant.IMAGE_SITE, album.getSpotForPhotography()));
+            albumVo.setAlbumStyleText(this.dictUtil.getDictName(DictConstant.IMAGE_STYLE, album.getAlbumStyle()));
+            albumVo.setAlbumClassificationText(this.dictUtil.getDictName(DictConstant.ALBUM_CLASSIFICATION, album.getAlbumClassification()));
             Set<Long> staffIdSet = new HashSet<>();
             List<Long> albumPhotographyAuthorList = new ArrayList<>();
             if (StringUtils.isNotBlank(album.getAlbumPhotographyAuthor())) {

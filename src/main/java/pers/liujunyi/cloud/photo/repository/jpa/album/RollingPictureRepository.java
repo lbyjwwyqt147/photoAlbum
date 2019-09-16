@@ -6,8 +6,6 @@ import org.springframework.transaction.annotation.Transactional;
 import pers.liujunyi.cloud.common.repository.jpa.BaseRepository;
 import pers.liujunyi.cloud.photo.entity.album.RollingPicture;
 
-import java.util.List;
-
 
 /***
  * 文件名称: RollingPictureRepository.java
@@ -25,11 +23,21 @@ public interface RollingPictureRepository extends BaseRepository<RollingPicture,
     /**
      * 修改状态
      * @param status  0：展示 1：不展示
-     * @param ids
+     * @param id
      * @return
      */
     @Transactional(rollbackFor = {RuntimeException.class, Exception.class})
     @Modifying(clearAutomatically = true)
-    @Query("update RollingPicture u set u.status = ?1 where u.id in (?2)")
-    int setStatusByIds(Byte status, List<Long> ids);
+    @Query("update RollingPicture u set u.status = ?1 where u.id = ?2")
+    int setStatusByIds(Byte status, Long id);
+
+
+    /**
+     * 删除数据
+     * @param businessCode
+     * @param position
+     * @return
+     */
+    int deleteByBusinessCodeAndAndPosition(String businessCode, String position);
+
 }

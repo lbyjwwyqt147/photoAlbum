@@ -17,5 +17,8 @@ public final class DictConstant {
     public static final String IMAGE_STYLE = "image_style";
     /** 拍摄地点 */
     public static final String IMAGE_SITE = "image_site";
-
+    /** 所属页面 */
+    public static final String IMAGE_PAGE = "image_page";
+    /** 页面位置 */
+    public static final String PAGE_POSITION = "page_position";
 }

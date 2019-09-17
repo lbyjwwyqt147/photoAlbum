@@ -4,11 +4,13 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pers.liujunyi.cloud.common.annotation.ApiVersion;
 import pers.liujunyi.cloud.common.controller.BaseController;
 import pers.liujunyi.cloud.common.restful.ResultInfo;
+import pers.liujunyi.cloud.common.restful.ResultUtil;
 import pers.liujunyi.cloud.photo.domain.album.RollingPictureDto;
 import pers.liujunyi.cloud.photo.domain.album.RollingPictureQueryDto;
 import pers.liujunyi.cloud.photo.service.album.RollingPictureElasticsearchService;
@@ -138,7 +140,11 @@ public class RollingPictureController extends BaseController {
     @GetMapping(value = "table/carousel/picture")
     @ApiVersion(1)
     public ResultInfo findByBusinessCodeAndPositionOrderByPriority(String businessCode, String position) {
-        return this.rollingPictureElasticsearchService.findByBusinessCodeAndPositionOrderByPriority(businessCode, position );
+        if (StringUtils.isNotBlank(businessCode) || StringUtils.isNotBlank(position)) {
+            return this.rollingPictureElasticsearchService.findByBusinessCodeAndPositionOrderByPriority(businessCode, position );
+        } else {
+            return ResultUtil.fail();
+        }
     }
 
     /**

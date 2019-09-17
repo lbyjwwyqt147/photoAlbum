@@ -5,18 +5,23 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import pers.liujunyi.cloud.common.repository.elasticsearch.BaseElasticsearchRepository;
 import pers.liujunyi.cloud.common.restful.ResultInfo;
 import pers.liujunyi.cloud.common.restful.ResultUtil;
 import pers.liujunyi.cloud.common.service.impl.BaseElasticsearchServiceImpl;
 import pers.liujunyi.cloud.common.util.DictUtil;
-import pers.liujunyi.cloud.photo.domain.album.AlbumVo;
+import pers.liujunyi.cloud.common.util.DozerBeanMapperUtil;
 import pers.liujunyi.cloud.photo.domain.album.RollingPictureQueryDto;
+import pers.liujunyi.cloud.photo.domain.album.RollingPictureVo;
 import pers.liujunyi.cloud.photo.entity.album.RollingPicture;
 import pers.liujunyi.cloud.photo.repository.elasticsearch.album.RollingPictureElasticsearchRepository;
 import pers.liujunyi.cloud.photo.service.album.RollingPictureElasticsearchService;
+import pers.liujunyi.cloud.photo.util.DictConstant;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /***
@@ -45,16 +50,28 @@ public class RollingPictureElasticsearchServiceImpl extends BaseElasticsearchSer
 
     @Override
     public ResultInfo findPageGird(RollingPictureQueryDto query) {
-        List<AlbumVo> datas = new CopyOnWriteArrayList<>();
+        List<RollingPictureVo> datas = new CopyOnWriteArrayList<>();
         //分页参数
         Pageable pageable = query.toPageable();
         // 查询数据
         SearchQuery searchQuery = query.toSpecPageable(pageable);
         Page<RollingPicture> searchPageResults = this.rollingPictureElasticsearchRepository.search(searchQuery);
         List<RollingPicture> searchList = searchPageResults.getContent();
-        searchList.stream().forEach(item ->{
-
-        });
+        if (!CollectionUtils.isEmpty(searchList)) {
+            // 获取数据字典值
+            List<String> dictCodeList = new LinkedList<>();
+            dictCodeList.add(DictConstant.IMAGE_PAGE);
+            dictCodeList.add(DictConstant.PAGE_POSITION);
+            Map<String, Map<String, String>> dictMap = this.dictUtil.getDictNameToMapList(dictCodeList);
+            searchList.stream().forEach(item ->{
+                RollingPictureVo rollingPictureVo = DozerBeanMapperUtil.copyProperties(item, RollingPictureVo.class);
+                Map<String, String> pageMap = dictMap.get(DictConstant.IMAGE_PAGE);
+                rollingPictureVo.setPageText( pageMap.get(item.getBusinessCode()));
+                Map<String, String> positionMap = dictMap.get(DictConstant.PAGE_POSITION);
+                rollingPictureVo.setPositionText(positionMap.get(item.getPosition()));
+                datas.add(rollingPictureVo);
+            });
+        }
         Long totalElements =  searchPageResults.getTotalElements();
         ResultInfo result = ResultUtil.success(datas);
         result.setTotal(totalElements);

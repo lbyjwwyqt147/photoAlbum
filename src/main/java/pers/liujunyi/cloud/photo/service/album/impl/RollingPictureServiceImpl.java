@@ -110,8 +110,9 @@ public class RollingPictureServiceImpl extends BaseServiceImpl<RollingPicture, L
                 // 删除服务器上的文件
                 this.fileManageUtil.batchDeleteById(StringUtils.join(uploadFileIds, ","));
             }
+            return ResultUtil.success();
         }
-        return null;
+        return ResultUtil.fail();
     }
 
     @Override
@@ -123,7 +124,7 @@ public class RollingPictureServiceImpl extends BaseServiceImpl<RollingPicture, L
         }
         this.rollingPictureRepository.deleteById(id);
         if (rollingPicture != null) {
-            this.rollingPictureRepository.deleteById(id);
+            this.rollingPictureElasticsearchRepository.deleteById(id);
             // 删除服务器上的文件
             this.fileManageUtil.singleDeleteById(rollingPicture.getPictureId());
         }

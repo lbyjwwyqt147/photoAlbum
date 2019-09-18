@@ -163,6 +163,8 @@ public class StaffDetailsInfoServiceImpl extends BaseServiceImpl<StaffDetailsInf
         } else {
             this.staffDetailsInfoElasticsearchRepository.deleteAll();
         }
+        // 同步人员机构
+        this.staffOrgService.syncDataToElasticsearch();
         return ResultUtil.success();
     }
 
@@ -172,8 +174,8 @@ public class StaffDetailsInfoServiceImpl extends BaseServiceImpl<StaffDetailsInf
         if (count > 0) {
             Map<String, Map<String, Object>> sourceMap = new ConcurrentHashMap<>();
             Map<String, Object> docDataMap = new HashMap<>();
-            docDataMap.put("portrait", portrait);
-            docDataMap.put("portraitId", portraitId);
+            docDataMap.put("staffPortrait", portrait);
+            docDataMap.put("staffPortraitId", portraitId);
             docDataMap.put("updateTime", System.currentTimeMillis());
             sourceMap.put(id.toString(), docDataMap);
             super.updateBatchElasticsearchData(sourceMap);

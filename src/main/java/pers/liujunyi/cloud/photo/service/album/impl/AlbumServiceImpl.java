@@ -142,8 +142,10 @@ public class AlbumServiceImpl extends BaseServiceImpl<Album, Long> implements Al
         this.albumRepository.deleteById(id);
         List<AlbumPicture> pictureList = this.albumPictureElasticsearchRepository.findByAlbumId(id, this.allPageable);
         if (!CollectionUtils.isEmpty(pictureList)) {
+            this.albumElasticsearchRepository.deleteById(id);
             List<Long> fileIds = pictureList.stream().map(AlbumPicture::getId).collect(Collectors.toList());
             this.albumPictureRepository.deleteByIdIn(fileIds);
+            this.albumPictureElasticsearchRepository.deleteByIdIn(fileIds);
             List<Long> uploadFileIds = pictureList.stream().map(AlbumPicture::getPictureId).collect(Collectors.toList());
             // 删除服务器上的文件
             this.fileManageUtil.batchDeleteById(StringUtils.join(uploadFileIds, ","));

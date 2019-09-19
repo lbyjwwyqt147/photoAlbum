@@ -145,5 +145,7 @@ public class StaffDetailsInfo extends BaseEntity {
 
     private Long dataVersion;
 
+    /** 是否在网页展示 0：展示  1：不展示  */
+    private Byte display;
 
 }

@@ -27,7 +27,12 @@ import javax.validation.constraints.Min;
 @EqualsAndHashCode(callSuper = true)
 public class AlbumQueryDto extends BaseEsQuery {
     private static final long serialVersionUID = 5223845406864513819L;
-    /** 相册分类 例如：人像、文艺、性感、古风、清纯、等 */
+
+    /** 相册归类 例如：样片、客片 等 */
+    @ApiModelProperty(value = "相册分类")
+    private String albumClassification;
+
+    /** 相册分类 例如：写真、婚纱、旅拍 等、等 */
     @ApiModelProperty(value = "相册分类")
     @QueryCondition()
     private String albumClassify;

@@ -65,4 +65,9 @@ public class RollingPicture extends BaseEntity {
     /** 版本号 */
     private Long dataVersion;
 
+    /** 类型 例如：1：活动图片  2：普通图片 */
+    private String variety;
+
+    /** 风格：  写真   婚纱  */
+    private String maniyerizm;
 }

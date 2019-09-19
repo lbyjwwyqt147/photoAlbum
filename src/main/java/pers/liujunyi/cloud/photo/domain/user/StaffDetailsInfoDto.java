@@ -196,4 +196,7 @@ public class StaffDetailsInfoDto extends BaseDto {
     private Long staffOrgId;
     /** 部门编号 */
     private String staffOrgNumber;
+
+    /** 是否在网页展示 0：展示  1：不展示  */
+    private Byte display;
 }

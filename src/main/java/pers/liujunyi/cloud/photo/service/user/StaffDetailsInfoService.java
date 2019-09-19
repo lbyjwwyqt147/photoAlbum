@@ -37,6 +37,15 @@ public interface StaffDetailsInfoService extends BaseService<StaffDetailsInfo, L
     ResultInfo updateStatus(Byte status, List<Long> ids, List<Long> userIds, String putParams);
 
     /**
+     * 修改数据是否在官网展示字段
+     * @param status  0：展示    1：不展示
+     * @param ids
+     * @return
+     */
+    ResultInfo updateDataShowStatus(Byte status, List<Long> ids);
+
+
+    /**
      * 批量删除
      * @param ids
      * @return

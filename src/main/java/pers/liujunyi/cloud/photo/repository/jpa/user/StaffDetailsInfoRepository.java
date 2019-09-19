@@ -45,4 +45,15 @@ public interface StaffDetailsInfoRepository extends BaseRepository<StaffDetailsI
     @Query("update StaffDetailsInfo u set u.staffPortrait = ?2, u.updateTime = ?4, u.staffPortraitId = ?3 where u.id = ?1 ")
     int setPortrait(Long id, String portrait, Long portraitId, Date updateTime);
 
+    /**
+     * 修改数据是否在官网展示字段
+     * @param showStatus  0:展示  1：不展示
+     * @param updateTime
+     * @param ids
+     * @return
+     */
+    @Transactional(rollbackFor = {RuntimeException.class, Exception.class})
+    @Modifying(clearAutomatically = true)
+    @Query(value = "update staff_details_info u set u.display = ?1, u.update_time = ?2 where u.id in (?3)", nativeQuery = true)
+    int setStaffShowStatusByIds(Byte showStatus, Date updateTime, List<Long> ids);
 }

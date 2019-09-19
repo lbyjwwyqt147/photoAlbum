@@ -134,6 +134,25 @@ public class StaffDetailsInfoController extends BaseController {
 
 
     /**
+     *  修改数据是否在官网展示字段
+     *
+     * @param param
+     * @return
+     */
+    @ApiOperation(value = "修改数据是否在官网展示字段", notes = "适用于修改数据是否在官网展示字段 请求示例：127.0.0.1:18080/api/v1/verify/staff/show/p")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "ids", value = "ids",  required = true, dataType = "String"),
+            @ApiImplicitParam(name = "status", value = "status",  required = true, dataType = "integer"),
+            @ApiImplicitParam(name = "otherIds", value = "账户id",  required = true, dataType = "integer")
+    })
+    @PutMapping(value = "verify/staff/show/p")
+    @ApiVersion(1)
+    public ResultInfo updateDataShowStatus(@Valid IdParamDto param ) {
+        return this.staffDetailsInfoService.updateDataShowStatus(param.getStatus(), param.getIdList());
+    }
+
+    /**
      * 根据id 获取详细信息
      * @param id
      * @return

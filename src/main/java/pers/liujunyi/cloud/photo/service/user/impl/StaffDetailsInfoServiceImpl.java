@@ -111,6 +111,23 @@ public class StaffDetailsInfoServiceImpl extends BaseServiceImpl<StaffDetailsInf
     }
 
     @Override
+    public ResultInfo updateDataShowStatus(Byte status, List<Long> ids) {
+        int count = this.staffDetailsInfoRepository.setStaffShowStatusByIds(status, new Date(), ids);
+        if (count > 0) {
+            Map<String, Map<String, Object>> sourceMap = new ConcurrentHashMap<>();
+            Map<String, Object> docDataMap = new HashMap<>();
+            docDataMap.put("display", status);
+            docDataMap.put("updateTime", System.currentTimeMillis());
+            ids.stream().forEach(item -> {
+                sourceMap.put(String.valueOf(item), docDataMap);
+            });
+            super.updateBatchElasticsearchData(sourceMap);
+            return ResultUtil.success();
+        }
+        return ResultUtil.fail();
+    }
+
+    @Override
     public ResultInfo deleteBatch(List<Long> ids, List<Long> userIds) {
         long count = this.staffDetailsInfoRepository.deleteByIdIn(ids);
         if (count > 0) {

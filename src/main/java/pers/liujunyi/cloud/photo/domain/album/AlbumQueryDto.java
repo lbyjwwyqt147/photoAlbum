@@ -47,4 +47,8 @@ public class AlbumQueryDto extends BaseEsQuery {
     @Min(value = 0, message = "状态 必须是数字类型")
     @QueryCondition()
     private Byte albumStatus;
+
+    /** 是否在首页展示 0：展示  1：不展示  */
+    @QueryCondition()
+    private Byte display;
 }

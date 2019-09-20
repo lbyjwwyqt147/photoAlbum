@@ -30,4 +30,19 @@ public interface AlbumRepository extends BaseRepository<Album, Long> {
     @Modifying(clearAutomatically = true)
     @Query(value = "update album u set u.album_status = ?1, u.update_time = now(), u.data_version = data_version+1 where u.id = ?2 and u.data_version = ?3 ", nativeQuery = true)
     int setStatusByIds(Byte albumStatus, Long id, Long dataVersion);
+
+
+    /**
+     * 修改 是否在首页展示 状态
+     * @param status  0：展示  1：不展示
+     * @param id
+     * @param dataVersion
+     * @return
+     */
+    @Transactional(rollbackFor = {RuntimeException.class, Exception.class})
+    @Modifying(clearAutomatically = true)
+    @Query(value = "update album u set u.display = ?1, u.update_time = now(), u.data_version = data_version+1 where u.id = ?2 and u.data_version = ?3 ", nativeQuery = true)
+    int updateDataShowStatus(Byte status, Long id, Long dataVersion);
+
+
 }

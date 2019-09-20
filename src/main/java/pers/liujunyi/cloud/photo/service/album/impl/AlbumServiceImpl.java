@@ -60,6 +60,12 @@ public class AlbumServiceImpl extends BaseServiceImpl<Album, Long> implements Al
 
     @Override
     public ResultInfo saveRecord(AlbumDto record) {
+        if (record.getDisplay() != null && record.getDisplay() == 0) {
+            long showCount = this.albumElasticsearchRepository.countByDisplay(record.getDisplay());
+            if (showCount > 20) {
+                return ResultUtil.fail("首页展示图片已超过20张,请先取消其他展示图片,稍候在试!");
+            }
+        }
         Album album = DozerBeanMapperUtil.copyProperties(record, Album.class);
         boolean add = album.getId() != null ? false : true;
         if (add) {
@@ -123,6 +129,28 @@ public class AlbumServiceImpl extends BaseServiceImpl<Album, Long> implements Al
             Map<String, Map<String, Object>> sourceMap = new ConcurrentHashMap<>();
             Map<String, Object> docDataMap = new HashMap<>();
             docDataMap.put("albumStatus", status);
+            docDataMap.put("updateTime", System.currentTimeMillis());
+            docDataMap.put("dataVersion", dataVersion + 1);
+            sourceMap.put(String.valueOf(id), docDataMap);
+            super.updateBatchElasticsearchData(sourceMap);
+            return ResultUtil.success();
+        }
+        return ResultUtil.fail();
+    }
+
+    @Override
+    public ResultInfo updateDataShowStatus(Byte status, Long id, Long dataVersion) {
+        if (status == 0) {
+            long showCount = this.albumElasticsearchRepository.countByDisplay(status);
+            if (showCount > 20) {
+                return ResultUtil.fail("首页展示图片已超过20张,请先取消其他展示图片,稍候在试!");
+            }
+        }
+        int count = this.albumRepository.updateDataShowStatus(status, id, dataVersion);
+        if (count > 0) {
+            Map<String, Map<String, Object>> sourceMap = new ConcurrentHashMap<>();
+            Map<String, Object> docDataMap = new HashMap<>();
+            docDataMap.put("display", status);
             docDataMap.put("updateTime", System.currentTimeMillis());
             docDataMap.put("dataVersion", dataVersion + 1);
             sourceMap.put(String.valueOf(id), docDataMap);

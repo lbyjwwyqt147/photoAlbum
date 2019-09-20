@@ -133,5 +133,7 @@ public class AlbumDto extends BaseDto {
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     private Date shootingsDate;
 
+    /** 是否在首页展示 0：展示  1：不展示  */
+    private Byte display;
 
 }

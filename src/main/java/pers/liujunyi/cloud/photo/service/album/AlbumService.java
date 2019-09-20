@@ -37,6 +37,15 @@ public interface AlbumService extends BaseService<Album, Long> {
     ResultInfo updateStatus(Byte status, Long id, Long dataVersion);
 
     /**
+     * 修改 是否在首页展示 状态
+     * @param status 0：展示  1：不展示
+     * @param id
+     * @param dataVersion
+     * @return
+     */
+    ResultInfo updateDataShowStatus(Byte status, Long id, Long dataVersion);
+
+    /**
      * 批量删除
      * @param ids
      * @return

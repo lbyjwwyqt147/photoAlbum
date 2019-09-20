@@ -30,4 +30,11 @@ public interface StaffDetailsInfoElasticsearchRepository extends BaseElasticsear
      * @return
      */
     StaffDetailsInfo findFirstByStaffAccountsId(Long staffAccountsId);
+
+    /**
+     * 统计次数
+     * @param display
+     * @return
+     */
+    long countByDisplay(Byte display);
 }

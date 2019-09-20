@@ -112,6 +112,12 @@ public class StaffDetailsInfoServiceImpl extends BaseServiceImpl<StaffDetailsInf
 
     @Override
     public ResultInfo updateDataShowStatus(Byte status, List<Long> ids) {
+        if (status == 0) {
+            long showCount = this.staffDetailsInfoElasticsearchRepository.countByDisplay(status);
+            if (showCount > 16) {
+               return ResultUtil.fail("官网展示人员信息已超过16人,请先取消其他展示人员,稍候在试!");
+            }
+        }
         int count = this.staffDetailsInfoRepository.setStaffShowStatusByIds(status, new Date(), ids);
         if (count > 0) {
             Map<String, Map<String, Object>> sourceMap = new ConcurrentHashMap<>();

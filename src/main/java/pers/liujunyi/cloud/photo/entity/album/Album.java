@@ -112,4 +112,7 @@ public class Album extends BaseEntity {
     @Field(index = false)
     private Long dataVersion;
 
+    /** 是否在首页展示 0：展示  1：不展示  */
+    private Byte display;
+
 }

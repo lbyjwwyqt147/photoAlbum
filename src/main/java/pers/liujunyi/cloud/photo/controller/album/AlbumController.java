@@ -137,6 +137,25 @@ public class AlbumController  extends BaseController {
     }
 
     /**
+     *  修改 是否在首页展示 状态
+     *
+     * @param status
+     * @param id
+     * @param dataVersion
+     * @return
+     */
+    @ApiOperation(value = "修改 是否在首页展示 状态", notes = "适用于修改 是否在首页展示 状态 请求示例：127.0.0.1:18081/api/v1/verify/album/p/show")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+    })
+    @PutMapping(value = "verify/album/p/show")
+    @ApiVersion(1)
+    public ResultInfo updateDataShowStatus(Byte status, Long id, Long dataVersion) {
+        return this.albumService.updateDataShowStatus(status, id, dataVersion);
+    }
+
+
+    /**
      *  根据ID 获取数据详情（包含图片信息）
      *
      * @param id

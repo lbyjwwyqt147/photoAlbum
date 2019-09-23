@@ -30,6 +30,7 @@ public class AlbumQueryDto extends BaseEsQuery {
 
     /** 相册归类 例如：样片、客片 等 */
     @ApiModelProperty(value = "相册分类")
+    @QueryCondition()
     private String albumClassification;
 
     /** 相册分类 例如：写真、婚纱、旅拍 等、等 */

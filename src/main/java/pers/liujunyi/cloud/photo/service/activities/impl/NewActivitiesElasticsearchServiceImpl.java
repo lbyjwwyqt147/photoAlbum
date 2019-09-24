@@ -93,7 +93,7 @@ public class NewActivitiesElasticsearchServiceImpl extends BaseElasticsearchServ
         NewActivitiesVo newActivitiesVo = null;
         NewActivities newActivities = this.findById(id);
         if (newActivities != null) {
-            newActivitiesVo = DozerBeanMapperUtil.copyProperties(newActivitiesVo, NewActivitiesVo.class);
+            newActivitiesVo = DozerBeanMapperUtil.copyProperties(newActivities, NewActivitiesVo.class);
         }
         return newActivitiesVo;
     }

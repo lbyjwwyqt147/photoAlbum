@@ -1,5 +1,6 @@
 package pers.liujunyi.cloud.photo.domain.activities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -36,11 +37,13 @@ public class NewActivitiesDto extends BaseDto {
     /** 开始时间 */
     @ApiModelProperty(value = "开始时间 ")
     @NotNull(message = "开始时间必须填写")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     private Date startDateTime;
 
     /** 结束时间 */
     @ApiModelProperty(value = "结束时间 ")
     @NotNull(message = "结束时间必须填写")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     private Date endDateTime;
 
     /** 是否到期  0：未到期  1：到期 */

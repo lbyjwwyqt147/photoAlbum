@@ -1,6 +1,5 @@
 package pers.liujunyi.cloud.photo.service.activities.impl;
 
-import com.alibaba.fastjson.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -83,7 +82,7 @@ public class NewActivitiesElasticsearchServiceImpl extends BaseElasticsearchServ
             //获取相册图片信息
             List<ActivityImags> newActivitiesPictures = this.activityImagsElasticsearchRepository.findByActivityId(newActivitiesVo.getId(), this.allPageable);
             newActivitiesVo.setTotal(newActivitiesPictures.size());
-            newActivitiesVo.setPictures(JSON.toJSONString(newActivitiesPictures));
+            newActivitiesVo.setActivityPictureData(newActivitiesPictures);
         }
         return ResultUtil.success(newActivitiesVo);
     }

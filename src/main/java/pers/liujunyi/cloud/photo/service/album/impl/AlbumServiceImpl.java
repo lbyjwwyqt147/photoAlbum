@@ -116,8 +116,10 @@ public class AlbumServiceImpl extends BaseServiceImpl<Album, Long> implements Al
                 }
             }
         }
-        List<AlbumPicture> albumPictures =  this.albumPictureRepository.saveAll(albumPictureList);
-        this.albumPictureElasticsearchRepository.saveAll(albumPictures);
+        if (albumPictureList.size() > 0) {
+            List<AlbumPicture> albumPictures =  this.albumPictureRepository.saveAll(albumPictureList);
+            this.albumPictureElasticsearchRepository.saveAll(albumPictures);
+        }
         this.albumElasticsearchRepository.save(saveObject);
         return ResultUtil.success(saveObject.getId());
     }

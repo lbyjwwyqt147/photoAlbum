@@ -8,6 +8,8 @@ import pers.liujunyi.cloud.common.query.elasticsearch.BaseEsQuery;
 import pers.liujunyi.cloud.common.query.jpa.annotation.MatchType;
 import pers.liujunyi.cloud.common.query.jpa.annotation.QueryCondition;
 
+import java.util.Date;
+
 /***
  * 文件名称: NewActivitiesQueryDto.java
  * 文件描述: 最新活动
@@ -29,13 +31,12 @@ public class NewActivitiesQueryDto extends BaseEsQuery {
 
     /** 开始时间 */
     @ApiModelProperty(value = "开始时间 ")
-    @QueryCondition(func = MatchType.greaterThanOrEqualTo)
-    private String startDateTime;
+    private Date startDateTime;
 
     /** 结束时间 */
     @ApiModelProperty(value = "结束时间 ")
-    @QueryCondition(func = MatchType.lessThanOrEqualTo)
-    private String endDateTime;
+    @QueryCondition(column = "endDateTime", func = MatchType.leRange, rangeField = {"startDateTime", "endDateTime"})
+    private Date endDateTime;
 
     /** 是否到期  0：未到期  1：到期 */
     @ApiModelProperty(value = "是否到期  0：未到期  1：到期  ")

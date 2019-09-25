@@ -76,7 +76,7 @@ public class NewActivitiesServiceImpl extends BaseServiceImpl<NewActivities, Lon
         if (!add) {
             saveObject.setDataVersion(record.getDataVersion() + 1);
         }
-        List<ActivityImags> ActivityImagsList = new LinkedList<>();
+        List<ActivityImags> activityImagsList = new LinkedList<>();
         JSONArray jsonArray = JSON.parseArray(record.getPictures());
         byte i = 1;
         for (Object json : jsonArray) {
@@ -90,22 +90,24 @@ public class NewActivitiesServiceImpl extends BaseServiceImpl<NewActivities, Lon
             activityImags.setStatus(Constant.ENABLE_STATUS);
             activityImags.setPriority(i);
             i++;
-            ActivityImagsList.add(activityImags);
+            activityImagsList.add(activityImags);
         }
-        List<Long> pictureIds = ActivityImagsList.stream().map(ActivityImags::getPictureId).collect(Collectors.toList());
+        List<Long> pictureIds = activityImagsList.stream().map(ActivityImags::getPictureId).collect(Collectors.toList());
         List<ActivityImags> pictureList = this.activityImagsRepository.findByPictureIdIn(pictureIds);
         if (!CollectionUtils.isEmpty(pictureList)) {
             Map<Long, List<ActivityImags>> pictureMap = pictureList.stream().collect(Collectors.groupingBy(ActivityImags::getPictureId));
-            Iterator<ActivityImags> ActivityImagsIterator = ActivityImagsList.iterator();
-            while (ActivityImagsIterator.hasNext()) {
-                ActivityImags ActivityImags = ActivityImagsIterator.next();
+            Iterator<ActivityImags> activityImagsIterator = activityImagsList.iterator();
+            while (activityImagsIterator.hasNext()) {
+                ActivityImags ActivityImags = activityImagsIterator.next();
                 if (pictureMap.get(ActivityImags.getPictureId()) != null) {
-                    ActivityImagsIterator.remove();
+                    activityImagsIterator.remove();
                 }
             }
         }
-        List<ActivityImags> ActivityImagss =  this.activityImagsRepository.saveAll(ActivityImagsList);
-        this.activityImagsElasticsearchRepository.saveAll(ActivityImagss);
+        if (activityImagsList.size() > 0) {
+            List<ActivityImags> activityImagss =  this.activityImagsRepository.saveAll(activityImagsList);
+            this.activityImagsElasticsearchRepository.saveAll(activityImagss);
+        }
         this.newActivitiesElasticsearchRepository.save(saveObject);
         return ResultUtil.success(saveObject.getId());
     }
@@ -152,29 +154,29 @@ public class NewActivitiesServiceImpl extends BaseServiceImpl<NewActivities, Lon
     public ResultInfo syncDataToElasticsearch() {
         // 先同步相册信息
         Sort sort =  new Sort(Sort.Direction.ASC, "id");
-        List<NewActivities> NewActivitiesList = this.newActivitiesRepository.findAll(sort);
-        if (!CollectionUtils.isEmpty(NewActivitiesList)) {
+        List<NewActivities> newActivitiesList = this.newActivitiesRepository.findAll(sort);
+        if (!CollectionUtils.isEmpty(newActivitiesList)) {
             this.newActivitiesElasticsearchRepository.deleteAll();
             // 限制条数
             int pointsDataLimit = 1000;
-            int size = NewActivitiesList.size();
+            int size = newActivitiesList.size();
             //判断是否有必要分批
             if(pointsDataLimit < size){
                 //分批数
                 int part = size/pointsDataLimit;
                 for (int i = 0; i < part; i++) {
                     //1000条
-                    List<NewActivities> partList = new LinkedList<>(NewActivitiesList.subList(0, pointsDataLimit));
+                    List<NewActivities> partList = new LinkedList<>(newActivitiesList.subList(0, pointsDataLimit));
                     //剔除
-                    NewActivitiesList.subList(0, pointsDataLimit).clear();
+                    newActivitiesList.subList(0, pointsDataLimit).clear();
                     this.newActivitiesElasticsearchRepository.saveAll(partList);
                 }
                 //表示最后剩下的数据
-                if (!CollectionUtils.isEmpty(NewActivitiesList)) {
-                    this.newActivitiesElasticsearchRepository.saveAll(NewActivitiesList);
+                if (!CollectionUtils.isEmpty(newActivitiesList)) {
+                    this.newActivitiesElasticsearchRepository.saveAll(newActivitiesList);
                 }
             } else {
-                this.newActivitiesElasticsearchRepository.saveAll(NewActivitiesList);
+                this.newActivitiesElasticsearchRepository.saveAll(newActivitiesList);
             }
         } else {
             this.newActivitiesElasticsearchRepository.deleteAll();
@@ -212,16 +214,16 @@ public class NewActivitiesServiceImpl extends BaseServiceImpl<NewActivities, Lon
 
     @Override
     public ResultInfo deletePictureById(Long pictureId) {
-        ActivityImags ActivityImags = null;
+        ActivityImags activityImags = null;
         Optional<ActivityImags> optional   = this.activityImagsElasticsearchRepository.findById(pictureId);
         if (optional.isPresent()) {
-            ActivityImags = optional.get();
+            activityImags = optional.get();
         }
         this.activityImagsRepository.deleteById(pictureId);
-        if (ActivityImags != null) {
+        if (activityImags != null) {
             this.activityImagsElasticsearchRepository.deleteById(pictureId);
             // 删除服务器上的文件
-            this.fileManageUtil.batchDeleteById(ActivityImags.getPictureId().toString());
+            this.fileManageUtil.batchDeleteById(activityImags.getPictureId().toString());
         }
         return ResultUtil.success();
     }

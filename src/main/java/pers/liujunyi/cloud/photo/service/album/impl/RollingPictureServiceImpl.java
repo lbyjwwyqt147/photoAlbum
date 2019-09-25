@@ -52,7 +52,6 @@ public class RollingPictureServiceImpl extends BaseServiceImpl<RollingPicture, L
 
     @Override
     public ResultInfo saveRecord(RollingPictureDto record) {
-        boolean add = record.getId() != null ? false : true;
         if (record.getPriority() == null) {
             record.setPriority((byte) 10);
         }

@@ -8,6 +8,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.Version;
 import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
 import pers.liujunyi.cloud.common.entity.BaseEntity;
 
 import javax.persistence.Entity;
@@ -82,6 +83,7 @@ public class NewActivities extends BaseEntity {
 
     /** 版本号 */
     @Version
+    @Field(index = false)
     private Long dataVersion;
 
     /** 序号  */

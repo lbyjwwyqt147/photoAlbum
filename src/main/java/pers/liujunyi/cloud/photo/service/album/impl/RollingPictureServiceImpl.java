@@ -12,6 +12,7 @@ import pers.liujunyi.cloud.common.repository.jpa.BaseRepository;
 import pers.liujunyi.cloud.common.restful.ResultInfo;
 import pers.liujunyi.cloud.common.restful.ResultUtil;
 import pers.liujunyi.cloud.common.service.impl.BaseServiceImpl;
+import pers.liujunyi.cloud.common.util.DozerBeanMapperUtil;
 import pers.liujunyi.cloud.common.util.FileManageUtil;
 import pers.liujunyi.cloud.photo.domain.album.RollingPictureDto;
 import pers.liujunyi.cloud.photo.entity.album.RollingPicture;
@@ -60,16 +61,12 @@ public class RollingPictureServiceImpl extends BaseServiceImpl<RollingPicture, L
         byte i = 1;
         for (Object json : jsonArray) {
             JSONObject jsonObject = (JSONObject) json;
-            RollingPicture rollingPicture = new RollingPicture();
-            rollingPicture.setBusinessCode(record.getBusinessCode());
+            RollingPicture rollingPicture = DozerBeanMapperUtil.copyProperties(record, RollingPicture.class);
             rollingPicture.setPictureId(jsonObject.getLong("id"));
             rollingPicture.setPictureLocation(jsonObject.getString("fileCallAddress"));
             rollingPicture.setPictureCategory(jsonObject.getByte("fileCategory"));
             rollingPicture.setStatus(Constant.ENABLE_STATUS);
             rollingPicture.setPriority(i);
-            rollingPicture.setPosition(record.getPosition());
-            rollingPicture.setDescription(record.getDescription());
-            rollingPicture.setHrefLink(record.getHrefLink());
             i++;
             rollingPictures.add(rollingPicture);
         }

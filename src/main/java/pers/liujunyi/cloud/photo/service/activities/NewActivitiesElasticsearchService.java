@@ -55,4 +55,10 @@ public interface NewActivitiesElasticsearchService extends BaseElasticsearchServ
      */
     ResultInfo findActivitiesPictureByActivityId(Long activityId);
 
+    /**
+     * 活动下拉框
+     * @return
+     */
+    ResultInfo activitiesComboBox();
+
 }

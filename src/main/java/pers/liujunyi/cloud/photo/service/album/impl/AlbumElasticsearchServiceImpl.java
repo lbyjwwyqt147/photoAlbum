@@ -24,9 +24,11 @@ import pers.liujunyi.cloud.photo.repository.elasticsearch.album.AlbumElasticsear
 import pers.liujunyi.cloud.photo.repository.elasticsearch.album.AlbumPictureElasticsearchRepository;
 import pers.liujunyi.cloud.photo.service.album.AlbumElasticsearchService;
 import pers.liujunyi.cloud.photo.service.user.StaffDetailsInfoElasticsearchService;
+import pers.liujunyi.cloud.photo.util.Constant;
 import pers.liujunyi.cloud.photo.util.DictConstant;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
@@ -168,5 +170,37 @@ public class AlbumElasticsearchServiceImpl extends BaseElasticsearchServiceImpl<
     public ResultInfo findAlbumPictureByAlbumId(Long albumId) {
         List<AlbumPicture> albumPictures = this.albumPictureElasticsearchRepository.findByAlbumId(albumId, this.allPageable);
         return ResultUtil.success(albumPictures);
+    }
+
+    @Override
+    public ResultInfo albumComboBox(String albumClassification, String albumClassify) {
+        AlbumQueryDto query = new AlbumQueryDto();
+        query.setPageNumber(1);
+        query.setPageSize(20);
+        query.setAlbumClassification(albumClassification);
+        query.setAlbumStatus(Constant.ENABLE_STATUS);
+        query.setAlbumClassify(albumClassify);
+        // 排序方式
+        Sort sort =  new Sort(Sort.Direction.ASC, "albumPriority");
+        //分页参数
+        Pageable pageable = query.toPageable(sort);
+        // 查询数据
+        SearchQuery searchQuery = query.toSpecPageable(pageable);
+        Page<Album> searchPageResults = this.albumElasticsearchRepository.search(searchQuery);
+        List<Album> searchList = searchPageResults.getContent();
+        List<Map<String, String>> resultData = new CopyOnWriteArrayList<>();
+        Map<String, String> map = new ConcurrentHashMap<>();
+        map.put("id", "");
+        map.put("text", "--请选择--");
+        resultData.add(map);
+        if (!CollectionUtils.isEmpty(searchList)) {
+            searchList.stream().forEach(item -> {
+                Map<String, String> albumMap = new ConcurrentHashMap<>();
+                albumMap.put("id", item.getId().toString());
+                albumMap.put("text", item.getAlbumTitle());
+                resultData.add(albumMap);
+            });
+        }
+        return ResultUtil.success(resultData);
     }
 }

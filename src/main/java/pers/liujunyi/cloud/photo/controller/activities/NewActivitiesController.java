@@ -202,4 +202,19 @@ public class NewActivitiesController extends BaseController {
     public ResultInfo syncDataToElasticsearch() {
         return this.newActivitiesService.syncDataToElasticsearch();
     }
+
+    /**
+     *  活动下拉框
+     * @param
+     * @return
+     */
+    @ApiOperation(value = "活动下拉框", notes = "活动下拉框 请求示例：127.0.0.1:18081/api/v1/table/activities/comboBox")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+    })
+    @GetMapping(value = "table/activities/comboBox")
+    @ApiVersion(1)
+    public ResultInfo activitiesComboBox() {
+        return this.newActivitiesElasticsearchService.activitiesComboBox();
+    }
 }

@@ -221,4 +221,25 @@ public class AlbumController  extends BaseController {
     public ResultInfo syncDataToElasticsearch() {
         return this.albumService.syncDataToElasticsearch();
     }
+
+
+    /**
+     *  相册下拉框信息
+     * @param albumClassification  相册归类 例如：样片、客片 等
+     * @param albumClassify 相册分类 例如：写真、婚纱、旅拍 等、
+     * @return
+     */
+    @ApiOperation(value = "同步数据", notes = "同步数据 请求示例：127.0.0.1:18081/api/v1/table/album/comboBox")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "albumClassification", value = "albumClassification", paramType = "Query",   required = true, dataType = "String"),
+            @ApiImplicitParam(name = "albumClassify", value = "albumClassify", paramType = "Query",   required = true, dataType = "String")
+
+    })
+    @GetMapping(value = "table/album/comboBox")
+    @ApiVersion(1)
+    public ResultInfo albumComboBox(String albumClassification, String albumClassify) {
+        return this.albumElasticsearchService.albumComboBox(albumClassification, albumClassify);
+    }
+
 }

@@ -55,4 +55,11 @@ public interface AlbumElasticsearchService extends BaseElasticsearchService<Albu
      */
     ResultInfo findAlbumPictureByAlbumId(Long albumId);
 
+    /**
+     * 相册下拉框信息
+     * @param albumClassification   相册归类 例如：样片、客片 等
+     * @param albumClassify  相册分类 例如：写真、婚纱、旅拍 等、
+     * @return
+     */
+    ResultInfo albumComboBox(String albumClassification, String albumClassify);
 }

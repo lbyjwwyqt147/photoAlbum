@@ -58,7 +58,6 @@ public class RollingPictureServiceImpl extends BaseServiceImpl<RollingPicture, L
         }
         List<RollingPicture> rollingPictures = new LinkedList<>();
         JSONArray jsonArray = JSON.parseArray(record.getPictures());
-        byte i = 1;
         for (Object json : jsonArray) {
             JSONObject jsonObject = (JSONObject) json;
             RollingPicture rollingPicture = DozerBeanMapperUtil.copyProperties(record, RollingPicture.class);
@@ -66,8 +65,6 @@ public class RollingPictureServiceImpl extends BaseServiceImpl<RollingPicture, L
             rollingPicture.setPictureLocation(jsonObject.getString("fileCallAddress"));
             rollingPicture.setPictureCategory(jsonObject.getByte("fileCategory"));
             rollingPicture.setStatus(Constant.ENABLE_STATUS);
-            rollingPicture.setPriority(i);
-            i++;
             rollingPictures.add(rollingPicture);
         }
         List<RollingPicture> save = this.rollingPictureRepository.saveAll(rollingPictures);

@@ -1,7 +1,10 @@
 package pers.liujunyi.cloud.photo.repository.elasticsearch.activities;
 
+import org.springframework.data.domain.Pageable;
 import pers.liujunyi.cloud.common.repository.elasticsearch.BaseElasticsearchRepository;
 import pers.liujunyi.cloud.photo.entity.activities.NewActivities;
+
+import java.util.List;
 
 /***
  * 文件名称: NewActivitiesElasticsearchRepository.java
@@ -16,6 +19,14 @@ import pers.liujunyi.cloud.photo.entity.activities.NewActivities;
  */
 public interface NewActivitiesElasticsearchRepository extends BaseElasticsearchRepository<NewActivities, Long> {
 
+    /**
+     * 根据是否到期 字段获取数据
+     * @param maturity
+     * @param date
+     * @param pageable
+     * @return
+     */
+    List<NewActivities> findByMaturityAndEndDateTimeBefore(Byte maturity, Long date, Pageable pageable);
 
 
 }

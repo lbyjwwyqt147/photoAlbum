@@ -31,5 +31,15 @@ public interface NewActivitiesRepository extends BaseRepository<NewActivities, L
     @Query(value = "update new_activities u set u.activity_status = ?1, u.update_time = now(), u.data_version = data_version+1 where u.id = ?2 and u.data_version = ?3 ", nativeQuery = true)
     int setStatusByIds(Byte activityStatus, Long id, Long dataVersion);
 
-
+    /**
+     * 更新过期状态
+     * @param maturity  0：未到期  1：到期
+     * @param id
+     * @param dataVersion
+     * @return
+     */
+    @Transactional(rollbackFor = {RuntimeException.class, Exception.class})
+    @Modifying(clearAutomatically = true)
+    @Query(value = "update new_activities u set u.maturity = ?1, u.update_time = now(), u.data_version = data_version+1 where u.id = ?2 and u.data_version = ?3 ", nativeQuery = true)
+    int setMaturityStatus(Byte maturity, Long id, Long dataVersion);
 }

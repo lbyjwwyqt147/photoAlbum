@@ -36,6 +36,15 @@ public interface NewActivitiesService extends BaseService<NewActivities, Long> {
      */
     ResultInfo updateStatus(Byte status, Long id, Long dataVersion);
 
+    /**
+     * 更新过期状态
+     * @param status   0：未到期  1：到期
+     * @param id
+     * @param dataVersion
+     * @return
+     */
+    ResultInfo updateMaturityStatus(Byte status, Long id, Long dataVersion);
+
 
     /**
      * 批量删除

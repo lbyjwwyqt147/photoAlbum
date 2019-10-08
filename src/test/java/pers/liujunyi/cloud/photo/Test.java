@@ -2,9 +2,11 @@ package pers.liujunyi.cloud.photo;
 
 import com.alibaba.fastjson.JSON;
 import pers.liujunyi.cloud.common.restful.ResultUtil;
+import pers.liujunyi.cloud.common.util.DateTimeUtils;
 import pers.liujunyi.cloud.common.vo.menus.ModuleTreeBuilder;
 import pers.liujunyi.cloud.common.vo.menus.ModuleVo;
 
+import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -152,5 +154,10 @@ public class Test {
         moduleVoList.add(childModule7);
 
         System.out.println(JSON.toJSONString(ResultUtil.success(ModuleTreeBuilder.buildListToTree(moduleVoList))));
+
+        LocalDate localDate = LocalDate.now();
+        System.out.println("LocalDate = " + localDate);
+
+        System.out.println(DateTimeUtils.getCurrentDate());
     }
 }

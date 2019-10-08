@@ -128,6 +128,22 @@ public class NewActivitiesServiceImpl extends BaseServiceImpl<NewActivities, Lon
         return ResultUtil.fail();
     }
 
+    @Override
+    public ResultInfo updateMaturityStatus(Byte status, Long id, Long dataVersion) {
+        int count = this.newActivitiesRepository.setMaturityStatus(status, id, dataVersion);
+        if (count > 0) {
+            Map<String, Map<String, Object>> sourceMap = new ConcurrentHashMap<>();
+            Map<String, Object> docDataMap = new HashMap<>();
+            docDataMap.put("maturity", status);
+            docDataMap.put("updateTime", System.currentTimeMillis());
+            docDataMap.put("dataVersion", dataVersion + 1);
+            sourceMap.put(String.valueOf(id), docDataMap);
+            super.updateBatchElasticsearchData(sourceMap);
+            return ResultUtil.success();
+        }
+        return ResultUtil.fail();
+    }
+
 
     @Override
     public ResultInfo deleteBatch(List<Long> ids) {

@@ -45,7 +45,7 @@ public class NewActivitiesController extends BaseController {
      */
     @ApiOperation(value = "保存数据", notes = "适用于保存数据 请求示例：127.0.0.1:18081/api/v1/verify/activities/s")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1")
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "query", required = true, dataType = "integer", defaultValue = "v1")
     })
     @PostMapping(value = "verify/activities/s")
     @ApiVersion(1)
@@ -61,7 +61,7 @@ public class NewActivitiesController extends BaseController {
      */
     @ApiOperation(value = "单条删除数据", notes = "适用于单条删除数据 请求示例：127.0.0.1:18081/api/v1/verify/activities/d")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1")
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "query", required = true, dataType = "integer", defaultValue = "v1")
     })
     @DeleteMapping(value = "verify/activities/d")
     @ApiVersion(1)
@@ -77,7 +77,7 @@ public class NewActivitiesController extends BaseController {
      */
     @ApiOperation(value = "单条删单条删除图片数据除数据", notes = "适用于单条删除图片数据请求示例：127.0.0.1:18081/api/v1/verify/activities/d")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1")
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "query", required = true, dataType = "integer", defaultValue = "v1")
     })
     @DeleteMapping(value = "verify/activities/picture/d")
     @ApiVersion(1)
@@ -94,7 +94,7 @@ public class NewActivitiesController extends BaseController {
      */
     @ApiOperation(value = "删除多条数据", notes = "适用于批量删除数据 请求示例：127.0.0.1:18081/api/v1/verify/activities/d/b")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1")
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "query", required = true, dataType = "integer", defaultValue = "v1")
     })
     @DeleteMapping(value = "verify/activities/d/b")
     @ApiVersion(1)
@@ -110,7 +110,7 @@ public class NewActivitiesController extends BaseController {
      */
     @ApiOperation(value = "分页列表数据", notes = "适用于分页grid 显示数据 请求示例：127.0.0.1:18081/api/v1/table/activities/g")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1")
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "query", required = true, dataType = "integer", defaultValue = "v1")
     })
     @GetMapping(value = "table/activities/g")
     @ApiVersion(1)
@@ -127,7 +127,7 @@ public class NewActivitiesController extends BaseController {
      */
     @ApiOperation(value = "修改数据状态", notes = "适用于修改数据状态 请求示例：127.0.0.1:18081/api/v1/verify/activities/p")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "query", required = true, dataType = "integer", defaultValue = "v1"),
     })
     @PutMapping(value = "verify/activities/p")
     @ApiVersion(1)
@@ -144,7 +144,7 @@ public class NewActivitiesController extends BaseController {
      */
     @ApiOperation(value = "根据ID 获取数据详情 （包含图片信息）", notes = "根据ID 获取数据详情 请求示例：127.0.0.1:18081/api/v1/table/activities/picture/1")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "query", required = true, dataType = "integer", defaultValue = "v1"),
             @ApiImplicitParam(name = "id", value = "id", paramType = "path",   required = true, dataType = "Long")
     })
     @GetMapping(value = "table/activities/picture/{id}")
@@ -161,7 +161,7 @@ public class NewActivitiesController extends BaseController {
      */
     @ApiOperation(value = "根据ID 获取数据详情(不包含图片信息) ", notes = "根据ID 获取数据详情 请求示例：127.0.0.1:18081/api/v1/table/activities/1")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "query", required = true, dataType = "integer", defaultValue = "v1"),
             @ApiImplicitParam(name = "id", value = "id", paramType = "path",   required = true, dataType = "Long")
     })
     @GetMapping(value = "table/activities/{id}")
@@ -179,7 +179,7 @@ public class NewActivitiesController extends BaseController {
      */
     @ApiOperation(value = "根据活动ID 获取图片数据详情", notes = "根据活动ID 获取图片数据详情 请求示例：127.0.0.1:18081/api/v1/table/activities/picture")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "query", required = true, dataType = "integer", defaultValue = "v1"),
             @ApiImplicitParam(name = "id", value = "id", paramType = "path",   required = true, dataType = "Long")
     })
     @GetMapping(value = "table/activities/picture")
@@ -195,7 +195,7 @@ public class NewActivitiesController extends BaseController {
      */
     @ApiOperation(value = "同步数据", notes = "同步数据 请求示例：127.0.0.1:18081/api/v1/verify/activities/sync")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "query", required = true, dataType = "integer", defaultValue = "v1"),
     })
     @PostMapping(value = "verify/activities/sync")
     @ApiVersion(1)
@@ -210,7 +210,7 @@ public class NewActivitiesController extends BaseController {
      */
     @ApiOperation(value = "活动下拉框", notes = "活动下拉框 请求示例：127.0.0.1:18081/api/v1/table/activities/comboBox")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "query", required = true, dataType = "integer", defaultValue = "v1"),
     })
     @GetMapping(value = "table/activities/comboBox")
     @ApiVersion(1)

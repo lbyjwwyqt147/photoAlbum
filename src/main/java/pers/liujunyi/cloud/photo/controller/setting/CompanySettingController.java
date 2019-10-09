@@ -46,7 +46,7 @@ public class CompanySettingController extends BaseController {
      */
     @ApiOperation(value = "保存数据", notes = "适用于保存数据 请求示例：127.0.0.1:18081/api/v1/verify/cmpany/s")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1")
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "query", required = true, dataType = "integer", defaultValue = "v1")
     })
     @PostMapping(value = "verify/cmpany/s")
     @ApiVersion(1)
@@ -62,7 +62,7 @@ public class CompanySettingController extends BaseController {
      */
     @ApiOperation(value = "获取数据详情 ", notes = "获取数据详情 请求示例：127.0.0.1:18081/api/v1/table/cmpany/details")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1")
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "query", required = true, dataType = "integer", defaultValue = "v1")
     })
     @GetMapping(value = "table/cmpany/details")
     @ApiVersion(1)
@@ -77,7 +77,7 @@ public class CompanySettingController extends BaseController {
      */
     @ApiOperation(value = "同步数据", notes = "同步数据 请求示例：127.0.0.1:18081/api/v1/verify/cmpany/sync")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "query", required = true, dataType = "integer", defaultValue = "v1"),
     })
     @PostMapping(value = "verify/cmpany/sync")
     @ApiVersion(1)

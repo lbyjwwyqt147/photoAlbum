@@ -46,7 +46,7 @@ public class AlbumController  extends BaseController {
      */
     @ApiOperation(value = "保存数据", notes = "适用于保存数据 请求示例：127.0.0.1:18081/api/v1/verify/album/s")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1")
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "query", required = true, dataType = "integer", defaultValue = "v1")
     })
     @PostMapping(value = "verify/album/s")
     @ApiVersion(1)
@@ -62,7 +62,7 @@ public class AlbumController  extends BaseController {
      */
     @ApiOperation(value = "单条删除数据", notes = "适用于单条删除数据 请求示例：127.0.0.1:18081/api/v1/verify/album/d")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1")
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "query", required = true, dataType = "integer", defaultValue = "v1")
     })
     @DeleteMapping(value = "verify/album/d")
     @ApiVersion(1)
@@ -78,7 +78,7 @@ public class AlbumController  extends BaseController {
      */
     @ApiOperation(value = "单条删单条删除图片数据除数据", notes = "适用于单条删除图片数据请求示例：127.0.0.1:18081/api/v1/verify/albumPicture/d")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1")
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "query", required = true, dataType = "integer", defaultValue = "v1")
     })
     @DeleteMapping(value = "verify/album/picture/d")
     @ApiVersion(1)
@@ -95,7 +95,7 @@ public class AlbumController  extends BaseController {
      */
     @ApiOperation(value = "删除多条数据", notes = "适用于批量删除数据 请求示例：127.0.0.1:18081/api/v1/verify/album/d/b")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1")
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "query", required = true, dataType = "integer", defaultValue = "v1")
     })
     @DeleteMapping(value = "verify/album/d/b")
     @ApiVersion(1)
@@ -111,7 +111,7 @@ public class AlbumController  extends BaseController {
      */
     @ApiOperation(value = "分页列表数据", notes = "适用于分页grid 显示数据 请求示例：127.0.0.1:18081/api/v1/table/album/g")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1")
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "query", required = true, dataType = "integer", defaultValue = "v1")
     })
     @GetMapping(value = "table/album/g")
     @ApiVersion(1)
@@ -128,7 +128,7 @@ public class AlbumController  extends BaseController {
      */
     @ApiOperation(value = "修改数据状态", notes = "适用于修改数据状态 请求示例：127.0.0.1:18081/api/v1/verify/album/p")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "query", required = true, dataType = "integer", defaultValue = "v1"),
     })
     @PutMapping(value = "verify/album/p")
     @ApiVersion(1)
@@ -146,7 +146,7 @@ public class AlbumController  extends BaseController {
      */
     @ApiOperation(value = "修改 是否在首页展示 状态", notes = "适用于修改 是否在首页展示 状态 请求示例：127.0.0.1:18081/api/v1/verify/album/p/show")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "query", required = true, dataType = "integer", defaultValue = "v1"),
     })
     @PutMapping(value = "verify/album/p/show")
     @ApiVersion(1)
@@ -163,7 +163,7 @@ public class AlbumController  extends BaseController {
      */
     @ApiOperation(value = "根据ID 获取数据详情 （包含图片信息）", notes = "根据ID 获取数据详情 请求示例：127.0.0.1:18081/api/v1/table/album/picture/1")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "query", required = true, dataType = "integer", defaultValue = "v1"),
             @ApiImplicitParam(name = "id", value = "id", paramType = "path",   required = true, dataType = "Long")
     })
     @GetMapping(value = "table/album/picture/{id}")
@@ -180,7 +180,7 @@ public class AlbumController  extends BaseController {
      */
     @ApiOperation(value = "根据ID 获取数据详情(不包含图片信息) ", notes = "根据ID 获取数据详情 请求示例：127.0.0.1:18081/api/v1/table/album/1")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "query", required = true, dataType = "integer", defaultValue = "v1"),
             @ApiImplicitParam(name = "id", value = "id", paramType = "path",   required = true, dataType = "Long")
     })
     @GetMapping(value = "table/album/{id}")
@@ -198,7 +198,7 @@ public class AlbumController  extends BaseController {
      */
     @ApiOperation(value = "根据相册ID 获取图片数据详情", notes = "根据相册ID 获取图片数据详情 请求示例：127.0.0.1:18081/api/v1/table/album/picture")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "query", required = true, dataType = "integer", defaultValue = "v1"),
             @ApiImplicitParam(name = "id", value = "id", paramType = "path",   required = true, dataType = "Long")
     })
     @GetMapping(value = "table/album/picture")
@@ -214,7 +214,7 @@ public class AlbumController  extends BaseController {
      */
     @ApiOperation(value = "同步数据", notes = "同步数据 请求示例：127.0.0.1:18081/api/v1/verify/album/sync")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "query", required = true, dataType = "integer", defaultValue = "v1"),
     })
     @PostMapping(value = "verify/album/sync")
     @ApiVersion(1)
@@ -231,7 +231,7 @@ public class AlbumController  extends BaseController {
      */
     @ApiOperation(value = "同步数据", notes = "同步数据 请求示例：127.0.0.1:18081/api/v1/table/album/comboBox")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "version", value = "版本号", paramType = "path", required = true, dataType = "integer", defaultValue = "v1"),
+            @ApiImplicitParam(name = "version", value = "版本号", paramType = "query", required = true, dataType = "integer", defaultValue = "v1"),
             @ApiImplicitParam(name = "albumClassification", value = "albumClassification", paramType = "Query",   required = true, dataType = "String"),
             @ApiImplicitParam(name = "albumClassify", value = "albumClassify", paramType = "Query",   required = true, dataType = "String")
 

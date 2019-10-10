@@ -2,14 +2,11 @@ package pers.liujunyi.cloud.photo.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.web.bind.support.ConfigurableWebBindingInitializer;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
@@ -18,7 +15,6 @@ import pers.liujunyi.cloud.common.configuration.CustomRequestMappingHandlerMappi
 import pers.liujunyi.cloud.common.configuration.DateConverterConfig;
 
 import javax.annotation.PostConstruct;
-import java.util.Arrays;
 
 /***
  * 文件名称: WebConfiguration.java
@@ -36,6 +32,16 @@ public class WebConfiguration extends WebMvcConfigurationSupport {
 
     @Autowired
     private RequestMappingHandlerAdapter handlerAdapter;
+    @Autowired
+    CorsInterceptor corsInterceptor;
+
+    @Override
+    protected void addInterceptors(InterceptorRegistry registry) {
+        // 跨域拦截器
+        registry.addInterceptor(corsInterceptor)
+                .addPathPatterns("/**");
+        super.addInterceptors(registry);
+    }
 
     /**
      * 跨域设置
@@ -62,7 +68,7 @@ public class WebConfiguration extends WebMvcConfigurationSupport {
      * 跨域设置  如果在这里配置 会与 spring security 冲突
      * @return
      */
-    @Bean
+/*    @Bean
     public FilterRegistrationBean corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
@@ -75,7 +81,7 @@ public class WebConfiguration extends WebMvcConfigurationSupport {
         FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
         bean.setOrder(0);
         return bean;
-    }
+    }*/
 
 
     @Override

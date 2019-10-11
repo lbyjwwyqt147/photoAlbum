@@ -33,13 +33,13 @@ public class WebConfiguration extends WebMvcConfigurationSupport {
     @Autowired
     private RequestMappingHandlerAdapter handlerAdapter;
     @Autowired
-    CorsInterceptor corsInterceptor;
+    private CorsInterceptor corsInterceptor;
 
     @Override
     protected void addInterceptors(InterceptorRegistry registry) {
         // 跨域拦截器
         registry.addInterceptor(corsInterceptor)
-                .addPathPatterns("/**");
+                .addPathPatterns("/**").order(-10);
         super.addInterceptors(registry);
     }
 

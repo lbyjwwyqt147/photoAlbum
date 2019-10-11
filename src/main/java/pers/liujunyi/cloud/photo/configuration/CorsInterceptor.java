@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
+ * 开启跨域请求设置
  * @author ljy
  */
 @Component
@@ -30,7 +31,6 @@ public class CorsInterceptor implements HandlerInterceptor {
             response.setStatus(HttpStatus.NO_CONTENT.value());
             return false;
         }
-
         return true;
     }
 

@@ -175,5 +175,12 @@ public class RollingPictureServiceImpl extends BaseServiceImpl<RollingPicture, L
         return ResultUtil.success();
     }
 
+    @Override
+    public int deleteByBusinessIdAndVariety(Long businessId, String variety) {
+        int count = this.rollingPictureElasticsearchRepository.deleteByBusinessIdAndVariety(businessId, variety);
+        count = this.rollingPictureRepository.deleteByBusinessIdAndVariety(businessId, variety);
+        return count;
+    }
+
 
 }

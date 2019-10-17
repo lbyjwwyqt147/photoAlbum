@@ -33,11 +33,18 @@ public interface RollingPictureRepository extends BaseRepository<RollingPicture,
 
 
     /**
-     * 删除数据
+     * 根据页面和位置删除数据
      * @param businessCode
      * @param position
      * @return
      */
     int deleteByBusinessCodeAndAndPosition(String businessCode, String position);
 
+    /**
+     * 根据业务ID删除数据
+     * @param variety 1：活动图片  2：写真图片 3：婚纱图片
+     * @param businessId  业务数据ID
+     * @return
+     */
+    int deleteByBusinessIdAndVariety(Long businessId, String variety);
 }

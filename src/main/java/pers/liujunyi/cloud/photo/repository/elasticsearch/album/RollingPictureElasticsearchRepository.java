@@ -27,10 +27,18 @@ public interface RollingPictureElasticsearchRepository extends BaseElasticsearch
     List<RollingPicture> findByBusinessCodeAndPositionOrderByPriority(String businessCode, String position);
 
     /**
-     *
-     * @param businessCode
-     * @param position
+     * 根据页面和位置删除
+     * @param businessCode  页面
+     * @param position 位置
      * @return
      */
     int deleteByBusinessCodeAndAndPosition(String businessCode, String position);
+
+    /**
+     * 根据业务ID删除数据
+     * @param variety 1：活动图片  2：写真图片 3：婚纱图片
+     * @param businessId  业务数据ID
+     * @return
+     */
+    int deleteByBusinessIdAndVariety(Long businessId, String variety);
 }

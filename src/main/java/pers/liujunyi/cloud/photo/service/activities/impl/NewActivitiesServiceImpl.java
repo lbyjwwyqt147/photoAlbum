@@ -22,6 +22,7 @@ import pers.liujunyi.cloud.photo.repository.elasticsearch.activities.NewActiviti
 import pers.liujunyi.cloud.photo.repository.jpa.activities.ActivityImagsRepository;
 import pers.liujunyi.cloud.photo.repository.jpa.activities.NewActivitiesRepository;
 import pers.liujunyi.cloud.photo.service.activities.NewActivitiesService;
+import pers.liujunyi.cloud.photo.service.album.RollingPictureService;
 import pers.liujunyi.cloud.photo.util.Constant;
 
 import java.util.*;
@@ -52,6 +53,8 @@ public class NewActivitiesServiceImpl extends BaseServiceImpl<NewActivities, Lon
     private ActivityImagsElasticsearchRepository activityImagsElasticsearchRepository;
     @Autowired
     private FileManageUtil fileManageUtil;
+    @Autowired
+    private RollingPictureService rollingPictureService;
 
     public NewActivitiesServiceImpl(BaseRepository<NewActivities, Long> baseRepository) {
         super(baseRepository);
@@ -116,6 +119,10 @@ public class NewActivitiesServiceImpl extends BaseServiceImpl<NewActivities, Lon
     public ResultInfo updateStatus(Byte status, Long id, Long dataVersion) {
         int count = this.newActivitiesRepository.setStatusByIds(status, id, dataVersion);
         if (count > 0) {
+            if (status.byteValue() == 2) {
+                //删除轮播图数据
+                this.rollingPictureService.deleteByBusinessIdAndVariety(id, "1");
+            }
             Map<String, Map<String, Object>> sourceMap = new ConcurrentHashMap<>();
             Map<String, Object> docDataMap = new HashMap<>();
             docDataMap.put("activityStatus", status);
@@ -132,6 +139,8 @@ public class NewActivitiesServiceImpl extends BaseServiceImpl<NewActivities, Lon
     public ResultInfo updateMaturityStatus(Byte status, Long id, Long dataVersion) {
         int count = this.newActivitiesRepository.setMaturityStatus(status, id, dataVersion);
         if (count > 0) {
+            //删除轮播图数据
+            this.rollingPictureService.deleteByBusinessIdAndVariety(id, "1");
             Map<String, Map<String, Object>> sourceMap = new ConcurrentHashMap<>();
             Map<String, Object> docDataMap = new HashMap<>();
             docDataMap.put("maturity", status);
@@ -153,6 +162,8 @@ public class NewActivitiesServiceImpl extends BaseServiceImpl<NewActivities, Lon
     @Override
     public ResultInfo deleteSingle(Long id) {
         this.newActivitiesRepository.deleteById(id);
+        //删除轮播图数据
+        this.rollingPictureService.deleteByBusinessIdAndVariety(id, "1");
         List<ActivityImags> pictureList = this.activityImagsElasticsearchRepository.findByActivityId(id, this.allPageable);
         if (!CollectionUtils.isEmpty(pictureList)) {
             this.newActivitiesElasticsearchRepository.deleteById(id);

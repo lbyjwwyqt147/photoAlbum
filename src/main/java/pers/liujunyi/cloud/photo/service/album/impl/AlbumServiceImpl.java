@@ -22,6 +22,7 @@ import pers.liujunyi.cloud.photo.repository.elasticsearch.album.AlbumPictureElas
 import pers.liujunyi.cloud.photo.repository.jpa.album.AlbumPictureRepository;
 import pers.liujunyi.cloud.photo.repository.jpa.album.AlbumRepository;
 import pers.liujunyi.cloud.photo.service.album.AlbumService;
+import pers.liujunyi.cloud.photo.service.album.RollingPictureService;
 import pers.liujunyi.cloud.photo.util.Constant;
 
 import java.util.*;
@@ -52,6 +53,8 @@ public class AlbumServiceImpl extends BaseServiceImpl<Album, Long> implements Al
     private AlbumPictureElasticsearchRepository albumPictureElasticsearchRepository;
     @Autowired
     private FileManageUtil fileManageUtil;
+    @Autowired
+    private RollingPictureService rollingPictureService;
 
     public AlbumServiceImpl(BaseRepository<Album, Long> baseRepository) {
         super(baseRepository);
@@ -128,6 +131,10 @@ public class AlbumServiceImpl extends BaseServiceImpl<Album, Long> implements Al
     public ResultInfo updateStatus(Byte status, Long id, Long dataVersion) {
         int count = this.albumRepository.setStatusByIds(status, id, dataVersion);
         if (count > 0) {
+            if (status.byteValue() == 1) {
+                // 删除轮播图数据
+                this.rollingPictureService.deleteByBusinessIdAndVariety(id, "2");
+            }
             Map<String, Map<String, Object>> sourceMap = new ConcurrentHashMap<>();
             Map<String, Object> docDataMap = new HashMap<>();
             docDataMap.put("albumStatus", status);
@@ -170,6 +177,7 @@ public class AlbumServiceImpl extends BaseServiceImpl<Album, Long> implements Al
     @Override
     public ResultInfo deleteSingle(Long id) {
         this.albumRepository.deleteById(id);
+        this.rollingPictureService.deleteByBusinessIdAndVariety(id, "2");
         List<AlbumPicture> pictureList = this.albumPictureElasticsearchRepository.findByAlbumId(id, this.allPageable);
         if (!CollectionUtils.isEmpty(pictureList)) {
             this.albumElasticsearchRepository.deleteById(id);

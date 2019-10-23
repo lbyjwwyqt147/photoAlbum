@@ -78,8 +78,12 @@ public class AlbumElasticsearchServiceImpl extends BaseElasticsearchServiceImpl<
             albumVo.setAlbumPictureData(albumPictures);
             albumVo.setTitle(item.getAlbumTitle());
             albumVo.setStatus(item.getAlbumStatus());
-            List<AlbumPicture> filterList = albumPictures.stream().filter(u -> u.getCover().byteValue() == 0).limit(1).collect(Collectors.toList());
-            albumVo.setCover(!filterList.isEmpty() ? filterList.get(0).getPictureLocation() : null);
+            if (StringUtils.isBlank(item.getSurfacePlot())) {
+                List<AlbumPicture> filterList = albumPictures.stream().filter(u -> u.getCover().byteValue() == 0).limit(1).collect(Collectors.toList());
+                albumVo.setCover(!filterList.isEmpty() ? filterList.get(0).getPictureLocation() : null);
+            } else {
+                albumVo.setCover(item.getSurfacePlot());
+            }
             datas.add(albumVo);
         });
         Long totalElements =  searchPageResults.getTotalElements();

@@ -52,6 +52,7 @@ public class NewActivities extends BaseEntity {
     private Byte maturity;
 
     /** 原价 */
+    @Field(index = false)
     private Float originalPrice;
 
     /** 活动价格 */
@@ -61,24 +62,30 @@ public class NewActivities extends BaseEntity {
     private Float discount;
 
     /** 活动联系人 */
+    @Field(index = false)
     private String contactPerson;
 
     /** 联系人电话 */
+    @Field(index = false)
     private String contactNumber;
 
     /** 营业时间 */
+    @Field(index = false)
     private String businessHours;
 
     /** 活动描述 */
+    @Field(index = false)
     private String activityDescription;
 
     /** 活动状态 0：上架   1：草稿  2：下架 */
     private Byte activityStatus;
 
     /** 封面图 */
+    @Field(index = false)
     private String surfacePlot;
 
     /** 短视频 */
+    @Field(index = false)
     private String shortVideo;
 
     /** 版本号 */

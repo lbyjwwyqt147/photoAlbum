@@ -136,4 +136,9 @@ public class AlbumDto extends BaseDto {
     /** 是否在首页展示 0：展示  1：不展示  */
     private Byte display;
 
+    /** 封面图 */
+    private String surfacePlot;
+
+    /** 封面图ID */
+    private Long surfacePlotId;
 }

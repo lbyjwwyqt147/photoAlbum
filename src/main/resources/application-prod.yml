@@ -24,6 +24,15 @@ data:
   cloudAppId: 1550817758252
   # 核心系统的 appKey 注意：核心系统的 appKey 用于访问核心系统接口的数字签名
   cloudAppKey: c80e645007264e2684b393533ef7e832
+  security:
+    # 不需要权限认证的资源
+    antMatchers:
+      /oauth/**,
+      /api/v1/user/login,
+      /api/user/login,
+      /api/v1/out,
+      /api/v1/verify/ignore/**,
+      /api/v1/table/**
 
 spring:
   datasource:

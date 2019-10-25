@@ -17,8 +17,10 @@ import pers.liujunyi.cloud.common.util.FileManageUtil;
 import pers.liujunyi.cloud.photo.domain.activities.NewActivitiesDto;
 import pers.liujunyi.cloud.photo.entity.activities.ActivityImags;
 import pers.liujunyi.cloud.photo.entity.activities.NewActivities;
+import pers.liujunyi.cloud.photo.entity.setting.CompanySetting;
 import pers.liujunyi.cloud.photo.repository.elasticsearch.activities.ActivityImagsElasticsearchRepository;
 import pers.liujunyi.cloud.photo.repository.elasticsearch.activities.NewActivitiesElasticsearchRepository;
+import pers.liujunyi.cloud.photo.repository.elasticsearch.setting.CompanySettingElasticsearchRepository;
 import pers.liujunyi.cloud.photo.repository.jpa.activities.ActivityImagsRepository;
 import pers.liujunyi.cloud.photo.repository.jpa.activities.NewActivitiesRepository;
 import pers.liujunyi.cloud.photo.service.activities.NewActivitiesService;
@@ -55,6 +57,8 @@ public class NewActivitiesServiceImpl extends BaseServiceImpl<NewActivities, Lon
     private FileManageUtil fileManageUtil;
     @Autowired
     private RollingPictureService rollingPictureService;
+    @Autowired
+    private CompanySettingElasticsearchRepository companySettingElasticsearchRepository;
 
     public NewActivitiesServiceImpl(BaseRepository<NewActivities, Long> baseRepository) {
         super(baseRepository);
@@ -72,6 +76,17 @@ public class NewActivitiesServiceImpl extends BaseServiceImpl<NewActivities, Lon
         if (record.getActivityPriority() == null) {
             newActivities.setActivityPriority((byte) 10);
         }
+        String workingHours = null;
+        Iterable<CompanySetting> companySettingList = this.companySettingElasticsearchRepository.findAll();
+        Iterator<CompanySetting> companyIterator = companySettingList.iterator();
+        while (companyIterator.hasNext()) {
+            CompanySetting companySetting = companyIterator.next();
+            workingHours = companySetting.getBusinessHours();
+        }
+        if (StringUtils.isBlank(workingHours)) {
+            workingHours = "周一至周日 9:00-18:00";
+        }
+        record.setBusinessHours(workingHours);
         NewActivities saveObject = this.newActivitiesRepository.save(newActivities);
         if (saveObject == null || saveObject.getId() == null) {
             return ResultUtil.fail();

@@ -18,9 +18,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <swagger2.version>2.9.2</swagger2.version>
-        <druid-version>1.1.14</druid-version>
-        <mysql-version>8.0.15</mysql-version>
         <cloud.common-version>0.0.1-SNAPSHOT</cloud.common-version>
         <security-core-version>0.0.1-SNAPSHOT</security-core-version>
         <skipTests>true</skipTests>
@@ -34,21 +31,7 @@
             <version>1.2</version>
             <scope>runtime</scope>
         </dependency>
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>${mysql-version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid</artifactId>
-            <version>${druid-version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-starter</artifactId>
-            <version>${druid-version}</version>
-        </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -67,14 +50,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
-        <!-- 任务调度平台  -->
-        <dependency>
-            <groupId>com.xuxueli</groupId>
-            <artifactId>xxl-job-core</artifactId>
-            <version>2.1.0</version>
-        </dependency>
-
+        
         <!-- 使用log4j2　日志 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

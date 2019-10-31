@@ -52,7 +52,7 @@ public class RollingPictureElasticsearchServiceImpl extends BaseElasticsearchSer
     @Override
     public ResultInfo findPageGird(RollingPictureQueryDto query) {
         List<RollingPictureVo> datas = new CopyOnWriteArrayList<>();
-        Sort sort =  new Sort(Sort.Direction.ASC, "priority");
+        Sort sort = Sort.by(Sort.Direction.ASC, "priority");
         //分页参数
         Pageable pageable = query.toPageable(sort);
         // 查询数据

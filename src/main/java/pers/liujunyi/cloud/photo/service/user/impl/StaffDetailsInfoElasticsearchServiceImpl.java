@@ -74,7 +74,7 @@ public class StaffDetailsInfoElasticsearchServiceImpl extends BaseElasticsearchS
     @Override
     public ResultInfo findPageGird(StaffDetailsInfoQueryDto query) {
         // 排序方式
-        Sort sort =  new Sort(Sort.Direction.DESC, "entryDate");
+        Sort sort = Sort.by(Sort.Direction.DESC, "entryDate");
         //分页参数
         Pageable pageable = query.toPageable(sort);
         // 查询数据

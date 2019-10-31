@@ -194,7 +194,7 @@ public class AlbumServiceImpl extends BaseServiceImpl<Album, Long> implements Al
     @Override
     public ResultInfo syncDataToElasticsearch() {
         // 先同步相册信息
-        Sort sort =  new Sort(Sort.Direction.ASC, "id");
+        Sort sort = Sort.by(Sort.Direction.ASC, "id");
         List<Album> albumList = this.albumRepository.findAll(sort);
         if (!CollectionUtils.isEmpty(albumList)) {
             this.albumElasticsearchRepository.deleteAll();

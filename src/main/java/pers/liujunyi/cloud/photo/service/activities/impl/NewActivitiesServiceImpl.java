@@ -195,7 +195,7 @@ public class NewActivitiesServiceImpl extends BaseServiceImpl<NewActivities, Lon
     @Override
     public ResultInfo syncDataToElasticsearch() {
         // 先同步相册信息
-        Sort sort =  new Sort(Sort.Direction.ASC, "id");
+        Sort sort = Sort.by(Sort.Direction.ASC, "id");
         List<NewActivities> newActivitiesList = this.newActivitiesRepository.findAll(sort);
         if (!CollectionUtils.isEmpty(newActivitiesList)) {
             this.newActivitiesElasticsearchRepository.deleteAll();

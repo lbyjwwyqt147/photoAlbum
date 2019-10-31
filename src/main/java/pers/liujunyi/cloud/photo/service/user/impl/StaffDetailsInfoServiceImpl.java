@@ -158,7 +158,7 @@ public class StaffDetailsInfoServiceImpl extends BaseServiceImpl<StaffDetailsInf
     public ResultInfo syncDataToElasticsearch() {
         // 先同步账户信息
         this.userAccountsService.userAccountsSyncDataToElasticsearch();
-        Sort sort =  new Sort(Sort.Direction.ASC, "id");
+        Sort sort = Sort.by(Sort.Direction.ASC, "id");
         List<StaffDetailsInfo> list = this.staffDetailsInfoRepository.findAll(sort);
         if (!CollectionUtils.isEmpty(list)) {
             this.staffDetailsInfoElasticsearchRepository.deleteAll();

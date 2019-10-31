@@ -2,8 +2,8 @@ package pers.liujunyi.cloud.photo.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
 import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.web.bind.support.ConfigurableWebBindingInitializer;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -85,11 +85,9 @@ public class WebConfiguration extends WebMvcConfigurationSupport {
 
 
     @Override
-    @Bean
-    public RequestMappingHandlerMapping requestMappingHandlerMapping() {
+    public RequestMappingHandlerMapping createRequestMappingHandlerMapping() {
         RequestMappingHandlerMapping handlerMapping = new CustomRequestMappingHandlerMapping();
-        handlerMapping.setOrder(0);
-        handlerMapping.setInterceptors(getInterceptors());
+        handlerMapping.setOrder(Ordered.HIGHEST_PRECEDENCE);
         return handlerMapping;
     }
 

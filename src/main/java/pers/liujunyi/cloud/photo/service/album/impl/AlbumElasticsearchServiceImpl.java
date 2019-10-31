@@ -63,7 +63,7 @@ public class AlbumElasticsearchServiceImpl extends BaseElasticsearchServiceImpl<
     public ResultInfo findPageGird(AlbumQueryDto query) {
         List<AlbumVo> datas = new CopyOnWriteArrayList<>();
         // 排序方式
-        Sort sort =  new Sort(Sort.Direction.ASC, "albumPriority");
+        Sort sort = Sort.by(Sort.Direction.ASC, "albumPriority");
         //分页参数
         Pageable pageable = query.toPageable(sort);
         // 查询数据
@@ -185,7 +185,7 @@ public class AlbumElasticsearchServiceImpl extends BaseElasticsearchServiceImpl<
         query.setAlbumStatus(Constant.ENABLE_STATUS);
         query.setAlbumClassify(albumClassify);
         // 排序方式
-        Sort sort =  new Sort(Sort.Direction.ASC, "albumPriority");
+        Sort sort = Sort.by(Sort.Direction.ASC, "albumPriority");
         //分页参数
         Pageable pageable = query.toPageable(sort);
         // 查询数据

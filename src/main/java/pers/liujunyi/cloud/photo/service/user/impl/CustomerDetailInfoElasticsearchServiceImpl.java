@@ -55,7 +55,7 @@ public class CustomerDetailInfoElasticsearchServiceImpl extends BaseElasticsearc
     @Override
     public ResultInfo findPageGird(CustomerDetailInfoQueryDto query) {
         // 排序方式
-        Sort sort =  new Sort(Sort.Direction.ASC, "createTime");
+        Sort sort = Sort.by(Sort.Direction.ASC, "createTime");
         //分页参数
         Pageable pageable = query.toPageable(sort);
         // 查询数据

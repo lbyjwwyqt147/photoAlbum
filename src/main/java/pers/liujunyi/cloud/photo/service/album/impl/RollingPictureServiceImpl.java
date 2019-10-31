@@ -143,7 +143,7 @@ public class RollingPictureServiceImpl extends BaseServiceImpl<RollingPicture, L
     @Override
     public ResultInfo syncDataToElasticsearch() {
         // 先同步相册信息
-        Sort sort =  new Sort(Sort.Direction.ASC, "id");
+        Sort sort = Sort.by(Sort.Direction.ASC, "id");
         List<RollingPicture> albumList = this.rollingPictureRepository.findAll(sort);
         if (!CollectionUtils.isEmpty(albumList)) {
             this.rollingPictureElasticsearchRepository.deleteAll();

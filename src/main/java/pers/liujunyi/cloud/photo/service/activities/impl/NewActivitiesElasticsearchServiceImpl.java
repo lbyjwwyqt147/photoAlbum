@@ -58,7 +58,7 @@ public class NewActivitiesElasticsearchServiceImpl extends BaseElasticsearchServ
     public ResultInfo findPageGird(NewActivitiesQueryDto query) {
         List<NewActivitiesVo> datas = new CopyOnWriteArrayList<>();
         // 排序方式
-        Sort sort =  new Sort(Sort.Direction.DESC, "createTime");
+        Sort sort = Sort.by(Sort.Direction.DESC, "createTime");
         //分页参数
         Pageable pageable = query.toPageable(sort);
         // 查询数据
@@ -124,7 +124,7 @@ public class NewActivitiesElasticsearchServiceImpl extends BaseElasticsearchServ
         query.setMaturity(Constant.ENABLE_STATUS);
         query.setActivityStatus(Constant.ENABLE_STATUS);
         // 排序方式
-        Sort sort =  new Sort(Sort.Direction.DESC, "createTime");
+        Sort sort = Sort.by(Sort.Direction.DESC, "createTime");
         //分页参数
         Pageable pageable = query.toPageable(sort);
         // 查询数据

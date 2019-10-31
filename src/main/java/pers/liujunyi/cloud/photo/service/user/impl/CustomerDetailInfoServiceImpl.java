@@ -129,7 +129,7 @@ public class CustomerDetailInfoServiceImpl extends BaseServiceImpl<CustomerDetai
     public ResultInfo syncDataToElasticsearch() {
         // 先同步账户信息
         this.userAccountsService.userAccountsSyncDataToElasticsearch();
-        Sort sort =  new Sort(Sort.Direction.ASC, "id");
+        Sort sort = Sort.by(Sort.Direction.ASC, "id");
         List<CustomerDetailInfo> list = this.customerDetailInfoRepository.findAll(sort);
         if (!CollectionUtils.isEmpty(list)) {
             this.customerDetailInfoElasticsearchRepository.deleteAll();

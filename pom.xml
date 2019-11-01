@@ -25,6 +25,11 @@
     </properties>
 
     <dependencies>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
         <!-- log4jdbc -->
         <dependency>
             <groupId>com.googlecode.log4jdbc</groupId>

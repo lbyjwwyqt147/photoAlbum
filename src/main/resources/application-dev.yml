@@ -36,15 +36,27 @@ data:
 
 spring:
   datasource:
-    # 使用阿里的Druid连接池
-    type: com.alibaba.druid.pool.DruidDataSource
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://101.132.136.225:3306/photo_manage?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=CTT&rewriteBatchedStatements=true&autoReconnect=true&failOverReadOnly=false
-   # driver-class-name: net.sf.log4jdbc.DriverSpy
-   # url: jdbc:log4jdbc:mysql://101.132.136.225:3306/photo_manage?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=CTT&rewriteBatchedStatements=true&autoReconnect=true&failOverReadOnly=false
-    username: root
-    password: root@123
     druid:
+      master:
+        # 使用阿里的Druid连接池
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://101.132.136.225:3306/photo_manage?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=CTT&rewriteBatchedStatements=true&autoReconnect=true&failOverReadOnly=false
+        # driver-class-name: net.sf.log4jdbc.DriverSpy
+        # url: jdbc:log4jdbc:mysql://101.132.136.225:3306/photo_manage?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=CTT&rewriteBatchedStatements=true&autoReconnect=true&failOverReadOnly=false
+        username: root
+        password: root@123
+      activiti:
+        # 使用阿里的Druid连接池
+        type: com.alibaba.druid.pool.DruidDataSource
+        # JDBC 配置
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://101.132.136.225:3306/activiti_core?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=CTT&rewriteBatchedStatements=true&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true
+        # url换为jdbc-url 解决jdbcUrl is required with driverClassName错误
+        jdbc-url: ${spring.datasource.druid.activiti.url}
+        username: root
+        password: root@123
+
       # 连接池配置
       # 初始化大小，最小，最大
       initial-size: 10
@@ -54,9 +66,11 @@ spring:
       min-evictable-idle-time-millis: 300000
      # max-evictable-idle-time-millis: 600000
       max-open-prepared-statements: 60000
-      max-pool-prepared-statement-per-connection-size: 20
-      max-wait: 60000
+      # 打开PSCache，并且指定每个连接上PSCache的大小
       pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      #最大等待超时时间
+      max-wait: 60000
       test-on-borrow: false
       test-on-return: false
       test-while-idle: true
@@ -64,12 +78,15 @@ spring:
       time-between-eviction-runs-millis: 60000
       validation-query: SELECT 1 FROM DUAL
       validation-query-timeout: 60000
+      query-timeout: 60000
       transaction-threshold-millis: 60000
       remove-abandoned-timeout-millis: 30000
       # 配置监控统计拦截的filters,采用log4j2作为日志实现
       filters: stat,wall,log4j2
       # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
       connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+      # 合并多个DruidDataSource的监控数据
+      use-global-data-source-stat: true
       # 监控配置　WebStatFilter配置
       web-stat-filter:
         enabled: true
@@ -98,6 +115,28 @@ spring:
           statement-create-after-log-enabled: false
           statement-close-after-log-enabled: false
           result-set-open-after-log-enabled: false
+        stat:
+          #慢查询
+          log-slow-sql: true
+          #慢查询时长，默认3秒
+          slow-sql-millis: 1000
+          merge-sql: false
+        wall:
+          config:
+            multi-statement-allow: true
+
+  # jta atomikos 配置
+  jta:
+    atomikos:
+      datasource:
+        min-pool-size: 10
+        max-pool-size: 20
+        borrow-connection-timeout: 60
+      connectionfactory:
+        min-pool-size: 10
+        max-pool-size: 20
+        borrow-connection-timeout: 60
+
 
   # elasticsearch 配置
   data:
@@ -181,6 +220,19 @@ spring:
     signExpireTime: 10
     # 开启调试模式，调试模式下不进行加解密操作，用于像Swagger这种在线API测试场景
     debug: false
+
+  # 参考配置 https://www.cnblogs.com/liaojie970/p/8857710.html
+  activiti:
+    # 数据源指定
+    database-schema: ACTIVITI
+    # 建表规则： 服务启动时检查数据库表，不存在则创建
+    database-schema-update: true
+    # 表示哪种情况下使用历史表，这里配置为all表示全部记录历史，方便绘制流程图; 记录历史等级 可配置的历史级别有none, acitivity, audit, full
+    history-level: full
+    # 表示使用历史表，如果不配置，则工程启动后可以检查数据库
+    db-history-used: true
+    # spring jpa使用
+    jpa-enabled: false
 
 # xxl-job  任务调度执行器配置
 xxl:

@@ -8,6 +8,7 @@ import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
@@ -46,9 +47,10 @@ public class TransactionAdviceConfig {
     /**
      * 定义切点变量：拦截pers.liujunyi.cloud.photo.service包下所有类的所有方法,返回值类型任意的方法
      */
-    private static final String AOP_POINTCUT_EXPRESSION = "execution (* pers.liujunyi.cloud.photo.service.*.*.*(..))";
+    private static final String AOP_POINTCUT_EXPRESSION = "execution (* pers.liujunyi.cloud.*.service.*.*.*(..))";
 
     @Autowired
+    @Lazy
     private PlatformTransactionManager transactionManager;
 
     @Bean

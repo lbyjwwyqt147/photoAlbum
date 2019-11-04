@@ -4,6 +4,9 @@ import com.alibaba.druid.pool.DruidDataSource;
 import com.mysql.cj.jdbc.MysqlXADataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernateProperties;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernateSettings;
+import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jta.atomikos.AtomikosDataSourceBean;
 import org.springframework.context.annotation.Bean;
@@ -17,7 +20,7 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
-import java.util.HashMap;
+import java.util.Map;
 
 
 /***
@@ -43,6 +46,12 @@ public class JpaRepositoriesConfig {
 
     @Autowired
     private JpaVendorAdapter jpaVendorAdapter;
+
+    @Autowired
+    private JpaProperties jpaProperties;
+
+    @Autowired
+    private HibernateProperties hibernateProperties;
 
     @Bean("masterDruidDataSource")
     @ConfigurationProperties(prefix = "spring.datasource.druid.master")
@@ -83,16 +92,19 @@ public class JpaRepositoriesConfig {
     @Bean(name = "masterEntityManager")
     @DependsOn("transactionManager")
     public LocalContainerEntityManagerFactoryBean masterEntityManager() throws Throwable {
-        HashMap<String, Object> properties = new HashMap<String, Object>();
+        Map<String, String> properties =  this.jpaProperties.getProperties();
         // 标注transaction是JTA和JTA平台是AtomikosJtaPlatform.class.getName()
         properties.put("hibernate.transaction.jta.platform", AtomikosJtaPlatform.class.getName());
         properties.put("javax.persistence.transactionType", "JTA");
         LocalContainerEntityManagerFactoryBean entityManager = new LocalContainerEntityManagerFactoryBean();
         entityManager.setJtaDataSource(masterDataSource());
         entityManager.setJpaVendorAdapter(jpaVendorAdapter);
+        //设置实体类所在位置
         entityManager.setPackagesToScan("pers.liujunyi.cloud.photo.entity", "pers.liujunyi.cloud.security.entity");
         entityManager.setPersistenceUnitName("masterPersistenceUnit");
-        entityManager.setJpaPropertyMap(properties);
+        // 设置jpa属性  使用 hibernateProperties.determineHibernateProperties(properties, new HibernateSettings()) 解决不按照配置的JPA 命令策略生成表的问题
+        entityManager.setJpaPropertyMap(hibernateProperties.determineHibernateProperties(properties, new
+                HibernateSettings()));
         return entityManager;
     }
 

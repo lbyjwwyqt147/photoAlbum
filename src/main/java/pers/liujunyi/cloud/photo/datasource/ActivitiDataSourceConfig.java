@@ -18,6 +18,7 @@ import org.activiti.validation.validator.ValidatorSet;
 import org.hibernate.engine.transaction.jta.platform.internal.AtomikosJtaPlatform;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jta.atomikos.AtomikosDataSourceBean;
 import org.springframework.context.annotation.Bean;
@@ -32,9 +33,9 @@ import org.springframework.transaction.PlatformTransactionManager;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 /***
  * 文件名称: ActivitiConfig.java
@@ -60,7 +61,8 @@ public class ActivitiDataSourceConfig extends AbstractProcessEngineAutoConfigura
     @Autowired
     private JpaVendorAdapter jpaVendorAdapter;
 
-
+    @Autowired
+    private JpaProperties jpaProperties;
 
     @Bean("activitiDruidDataSource")
     @ConfigurationProperties(prefix = "spring.datasource.druid.activiti")
@@ -99,15 +101,17 @@ public class ActivitiDataSourceConfig extends AbstractProcessEngineAutoConfigura
     @Bean(name = "slaveEntityManager")
     @DependsOn("transactionManager")
     public LocalContainerEntityManagerFactoryBean masterEntityManager() throws IOException, SQLException  {
-        HashMap<String, Object> properties = new HashMap<>();
+        Map<String, String> properties = this.jpaProperties.getProperties();
         // 标注transaction是JTA和JTA平台是AtomikosJtaPlatform.class.getName()
         properties.put("hibernate.transaction.jta.platform", AtomikosJtaPlatform.class.getName());
         properties.put("javax.persistence.transactionType", "JTA");
         LocalContainerEntityManagerFactoryBean entityManager = new LocalContainerEntityManagerFactoryBean();
         entityManager.setJtaDataSource(activitiDataSource());
         entityManager.setJpaVendorAdapter(jpaVendorAdapter);
+        //设置实体类所在位置
         entityManager.setPackagesToScan("pers.liujunyi.cloud.activiti.entity");
-        entityManager.setPersistenceUnitName("slavePersistenceUnit");
+        entityManager.setPersistenceUnitName("activitiPersistenceUnit");
+        // 使用Activiti 自己的 表命令策略 所以这里 设置默认的JPA属性就行  不像主数据那样指定策略
         entityManager.setJpaPropertyMap(properties);
         return entityManager;
     }

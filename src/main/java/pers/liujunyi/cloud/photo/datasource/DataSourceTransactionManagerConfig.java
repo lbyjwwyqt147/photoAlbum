@@ -19,13 +19,13 @@ import javax.transaction.TransactionManager;
 import javax.transaction.UserTransaction;
 
 /**
- * 数据源配置
+ * 数据源事物管理配置
  * @author ljy
  */
 @Configuration
 @ComponentScan
 @EnableTransactionManagement(proxyTargetClass = true)
-public class DataSourceConfig {
+public class DataSourceTransactionManagerConfig {
 
     /**
      * 事物超时时间  (秒)

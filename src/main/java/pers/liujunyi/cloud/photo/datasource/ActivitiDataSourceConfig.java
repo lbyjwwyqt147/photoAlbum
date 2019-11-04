@@ -55,7 +55,7 @@ import java.util.Map;
 @DependsOn("transactionManager")
 @EntityScan(basePackages = {"pers.liujunyi.cloud.activiti.entity"})
 @EnableJpaRepositories(basePackages = {"pers.liujunyi.cloud.activiti.repository"},
-        entityManagerFactoryRef = "slaveEntityManager", transactionManagerRef = "transactionManager")
+        entityManagerFactoryRef = "activitiEntityManager", transactionManagerRef = "transactionManager")
 public class ActivitiDataSourceConfig extends AbstractProcessEngineAutoConfiguration {
 
     @Autowired
@@ -98,7 +98,7 @@ public class ActivitiDataSourceConfig extends AbstractProcessEngineAutoConfigura
      * @return
      * @throws Throwable
      */
-    @Bean(name = "slaveEntityManager")
+    @Bean(name = "activitiEntityManager")
     @DependsOn("transactionManager")
     public LocalContainerEntityManagerFactoryBean masterEntityManager() throws IOException, SQLException  {
         Map<String, String> properties = this.jpaProperties.getProperties();

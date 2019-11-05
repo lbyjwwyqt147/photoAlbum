@@ -172,6 +172,12 @@
             <appender-ref ref="ConsoleApplication" />
         </logger>
 
+        <!-- activiti 日志 -->
+        <logger name="org.activiti.engine.impl.persistence.entity" level="debug" additivity="false" >
+            <appender-ref ref="Console" />
+            <appender-ref ref="ConsoleApplication" />
+        </logger>
+
         <!--log4j2 自带过滤日志-->
         <Logger name="org.apache.catalina.startup.DigesterFactory" level="error" />
         <Logger name="org.apache.catalina.util.LifecycleBase" level="error" />

@@ -10,7 +10,7 @@ import pers.liujunyi.cloud.common.restful.ResultInfo;
 import pers.liujunyi.cloud.common.restful.ResultUtil;
 import pers.liujunyi.cloud.common.service.impl.BaseServiceImpl;
 import pers.liujunyi.cloud.common.util.DozerBeanMapperUtil;
-import pers.liujunyi.cloud.common.util.UserUtils;
+import pers.liujunyi.cloud.common.util.UserContext;
 import pers.liujunyi.cloud.photo.domain.user.StaffDetailsInfoDto;
 import pers.liujunyi.cloud.photo.entity.user.StaffDetailsInfo;
 import pers.liujunyi.cloud.photo.repository.elasticsearch.user.StaffDetailsInfoElasticsearchRepository;
@@ -49,9 +49,6 @@ public class StaffDetailsInfoServiceImpl extends BaseServiceImpl<StaffDetailsInf
     private UserAccountsService userAccountsService;
     @Autowired
     private StaffOrgService staffOrgService;
-    @Autowired
-    private UserUtils userUtils;
-
 
     public StaffDetailsInfoServiceImpl(BaseRepository<StaffDetailsInfo, Long> baseRepository) {
         super(baseRepository);
@@ -72,7 +69,7 @@ public class StaffDetailsInfoServiceImpl extends BaseServiceImpl<StaffDetailsInf
             }
             if (record.getId() != null) {
                 record.setUpdateTime(new Date());
-                record.setUpdateUserId(this.userUtils.getPresentLoginUserId());
+                record.setUpdateUserId(UserContext.currentUserId());
             } else {
                 record.setStaffAccountsId(Long.valueOf(result.getData().toString()));
             }
@@ -247,6 +244,7 @@ public class StaffDetailsInfoServiceImpl extends BaseServiceImpl<StaffDetailsInf
             userAccounts.setUserPassword(record.getMobilePhone());
             userAccounts.setRegisteredSource((byte) 1);
             userAccounts.setUserCategory(Constant.USER_CATEGORY_STAFF);
+            userAccounts.setLessee(record.getLessee());
             return this.userAccountsService.saveRecord(userAccounts);
         } else {
             UserAccountsUpdateDto userAccountsUpdate = new UserAccountsUpdateDto();
@@ -273,6 +271,7 @@ public class StaffDetailsInfoServiceImpl extends BaseServiceImpl<StaffDetailsInf
         staffOrg.setFullParent(record.getStaffFullParent());
         staffOrg.setOrgId(record.getStaffOrgId());
         staffOrg.setOrgNumber(record.getStaffOrgNumber());
+        staffOrg.setLessee(record.getLessee());
         List<Long> staffIdList = new CopyOnWriteArrayList<>();
         staffIdList.add(record.getId());
         this.staffOrgService.saveRecord(staffOrg, staffIdList);

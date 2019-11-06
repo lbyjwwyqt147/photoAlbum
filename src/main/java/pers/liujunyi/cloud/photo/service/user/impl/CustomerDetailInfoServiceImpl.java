@@ -10,7 +10,7 @@ import pers.liujunyi.cloud.common.restful.ResultInfo;
 import pers.liujunyi.cloud.common.restful.ResultUtil;
 import pers.liujunyi.cloud.common.service.impl.BaseServiceImpl;
 import pers.liujunyi.cloud.common.util.DozerBeanMapperUtil;
-import pers.liujunyi.cloud.common.util.UserUtils;
+import pers.liujunyi.cloud.common.util.UserContext;
 import pers.liujunyi.cloud.photo.domain.user.CustomerDetailInfoDto;
 import pers.liujunyi.cloud.photo.entity.user.CustomerDetailInfo;
 import pers.liujunyi.cloud.photo.repository.elasticsearch.user.CustomerDetailInfoElasticsearchRepository;
@@ -46,8 +46,6 @@ public class CustomerDetailInfoServiceImpl extends BaseServiceImpl<CustomerDetai
     @Autowired
     private UserAccountsService userAccountsService;
     @Autowired
-    private UserUtils userUtils;
-    @Autowired
     private SerialNumberUtils serialNumberUtils;
 
 
@@ -71,7 +69,7 @@ public class CustomerDetailInfoServiceImpl extends BaseServiceImpl<CustomerDetai
             }
             if (record.getId() != null) {
                 record.setUpdateTime(new Date());
-                record.setUpdateUserId(this.userUtils.getPresentLoginUserId());
+                record.setUpdateUserId(UserContext.currentUserId());
             } else {
                 record.setCustomerNumber(this.serialNumberUtils.getCurrentCustomerNumber());
                 record.setCustomerAccountsId(Long.valueOf(result.getData().toString()));

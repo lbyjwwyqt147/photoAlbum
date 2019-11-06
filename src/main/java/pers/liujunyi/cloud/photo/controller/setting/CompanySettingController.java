@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,10 +14,12 @@ import pers.liujunyi.cloud.common.controller.BaseController;
 import pers.liujunyi.cloud.common.restful.ResultInfo;
 import pers.liujunyi.cloud.common.restful.ResultUtil;
 import pers.liujunyi.cloud.photo.domain.setting.CompanySettingDto;
+import pers.liujunyi.cloud.photo.entity.setting.CompanySetting;
 import pers.liujunyi.cloud.photo.service.setting.CompanySettingElasticsearchService;
 import pers.liujunyi.cloud.photo.service.setting.CompanySettingService;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /***
  * 文件名称: CompanySettingController.java
@@ -67,7 +70,12 @@ public class CompanySettingController extends BaseController {
     @GetMapping(value = "table/cmpany/details")
     @ApiVersion(1)
     public ResultInfo findById() {
-        return ResultUtil.success(this.companySettingElasticsearchService.findAll());
+        List<CompanySetting> settingList = this.companySettingElasticsearchService.findAll();
+        if (CollectionUtils.isEmpty(settingList)) {
+            this.companySettingService.syncDataToElasticsearch();
+            settingList = this.companySettingElasticsearchService.findAll();
+        }
+        return ResultUtil.success(settingList);
     }
 
     /**

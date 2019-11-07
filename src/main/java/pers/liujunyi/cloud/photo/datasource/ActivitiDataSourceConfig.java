@@ -25,6 +25,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.core.io.Resource;
+import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -54,8 +55,9 @@ import java.util.Map;
 @Configuration
 @DependsOn("transactionManager")
 @EntityScan(basePackages = {"pers.liujunyi.cloud.activiti.entity"})
-@EnableJpaRepositories(basePackages = {"pers.liujunyi.cloud.activiti.repository"},
+@EnableJpaRepositories(basePackages = {"pers.liujunyi.cloud.activiti.repository.jpa"},
         entityManagerFactoryRef = "activitiEntityManager", transactionManagerRef = "transactionManager")
+@EnableElasticsearchRepositories(basePackages = {"pers.liujunyi.cloud.photo.repository.elasticsearch", "pers.liujunyi.cloud.activiti.repository.elasticsearch"})
 public class ActivitiDataSourceConfig extends AbstractProcessEngineAutoConfiguration {
 
     @Autowired

@@ -1,10 +1,12 @@
 package pers.liujunyi.cloud.photo.service.user.impl;
 
 import org.apache.commons.lang3.StringUtils;
+import org.elasticsearch.search.sort.SortBuilder;
+import org.elasticsearch.search.sort.SortBuilders;
+import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -73,12 +75,12 @@ public class StaffDetailsInfoElasticsearchServiceImpl extends BaseElasticsearchS
 
     @Override
     public ResultInfo findPageGird(StaffDetailsInfoQueryDto query) {
-        // 排序方式
-        Sort sort = Sort.by(Sort.Direction.DESC, "entryDate");
-        //分页参数
-        Pageable pageable = query.toPageable(sort);
+        // 排序方式 解决无数据时异常 No mapping found for [entryDate] in order to sort on
+        SortBuilder sortBuilder = SortBuilders.fieldSort("entryDate").unmappedType("date").order(SortOrder.DESC);
+        // 如果使用这种排序方式 如果表中数据为空时,会报异常 No mapping found for [createTime] in order to sort on
+        //Sort sort = Sort.by(Sort.Direction.DESC, "entryDate");
         // 查询数据
-        SearchQuery searchQuery = query.toSpecPageable(pageable);
+        SearchQuery searchQuery = query.toSpecSortPageable(sortBuilder);
         Page<StaffDetailsInfo> searchPageResults = this.staffDetailsInfoElasticsearchRepository.search(searchQuery);
         List<StaffDetailsInfo> searchDataList = searchPageResults.getContent();
         List<StaffDetailsInfoVo> resultDataList = new CopyOnWriteArrayList<>();

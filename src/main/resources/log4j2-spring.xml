@@ -145,37 +145,37 @@
 
         <!--记录druid-sql的记录-->
         <logger name="com.alibaba.druid.filter.logging.Log4j2Filter" level="debug" additivity="false">
-            <appender-ref ref="DruidSqlRollingFile"/>
+            <AppenderRef ref="DruidSqlRollingFile"/>
         </logger>
         <logger name="druid.sql.Statement" level="debug" additivity="false">
-            <appender-ref ref="DruidSqlRollingFile"/>
+            <AppenderRef ref="DruidSqlRollingFile"/>
         </logger>
 
         <!-- hibernate 日志 -->
         <logger name="org.hibernate.engine.QueryParameters" level="debug" additivity="false" >
-            <appender-ref ref="Console" />
-            <appender-ref ref="ConsoleApplication" />
+            <AppenderRef ref="Console" />
+            <AppenderRef ref="ConsoleApplication" />
         </logger>
         <logger name="org.hibernate.engine.query.HQLQueryPlan" level="debug" additivity="false" >
-            <appender-ref ref="Console" />
-            <appender-ref ref="ConsoleApplication" />
+            <AppenderRef ref="Console" />
+            <AppenderRef ref="ConsoleApplication" />
         </logger>
         <!-- 1. 输出SQL 到控制台和文件-->
-        <logger name="org.hibernate.SQL" level="debug" additivity="false" >
-            <appender-ref ref="Console" />
-            <appender-ref ref="ConsoleApplication" />
-        </logger>
+      <!--  <logger name="org.hibernate.SQL" level="debug" additivity="false" >
+            <AppenderRef ref="Console" />
+            <AppenderRef ref="ConsoleApplication" />
+        </logger>-->
 
         <!-- 2. 输出SQL 的参数到控制台和文件-->
         <logger name="org.hibernate.type.descriptor.sql.BasicBinder" additivity="false" level="trace" >
-            <appender-ref ref="Console" />
-            <appender-ref ref="ConsoleApplication" />
+            <AppenderRef ref="Console" />
+            <AppenderRef ref="ConsoleApplication" />
         </logger>
 
         <!-- activiti 日志 -->
         <logger name="org.activiti.engine.impl.persistence.entity" level="debug" additivity="false" >
-            <appender-ref ref="Console" />
-            <appender-ref ref="ConsoleApplication" />
+            <AppenderRef ref="Console" />
+            <AppenderRef ref="ConsoleApplication" />
         </logger>
 
         <!--log4j2 自带过滤日志-->
@@ -195,22 +195,17 @@
         <logger name="org.springframework.boot.actuate.autoconfigure.CrshAutoConfiguration" level="warn"/>
         <logger name="org.springframework.boot.actuate.endpoint.jmx" level="warn"/>
         <logger name="org.thymeleaf" level="warn"/>
-
-
-        <logger name="jdbc.sqlonly" level="WARN"/>
+        <logger name="org.hibernate" level="debug"/>
+        <logger name="org.hibernate.type" level="trace"/>
+        <logger name="org.hibernate.hql" level="debug"/>
+        <logger name="org.elasticsearch" level="trace"/>
+        <!--设置为OFF,即屏蔽; 留下sqltiming作为INFO级别输出-->
+        <logger name="jdbc.connection" level="OFF"/>
+        <logger name="jdbc.resultset" level="OFF"/>
+        <logger name="jdbc.resultsettable" level="OFF"/>
+        <logger name="jdbc.audit" level="OFF"/>
         <logger name="jdbc.sqltiming" level="INFO"/>
-        <logger name="jdbc.resultsettable" level="INFO"/>
-        <logger name="jdbc.resultset" level="WARN"/>
-        <logger name="jdbc.connection" level="WARN"/>
-        <logger name="jdbc.audit" level="WARN"/>
-
-        <!-- 根据需要关闭不必要的日志输出 -->
-        <logger name="jdbc.connection" level="OFF" />
-        <logger name="jdbc.audit" level="OFF" />
-        <logger name="jdbc.resultset" level="OFF" />
-        <logger name="jdbc.sqlonly" level="OFF" />
-        <logger name="jdbc.sqltiming" level="INFO" />
-        <logger name="jdbc.resultsettable" level="INFO"/>
+        <logger name="jdbc.sqlonly" level="OFF"/>
 
 
         <!-- 根据需要关闭不必要的日志输出 -->

@@ -1,9 +1,10 @@
 package pers.liujunyi.cloud.photo.service.album.impl;
 
+import org.elasticsearch.search.sort.SortBuilder;
+import org.elasticsearch.search.sort.SortBuilders;
+import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -52,11 +53,10 @@ public class RollingPictureElasticsearchServiceImpl extends BaseElasticsearchSer
     @Override
     public ResultInfo findPageGird(RollingPictureQueryDto query) {
         List<RollingPictureVo> datas = new CopyOnWriteArrayList<>();
-        Sort sort = Sort.by(Sort.Direction.ASC, "priority");
-        //分页参数
-        Pageable pageable = query.toPageable(sort);
+        // 排序方式 解决无数据时异常 No mapping found for [priority] in order to sort on
+        SortBuilder sortBuilder = SortBuilders.fieldSort("priority").unmappedType("byte").order(SortOrder.ASC);
         // 查询数据
-        SearchQuery searchQuery = query.toSpecPageable(pageable);
+        SearchQuery searchQuery = query.toSpecSortPageable(sortBuilder);
         Page<RollingPicture> searchPageResults = this.rollingPictureElasticsearchRepository.search(searchQuery);
         List<RollingPicture> searchList = searchPageResults.getContent();
         if (!CollectionUtils.isEmpty(searchList)) {

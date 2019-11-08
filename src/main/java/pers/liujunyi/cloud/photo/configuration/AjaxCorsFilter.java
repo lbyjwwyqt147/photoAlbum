@@ -9,7 +9,7 @@ import java.util.List;
 
 /***
  * 文件名称: AjaxCorsFilter.java
- * 文件描述: 自定义跨域配置
+ * 文件描述: 自定义跨域配置(已废弃)
  * 公 司:
  * 内容摘要: 解决 spring security 与corfFilter冲突。
  * 其他说明: 问题地址 https://blog.csdn.net/Afox4l/article/details/89213363
@@ -28,8 +28,8 @@ public class AjaxCorsFilter extends CorsFilter {
 
     private static UrlBasedCorsConfigurationSource configurationSource() {
         CorsConfiguration corsConfig = new CorsConfiguration();
-        List<String> allowedHeaders = Arrays.asList("credential", "sign", "Authorization", "x-auth-token", "content-type", "X-Requested-With", "XMLHttpRequest");
-        List<String> exposedHeaders = Arrays.asList("credential", "sign", "Authorization",  "x-auth-token", "content-type", "X-Requested-With", "XMLHttpRequest");
+        List<String> allowedHeaders = Arrays.asList("credential", "sign", "Authorization", "tenement", "x-auth-token", "content-type", "X-Requested-With", "XMLHttpRequest");
+        List<String> exposedHeaders = Arrays.asList("credential", "sign", "Authorization", "tenement", "x-auth-token", "content-type", "X-Requested-With", "XMLHttpRequest");
         List<String> allowedMethods = Arrays.asList("POST", "GET", "DELETE", "PUT", "OPTIONS");
         List<String> allowedOrigins = Arrays.asList("*");
         corsConfig.setAllowedHeaders(allowedHeaders);

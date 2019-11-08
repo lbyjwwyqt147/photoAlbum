@@ -17,7 +17,7 @@ public class UserIDAuditorBean implements AuditorAware<Long> {
     public Optional<Long> getCurrentAuditor() {
         Long currentUserId = UserContext.currentUserId();
         if (currentUserId == null) {
-            currentUserId = 0L;
+            currentUserId = 1L;
         }
         return Optional.ofNullable(currentUserId);
     }

@@ -1,9 +1,10 @@
 package pers.liujunyi.cloud.photo.service.activities.impl;
 
+import org.elasticsearch.search.sort.SortBuilder;
+import org.elasticsearch.search.sort.SortBuilders;
+import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -57,12 +58,12 @@ public class NewActivitiesElasticsearchServiceImpl extends BaseElasticsearchServ
     @Override
     public ResultInfo findPageGird(NewActivitiesQueryDto query) {
         List<NewActivitiesVo> datas = new CopyOnWriteArrayList<>();
-        // 排序方式
-        Sort sort = Sort.by(Sort.Direction.DESC, "createTime");
-        //分页参数
-        Pageable pageable = query.toPageable(sort);
+        // 排序方式 解决无数据时异常 No mapping found for [createTime] in order to sort on
+        SortBuilder sortBuilder = SortBuilders.fieldSort("createTime").unmappedType("date").order(SortOrder.DESC);
+        // 如果使用这种排序方式 如果表中数据为空时,会报异常 No mapping found for [createTime] in order to sort on
+        //Sort sort = Sort.by(Sort.Direction.DESC, "createTime");
         // 查询数据
-        SearchQuery searchQuery = query.toSpecPageable(pageable);
+        SearchQuery searchQuery = query.toSpecSortPageable(sortBuilder);
         Page<NewActivities> searchPageResults = this.newActivitiesElasticsearchRepository.search(searchQuery);
         List<NewActivities> searchList = searchPageResults.getContent();
         searchList.stream().forEach(item ->{
@@ -123,12 +124,10 @@ public class NewActivitiesElasticsearchServiceImpl extends BaseElasticsearchServ
         query.setPageSize(20);
         query.setMaturity(Constant.ENABLE_STATUS);
         query.setActivityStatus(Constant.ENABLE_STATUS);
-        // 排序方式
-        Sort sort = Sort.by(Sort.Direction.DESC, "createTime");
-        //分页参数
-        Pageable pageable = query.toPageable(sort);
+        // 排序方式 解决无数据时异常 No mapping found for [createTime] in order to sort on
+        SortBuilder sortBuilder = SortBuilders.fieldSort("createTime").unmappedType("date").order(SortOrder.DESC);
         // 查询数据
-        SearchQuery searchQuery = query.toSpecPageable(pageable);
+        SearchQuery searchQuery = query.toSpecSortPageable(sortBuilder);
         Page<NewActivities> searchPageResults = this.newActivitiesElasticsearchRepository.search(searchQuery);
         List<NewActivities> searchList = searchPageResults.getContent();
         List<Map<String, String>> resultData = new CopyOnWriteArrayList<>();

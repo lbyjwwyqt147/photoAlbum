@@ -2,9 +2,7 @@ package pers.liujunyi.cloud.photo.datasource;
 
 import com.atomikos.icatch.jta.UserTransactionImp;
 import com.atomikos.icatch.jta.UserTransactionManager;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
@@ -23,15 +21,8 @@ import javax.transaction.UserTransaction;
  * @author ljy
  */
 @Configuration
-@ComponentScan
 @EnableTransactionManagement(proxyTargetClass = true)
 public class DataSourceTransactionManagerConfig {
-
-    /**
-     * 事物超时时间  (秒)
-     */
-    @Value("${spring.datasource.druid.transaction-threshold-millis}")
-    private Integer transactionTimeOut;
 
     @Bean
     public PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
@@ -58,7 +49,7 @@ public class DataSourceTransactionManagerConfig {
     @Bean(name = "userTransaction")
     public UserTransaction userTransaction() throws Throwable {
         UserTransactionImp userTransactionImp = new UserTransactionImp();
-        userTransactionImp.setTransactionTimeout(60000);
+        userTransactionImp.setTransactionTimeout(600000);
         return userTransactionImp;
     }
 
@@ -66,7 +57,6 @@ public class DataSourceTransactionManagerConfig {
     public TransactionManager atomikosTransactionManager() throws Throwable {
         UserTransactionManager userTransactionManager = new UserTransactionManager();
         userTransactionManager.setForceShutdown(false);
-        userTransactionManager.setTransactionTimeout(60000);
         AtomikosJtaPlatform.transactionManager = userTransactionManager;
         return userTransactionManager;
     }
@@ -77,7 +67,9 @@ public class DataSourceTransactionManagerConfig {
         UserTransaction userTransaction = userTransaction();
         AtomikosJtaPlatform.transaction = userTransaction;
         TransactionManager atomikosTransactionManager = atomikosTransactionManager();
-        return new JtaTransactionManager(userTransaction, atomikosTransactionManager);
+        JtaTransactionManager transactionManager = new JtaTransactionManager(userTransaction, atomikosTransactionManager);
+        transactionManager.setAllowCustomIsolationLevels(true);
+        return transactionManager;
     }
 
 }

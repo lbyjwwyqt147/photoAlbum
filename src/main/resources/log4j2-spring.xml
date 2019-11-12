@@ -146,9 +146,31 @@
         <!--记录druid-sql的记录-->
         <logger name="com.alibaba.druid.filter.logging.Log4j2Filter" level="debug" additivity="false">
             <AppenderRef ref="DruidSqlRollingFile"/>
+            <AppenderRef ref="Console" />
         </logger>
         <logger name="druid.sql.Statement" level="debug" additivity="false">
             <AppenderRef ref="DruidSqlRollingFile"/>
+            <AppenderRef ref="Console" />
+        </logger>
+        <logger name="log4j.logger.druid.sql" level="debug" additivity="false">
+            <AppenderRef ref="DruidSqlRollingFile"/>
+            <AppenderRef ref="Console" />
+        </logger>
+        <logger name="log4j.logger.druid.sql.DataSource" level="debug" additivity="false">
+            <AppenderRef ref="DruidSqlRollingFile"/>
+            <AppenderRef ref="Console" />
+        </logger>
+        <logger name="log4j.logger.druid.sql.Connection" level="debug" additivity="false">
+            <AppenderRef ref="DruidSqlRollingFile"/>
+            <AppenderRef ref="Console" />
+        </logger>
+        <logger name="druid.sql.Statement" level="debug" additivity="false">
+            <AppenderRef ref="DruidSqlRollingFile"/>
+            <AppenderRef ref="Console" />
+        </logger>
+        <logger name="log4j.logger.druid.sql.ResultSet" level="debug" additivity="false">
+            <AppenderRef ref="DruidSqlRollingFile"/>
+            <AppenderRef ref="Console" />
         </logger>
 
         <!-- hibernate 日志 -->
@@ -195,9 +217,7 @@
         <logger name="org.springframework.boot.actuate.autoconfigure.CrshAutoConfiguration" level="warn"/>
         <logger name="org.springframework.boot.actuate.endpoint.jmx" level="warn"/>
         <logger name="org.thymeleaf" level="warn"/>
-        <logger name="org.hibernate" level="debug"/>
         <logger name="org.hibernate.type" level="trace"/>
-        <logger name="org.hibernate.hql" level="debug"/>
         <logger name="org.elasticsearch" level="trace"/>
         <!--设置为OFF,即屏蔽; 留下sqltiming作为INFO级别输出-->
         <logger name="jdbc.connection" level="OFF"/>
@@ -206,6 +226,7 @@
         <logger name="jdbc.audit" level="OFF"/>
         <logger name="jdbc.sqltiming" level="INFO"/>
         <logger name="jdbc.sqlonly" level="OFF"/>
+        <logger name="springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator" level="OFF"/>
 
 
         <!-- 根据需要关闭不必要的日志输出 -->

@@ -5,6 +5,7 @@ import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.ResponseEntity;
 import springfox.documentation.RequestHandler;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
@@ -14,6 +15,7 @@ import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,7 +51,11 @@ public class Swagger2Config {
                 .paths(PathSelectors.any())
                 .build()
                 .securitySchemes(securitySchemes())
-                .securityContexts(securityContexts());
+                .securityContexts(securityContexts())
+                .enableUrlTemplating(true)
+                .pathMapping("/")
+                .directModelSubstitute(LocalDate.class, String.class)
+                .genericModelSubstitutes(ResponseEntity.class);
     }
 
     /**

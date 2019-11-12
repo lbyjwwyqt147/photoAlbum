@@ -73,7 +73,9 @@ public class TransactionAdviceConfig {
         rollbackRules.add(new RollbackRuleAttribute(DescribeException.class));
         rollbackRules.add(new RollbackRuleAttribute(BindException.class));
         rollbackRules.add(new RollbackRuleAttribute(IOException.class));
+        rollbackRules.add(new RollbackRuleAttribute(Throwable.class));
         requireRule.setRollbackRules(rollbackRules);
+        requireRule.setReadOnly(false);
         /* PROPAGATION_REQUIRED:事务隔离性为1，若当前存在事务，则加入该事务；如果当前没有事务，则创建一个新的事务。这是默认值。 */
         requireRule.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
         /* 设置事务失效时间，如果超过设定时间(秒)，则回滚事务 */

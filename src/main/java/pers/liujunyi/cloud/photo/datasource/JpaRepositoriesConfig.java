@@ -1,9 +1,9 @@
 package pers.liujunyi.cloud.photo.datasource;
 
-import com.alibaba.druid.pool.DruidDataSource;
 import com.mysql.cj.jdbc.MysqlXADataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateProperties;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateSettings;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
@@ -17,6 +17,7 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import pers.liujunyi.cloud.common.configuration.DruidDataSourceProperties;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
@@ -53,10 +54,14 @@ public class JpaRepositoriesConfig {
     @Autowired
     private HibernateProperties hibernateProperties;
 
-    @Bean("masterDruidDataSource")
+    @Autowired
+    private DruidDataSourceProperties druidDataSourceProperties;
+
+
+    @Bean("masterDataSourceProperties")
     @ConfigurationProperties(prefix = "spring.datasource.druid.master")
-    public DruidDataSource masterDruidDataSource() {
-        return new DruidDataSource();
+    public DataSourceProperties masterDataSourceProperties() {
+        return new DataSourceProperties();
     }
 
     /**
@@ -66,7 +71,7 @@ public class JpaRepositoriesConfig {
     @Primary
     @Bean(name = "dataSource", initMethod = "init", destroyMethod = "close")
     public DataSource masterDataSource() throws SQLException {
-        DruidDataSource dataSourceProperties = masterDruidDataSource();
+        DataSourceProperties dataSourceProperties = masterDataSourceProperties();
         MysqlXADataSource mysqlXaDataSource = new MysqlXADataSource();
         mysqlXaDataSource.setUrl(dataSourceProperties.getUrl());
         mysqlXaDataSource.setPinGlobalTxToPhysicalConnection(true);
@@ -74,11 +79,16 @@ public class JpaRepositoriesConfig {
         mysqlXaDataSource.setPassword(dataSourceProperties.getPassword());
         AtomikosDataSourceBean xaDataSource = new AtomikosDataSourceBean();
         xaDataSource.setXaDataSource(mysqlXaDataSource);
+        xaDataSource.setXaDataSourceClassName("com.mysql.cj.jdbc.MysqlXADataSource");
         xaDataSource.setUniqueResourceName("masterDataSource");
-        xaDataSource.setBorrowConnectionTimeout(60);
-        xaDataSource.setMaxIdleTime(60);
-        xaDataSource.setMaxPoolSize(dataSourceProperties.getMaxActive());
-        xaDataSource.setMinPoolSize(dataSourceProperties.getMinIdle());
+        xaDataSource.setPoolSize(druidDataSourceProperties.getInitialSize());
+        xaDataSource.setMinPoolSize(druidDataSourceProperties.getMinIdle());
+        xaDataSource.setMaxPoolSize(druidDataSourceProperties.getMaxActive());
+        xaDataSource.setMaxIdleTime(druidDataSourceProperties.getMinIdle());
+        xaDataSource.setMaxLifetime(druidDataSourceProperties.getMinEvictableIdleTimeMillis().intValue());
+        xaDataSource.setConcurrentConnectionValidation(druidDataSourceProperties.getTestWhileIdle());
+        xaDataSource.setTestQuery(druidDataSourceProperties.getValidationQuery());
+        xaDataSource.setReapTimeout(druidDataSourceProperties.getMinEvictableIdleTimeMillis().intValue());
         return xaDataSource;
 
     }

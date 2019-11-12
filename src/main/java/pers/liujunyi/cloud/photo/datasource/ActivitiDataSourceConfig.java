@@ -1,6 +1,5 @@
 package pers.liujunyi.cloud.photo.datasource;
 
-import com.alibaba.druid.pool.DruidDataSource;
 import com.mysql.cj.jdbc.MysqlXADataSource;
 import org.activiti.api.runtime.shared.identity.UserGroupManager;
 import org.activiti.engine.cfg.ProcessEngineConfigurator;
@@ -17,7 +16,11 @@ import org.activiti.validation.ProcessValidatorImpl;
 import org.activiti.validation.validator.ValidatorSet;
 import org.hibernate.engine.transaction.jta.platform.internal.AtomikosJtaPlatform;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernateProperties;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernateSettings;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jta.atomikos.AtomikosDataSourceBean;
@@ -30,6 +33,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
+import pers.liujunyi.cloud.common.configuration.DruidDataSourceProperties;
 
 import javax.sql.DataSource;
 import java.io.IOException;
@@ -57,7 +61,7 @@ import java.util.Map;
 @EntityScan(basePackages = {"pers.liujunyi.cloud.activiti.entity"})
 @EnableJpaRepositories(basePackages = {"pers.liujunyi.cloud.activiti.repository.jpa"},
         entityManagerFactoryRef = "activitiEntityManager", transactionManagerRef = "transactionManager")
-@EnableElasticsearchRepositories(basePackages = {"pers.liujunyi.cloud.photo.repository.elasticsearch", "pers.liujunyi.cloud.activiti.repository.elasticsearch"})
+@EnableElasticsearchRepositories(basePackages = {"pers.liujunyi.cloud.activiti.repository.elasticsearch"})
 public class ActivitiDataSourceConfig extends AbstractProcessEngineAutoConfiguration {
 
     @Autowired
@@ -66,10 +70,19 @@ public class ActivitiDataSourceConfig extends AbstractProcessEngineAutoConfigura
     @Autowired
     private JpaProperties jpaProperties;
 
-    @Bean("activitiDruidDataSource")
+    @Autowired
+    private HibernateProperties hibernateProperties;
+
+    @Value("${spring.jpa.database-platform}")
+    private String databasePlatform;
+
+    @Autowired
+    private DruidDataSourceProperties druidDataSourceProperties;
+
+    @Bean("activitiDataSourceProperties")
     @ConfigurationProperties(prefix = "spring.datasource.druid.activiti")
-    public DruidDataSource activitiDruidDataSource() {
-        return new DruidDataSource();
+    public DataSourceProperties activitiDataSourceProperties() {
+        return new DataSourceProperties();
     }
 
     /**
@@ -78,19 +91,26 @@ public class ActivitiDataSourceConfig extends AbstractProcessEngineAutoConfigura
      */
     @Bean(name = "activitiDataSource", initMethod = "init", destroyMethod = "close")
     public DataSource activitiDataSource() throws SQLException {
-        DruidDataSource dataSourceProperties = activitiDruidDataSource();
+        DataSourceProperties dataSourceProperties = activitiDataSourceProperties();
+        // 使用mysql的分布式驱动
         MysqlXADataSource mysqlXaDataSource = new MysqlXADataSource();
         mysqlXaDataSource.setUrl(dataSourceProperties.getUrl());
         mysqlXaDataSource.setPinGlobalTxToPhysicalConnection(true);
         mysqlXaDataSource.setUser(dataSourceProperties.getUsername());
         mysqlXaDataSource.setPassword(dataSourceProperties.getPassword());
+
         AtomikosDataSourceBean xaDataSource = new AtomikosDataSourceBean();
         xaDataSource.setXaDataSource(mysqlXaDataSource);
+        xaDataSource.setXaDataSourceClassName("com.mysql.cj.jdbc.MysqlXADataSource");
         xaDataSource.setUniqueResourceName("activitiDataSource");
-        xaDataSource.setBorrowConnectionTimeout(60);
-        xaDataSource.setMaxIdleTime(60);
-        xaDataSource.setMaxPoolSize(dataSourceProperties.getMaxActive());
-        xaDataSource.setMinPoolSize(dataSourceProperties.getMinIdle());
+        xaDataSource.setPoolSize(druidDataSourceProperties.getInitialSize());
+        xaDataSource.setMinPoolSize(druidDataSourceProperties.getMinIdle());
+        xaDataSource.setMaxPoolSize(druidDataSourceProperties.getMaxActive());
+        xaDataSource.setMaxIdleTime(druidDataSourceProperties.getMinIdle());
+        xaDataSource.setMaxLifetime(druidDataSourceProperties.getMinEvictableIdleTimeMillis().intValue());
+        xaDataSource.setConcurrentConnectionValidation(druidDataSourceProperties.getTestWhileIdle());
+        xaDataSource.setTestQuery(druidDataSourceProperties.getValidationQuery());
+        xaDataSource.setReapTimeout(druidDataSourceProperties.getMinEvictableIdleTimeMillis().intValue());
         return xaDataSource;
 
     }
@@ -107,14 +127,16 @@ public class ActivitiDataSourceConfig extends AbstractProcessEngineAutoConfigura
         // 标注transaction是JTA和JTA平台是AtomikosJtaPlatform.class.getName()
         properties.put("hibernate.transaction.jta.platform", AtomikosJtaPlatform.class.getName());
         properties.put("javax.persistence.transactionType", "JTA");
+        properties.put("hibernate.current_session_context_class", "jta");
+        properties.put("hibernate.connection.driver_class", "com.mysql.cj.jdbc.MysqlXADataSource");
         LocalContainerEntityManagerFactoryBean entityManager = new LocalContainerEntityManagerFactoryBean();
         entityManager.setJtaDataSource(activitiDataSource());
-        entityManager.setJpaVendorAdapter(jpaVendorAdapter);
+        entityManager.setJpaVendorAdapter(this.jpaVendorAdapter);
         //设置实体类所在位置
         entityManager.setPackagesToScan("pers.liujunyi.cloud.activiti.entity");
         entityManager.setPersistenceUnitName("activitiPersistenceUnit");
-        // 使用Activiti 自己的 表命令策略 所以这里 设置默认的JPA属性就行  不像主数据那样指定策略
-        entityManager.setJpaPropertyMap(properties);
+        entityManager.setJpaPropertyMap(this.hibernateProperties.determineHibernateProperties(properties, new
+                HibernateSettings()));
         return entityManager;
     }
 
@@ -142,87 +164,85 @@ public class ActivitiDataSourceConfig extends AbstractProcessEngineAutoConfigura
             @Autowired(required = false) List<ProcessEngineConfigurator> processEngineConfigurators,
             UserGroupManager userGroupManager) throws IOException, SQLException {
 
-        SpringProcessEngineConfiguration processEngineConfiguration = new SpringProcessEngineConfiguration();
-        processEngineConfiguration.setConfigurators(processEngineConfigurators);
-        configureProcessDefinitionResources(processDefinitionResourceFinder, processEngineConfiguration);
-        processEngineConfiguration.setDataSource(activitiDataSource());
-        processEngineConfiguration.setTransactionManager(transactionManager);
+        SpringProcessEngineConfiguration conf = new SpringProcessEngineConfiguration();
+        conf.setConfigurators(processEngineConfigurators);
+        configureProcessDefinitionResources(processDefinitionResourceFinder,
+                conf);
+        conf.setDataSource(activitiDataSource());
+        conf.setTransactionManager(transactionManager);
+
         if (springAsyncExecutor != null) {
-            processEngineConfiguration.setAsyncExecutor(springAsyncExecutor);
+            conf.setAsyncExecutor(springAsyncExecutor);
         }
-        processEngineConfiguration.setDeploymentName(activitiProperties.getDeploymentName());
-        processEngineConfiguration.setDatabaseSchema(activitiProperties.getDatabaseSchema());
-        processEngineConfiguration.setDatabaseSchemaUpdate(activitiProperties.getDatabaseSchemaUpdate());
-        processEngineConfiguration.setDbHistoryUsed(activitiProperties.isDbHistoryUsed());
-        processEngineConfiguration.setAsyncExecutorActivate(activitiProperties.isAsyncExecutorActivate());
+        conf.setDeploymentName(activitiProperties.getDeploymentName());
+        conf.setDatabaseSchema(activitiProperties.getDatabaseSchema());
+        conf.setDatabaseSchemaUpdate(activitiProperties.getDatabaseSchemaUpdate());
+        conf.setDbHistoryUsed(activitiProperties.isDbHistoryUsed());
+        conf.setAsyncExecutorActivate(activitiProperties.isAsyncExecutorActivate());
         if (!activitiProperties.isAsyncExecutorActivate()) {
             ValidatorSet springBootStarterValidatorSet = new ValidatorSet("activiti-spring-boot-starter");
             springBootStarterValidatorSet.addValidator(new AsyncPropertyValidator());
-            if (processEngineConfiguration.getProcessValidator() == null) {
+            if (conf.getProcessValidator() == null) {
                 ProcessValidatorImpl processValidator = new ProcessValidatorImpl();
                 processValidator.addValidatorSet(springBootStarterValidatorSet);
-                processEngineConfiguration.setProcessValidator(processValidator);
+                conf.setProcessValidator(processValidator);
             } else {
-                processEngineConfiguration.getProcessValidator().getValidatorSets().add(springBootStarterValidatorSet);
+                conf.getProcessValidator().getValidatorSets().add(springBootStarterValidatorSet);
             }
         }
-        processEngineConfiguration.setMailServerHost(activitiProperties.getMailServerHost());
-        processEngineConfiguration.setMailServerPort(activitiProperties.getMailServerPort());
-        processEngineConfiguration.setMailServerUsername(activitiProperties.getMailServerUserName());
-        processEngineConfiguration.setMailServerPassword(activitiProperties.getMailServerPassword());
-        processEngineConfiguration.setMailServerDefaultFrom(activitiProperties.getMailServerDefaultFrom());
-        processEngineConfiguration.setMailServerUseSSL(activitiProperties.isMailServerUseSsl());
-        processEngineConfiguration.setMailServerUseTLS(activitiProperties.isMailServerUseTls());
+        conf.setMailServerHost(activitiProperties.getMailServerHost());
+        conf.setMailServerPort(activitiProperties.getMailServerPort());
+        conf.setMailServerUsername(activitiProperties.getMailServerUserName());
+        conf.setMailServerPassword(activitiProperties.getMailServerPassword());
+        conf.setMailServerDefaultFrom(activitiProperties.getMailServerDefaultFrom());
+        conf.setMailServerUseSSL(activitiProperties.isMailServerUseSsl());
+        conf.setMailServerUseTLS(activitiProperties.isMailServerUseTls());
 
         if (userGroupManager != null) {
-            processEngineConfiguration.setUserGroupManager(userGroupManager);
+            conf.setUserGroupManager(userGroupManager);
         }
 
-        processEngineConfiguration.setHistoryLevel(activitiProperties.getHistoryLevel());
-        processEngineConfiguration.setCopyVariablesToLocalForTasks(activitiProperties.isCopyVariablesToLocalForTasks());
-        processEngineConfiguration.setSerializePOJOsInVariablesToJson(activitiProperties.isSerializePOJOsInVariablesToJson());
-        processEngineConfiguration.setJavaClassFieldForJackson(activitiProperties.getJavaClassFieldForJackson());
+        conf.setHistoryLevel(activitiProperties.getHistoryLevel());
+        conf.setCopyVariablesToLocalForTasks(activitiProperties.isCopyVariablesToLocalForTasks());
+        conf.setSerializePOJOsInVariablesToJson(activitiProperties.isSerializePOJOsInVariablesToJson());
+        conf.setJavaClassFieldForJackson(activitiProperties.getJavaClassFieldForJackson());
 
         if (activitiProperties.getCustomMybatisMappers() != null) {
-            processEngineConfiguration.setCustomMybatisMappers(
-                    getCustomMybatisMapperClasses(activitiProperties.getCustomMybatisMappers()));
+            conf.setCustomMybatisMappers(getCustomMybatisMapperClasses(activitiProperties.getCustomMybatisMappers()));
         }
 
         if (activitiProperties.getCustomMybatisXMLMappers() != null) {
-            processEngineConfiguration.setCustomMybatisXMLMappers(
-                    new HashSet<>(activitiProperties.getCustomMybatisXMLMappers()));
+            conf.setCustomMybatisXMLMappers(new HashSet<>(activitiProperties.getCustomMybatisXMLMappers()));
         }
 
         if (activitiProperties.getCustomMybatisXMLMappers() != null) {
-            processEngineConfiguration.setCustomMybatisXMLMappers(
-                    new HashSet<>(activitiProperties.getCustomMybatisXMLMappers()));
+            conf.setCustomMybatisXMLMappers(new HashSet<>(activitiProperties.getCustomMybatisXMLMappers()));
         }
 
         if (activitiProperties.isUseStrongUuids()) {
-            processEngineConfiguration.setIdGenerator(new StrongUuidGenerator());
+            conf.setIdGenerator(new StrongUuidGenerator());
         }
 
         if (activitiProperties.getDeploymentMode() != null) {
-            processEngineConfiguration.setDeploymentMode(activitiProperties.getDeploymentMode());
+            conf.setDeploymentMode(activitiProperties.getDeploymentMode());
         }
 
-        processEngineConfiguration.setActivityBehaviorFactory(new DefaultActivityBehaviorFactory());
+        conf.setActivityBehaviorFactory(new DefaultActivityBehaviorFactory());
 
         if (processEngineConfigurationConfigurer != null) {
-            processEngineConfigurationConfigurer.configure(processEngineConfiguration);
+            processEngineConfigurationConfigurer.configure(conf);
         }
 
-        return processEngineConfiguration;
+        return conf;
     }
 
-    private void configureProcessDefinitionResources(
-            ProcessDefinitionResourceFinder processDefinitionResourceFinder,
-            SpringProcessEngineConfiguration conf) throws IOException {
-        List<Resource> procDefResources = processDefinitionResourceFinder
-                .discoverProcessDefinitionResources();
+    private void configureProcessDefinitionResources(ProcessDefinitionResourceFinder processDefinitionResourceFinder,
+                                                     SpringProcessEngineConfiguration conf) throws IOException {
+        List<Resource> procDefResources = processDefinitionResourceFinder.discoverProcessDefinitionResources();
         if (!procDefResources.isEmpty()) {
             conf.setDeploymentResources(procDefResources.toArray(new Resource[0]));
         }
     }
+
 
 }

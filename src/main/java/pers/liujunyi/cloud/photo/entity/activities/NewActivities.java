@@ -9,6 +9,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.Version;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 import pers.liujunyi.cloud.common.entity.BaseEntity;
 
 import javax.persistence.Entity;
@@ -52,7 +53,7 @@ public class NewActivities extends BaseEntity {
     private Byte maturity;
 
     /** 原价 */
-    @Field(index = false)
+    @Field(index = false, type = FieldType.Float)
     private Float originalPrice;
 
     /** 活动价格 */

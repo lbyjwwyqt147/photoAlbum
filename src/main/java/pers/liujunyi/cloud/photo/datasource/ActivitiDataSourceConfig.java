@@ -101,7 +101,6 @@ public class ActivitiDataSourceConfig extends AbstractProcessEngineAutoConfigura
 
         AtomikosDataSourceBean xaDataSource = new AtomikosDataSourceBean();
         xaDataSource.setXaDataSource(mysqlXaDataSource);
-        xaDataSource.setXaDataSourceClassName("com.mysql.cj.jdbc.MysqlXADataSource");
         xaDataSource.setUniqueResourceName("activitiDataSource");
         xaDataSource.setPoolSize(druidDataSourceProperties.getInitialSize());
         xaDataSource.setMinPoolSize(druidDataSourceProperties.getMinIdle());
@@ -127,8 +126,6 @@ public class ActivitiDataSourceConfig extends AbstractProcessEngineAutoConfigura
         // 标注transaction是JTA和JTA平台是AtomikosJtaPlatform.class.getName()
         properties.put("hibernate.transaction.jta.platform", AtomikosJtaPlatform.class.getName());
         properties.put("javax.persistence.transactionType", "JTA");
-        properties.put("hibernate.current_session_context_class", "jta");
-        properties.put("hibernate.connection.driver_class", "com.mysql.cj.jdbc.MysqlXADataSource");
         LocalContainerEntityManagerFactoryBean entityManager = new LocalContainerEntityManagerFactoryBean();
         entityManager.setJtaDataSource(activitiDataSource());
         entityManager.setJpaVendorAdapter(this.jpaVendorAdapter);

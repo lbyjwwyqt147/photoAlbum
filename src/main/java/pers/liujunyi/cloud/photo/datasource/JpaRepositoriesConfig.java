@@ -79,7 +79,6 @@ public class JpaRepositoriesConfig {
         mysqlXaDataSource.setPassword(dataSourceProperties.getPassword());
         AtomikosDataSourceBean xaDataSource = new AtomikosDataSourceBean();
         xaDataSource.setXaDataSource(mysqlXaDataSource);
-        xaDataSource.setXaDataSourceClassName("com.mysql.cj.jdbc.MysqlXADataSource");
         xaDataSource.setUniqueResourceName("masterDataSource");
         xaDataSource.setPoolSize(druidDataSourceProperties.getInitialSize());
         xaDataSource.setMinPoolSize(druidDataSourceProperties.getMinIdle());
